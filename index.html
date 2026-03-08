@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#1a1040"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<title>Palabras de Lisandro</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#120d2e;--s1:#1a1444;--s2:#2a2560;--card:#312e70;--tx:#eae8f5;--dim:#9b97c4;--acc:#facc15;--accg:rgba(250,204,21,.2);--grn:#4ade80;--grng:rgba(74,222,128,.15);--red:#f87171;--r:16px;--rs:10px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);height:100%;overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.app{display:flex;flex-direction:column;height:100%}
+/* NAV */
+.nav{display:flex;align-items:center;padding:8px 12px;background:var(--s1);border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0;z-index:100;gap:6px}
+.nav-brand{font-size:15px;font-weight:900;display:flex;align-items:center;gap:4px;white-space:nowrap;margin-right:auto}
+.nav-tabs{display:flex;gap:2px;background:var(--bg);padding:2px;border-radius:8px}
+.nt{border:0;background:0;color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:6px 9px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.nt.on{background:var(--acc);color:#1a1040}
+.nst{font-size:11px;font-weight:700;color:var(--acc);white-space:nowrap;margin-left:6px}
+/* MAIN */
+.mn{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sc{display:none;padding:14px;max-width:740px;margin:0 auto}
+.sc.on{display:block}
+/* BTN */
+.bt{border:0;font-family:inherit;font-weight:800;font-size:14px;padding:10px 16px;border-radius:11px;cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:5px}
+.bt:active{transform:scale(.95)}
+.ba{background:var(--acc);color:#1a1040}
+.bg2{background:var(--s2);color:var(--tx)}
+.bd2{background:rgba(248,113,113,.15);color:var(--red)}
+.bgrn{background:var(--grn);color:#064e3b}
+.bb2{font-size:17px;padding:14px 28px;border-radius:14px}
+/* MAPA DE NIVELES */
+.map-card{background:var(--s1);border-radius:18px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;border:2px solid transparent;position:relative;overflow:hidden}
+.map-card:active{transform:scale(.98)}
+.map-card.current{border-color:var(--acc)}
+.map-card.locked{opacity:.5;cursor:default}
+.mc-emoji{font-size:36px;flex-shrink:0}
+.mc-info{flex:1;min-width:0}
+.mc-title{font-size:15px;font-weight:900;margin-bottom:2px}
+.mc-sub{font-size:12px;color:var(--dim)}
+.mc-bar{height:6px;background:var(--s2);border-radius:3px;margin-top:6px;overflow:hidden}
+.mc-fill{height:100%;border-radius:3px;transition:width .5s}
+.mc-badge{position:absolute;top:8px;right:12px;font-size:11px;font-weight:800;padding:3px 8px;border-radius:8px;background:var(--s2);color:var(--dim)}
+.mc-badge.done{background:var(--grn);color:#064e3b}
+/* SESIÓN */
+.sess-header{text-align:center;margin-bottom:12px}
+.sess-header h2{font-size:18px;font-weight:900}
+.sess-progress{display:flex;align-items:center;justify-content:center;gap:5px;margin:8px 0;flex-wrap:wrap}
+.sp-dot{width:10px;height:10px;border-radius:50%;background:var(--s2);transition:all .3s;flex-shrink:0}
+.sp-dot.done{background:var(--grn);box-shadow:0 0 5px var(--grng)}
+.sp-dot.cur{background:var(--acc);box-shadow:0 0 5px var(--accg);transform:scale(1.3)}
+/* WORD CARD */
+.wcard{background:var(--card);border-radius:20px;padding:18px 16px;text-align:center;margin-bottom:10px;position:relative}
+.w-syl{display:flex;justify-content:center;gap:4px;margin-bottom:6px;flex-wrap:wrap}
+.w-syl span{background:var(--s2);color:var(--dim);font-size:14px;font-weight:700;padding:3px 10px;border-radius:8px}
+.w-syl span.hi{background:rgba(250,204,21,.15);color:var(--acc)}
+.w-emoji{font-size:40px;margin-bottom:8px}
+.w-target{font-size:36px;font-weight:900;margin-bottom:4px;letter-spacing:2px}
+.w-rep{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+/* LETTER BOXES */
+.lbx{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.lbi{width:42px;height:52px;border:3px solid var(--s2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;position:relative;transition:all .12s;background:var(--s1)}
+.lbi.ac{border-color:var(--acc);box-shadow:0 0 0 3px var(--accg)}
+.lbi.fi{border-color:var(--grn);color:var(--grn);background:rgba(74,222,128,.06)}
+.lbi.wr{border-color:var(--red);animation:sh .3s}
+.lbi .gl{position:absolute;top:0;right:3px;font-size:8px;color:rgba(155,151,196,.25);font-weight:700}
+@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.wcc{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+/* MASTERY STARS */
+.mstars{display:flex;justify-content:center;gap:2px;margin-bottom:6px}
+.mstar{font-size:16px;opacity:.25}
+.mstar.on{opacity:1}
+/* KEYBOARD */
+.kb{background:var(--s1);border-top:1px solid rgba(255,255,255,.05);padding:6px 3px 10px;flex-shrink:0}
+.kb.hid{display:none}
+.kr{display:flex;justify-content:center;gap:3px;margin-bottom:3px}
+.kk{min-width:28px;height:42px;border:0;border-radius:7px;background:var(--s2);color:var(--tx);font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:1;max-width:40px;transition:all .08s}
+.kk:active,.kk.pr{background:var(--acc);color:#1a1040;transform:scale(.9)}
+.kk.wi{min-width:48px;max-width:64px;font-size:18px}
+.kk.ek{min-width:48px;max-width:72px;font-size:12px;background:var(--acc);color:#1a1040;font-weight:800}
+/* LOCK */
+.lo{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;flex-direction:column}
+.lo.on{display:flex}
+.lhd{background:var(--s1);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.ltd{font-size:15px;font-weight:900;display:flex;align-items:center;gap:5px}
+.lud{border:0;background:var(--s2);color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:5px 10px;border-radius:7px;cursor:pointer}
+.lcd{flex:1;overflow-y:auto}
+/* PIN */
+.pm{position:fixed;inset:0;background:rgba(15,10,42,.92);z-index:600;display:none;align-items:center;justify-content:center}
+.pm.on{display:flex}
+.pcd{background:var(--s1);border-radius:22px;padding:28px;text-align:center;width:88%;max-width:320px}
+.pcd h3{font-size:18px;font-weight:900;margin-bottom:14px}
+.pds{display:flex;justify-content:center;gap:10px;margin-bottom:20px}
+.pdt{width:16px;height:16px;border:3px solid var(--s2);border-radius:50%;transition:all .2s}
+.pdt.fl{background:var(--acc);border-color:var(--acc)}
+.pdt.wrx{background:var(--red);border-color:var(--red)}
+.pnp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:220px;margin:0 auto}
+.pn{height:50px;border:0;border-radius:12px;background:var(--s2);color:var(--tx);font-family:inherit;font-size:22px;font-weight:800;cursor:pointer}
+.pn:active{background:var(--acc);color:#1a1040}
+/* CELEB */
+.ce{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,10,42,.85);z-index:400}
+.ce.on{display:flex}
+.ccc{text-align:center;animation:si .4s ease-out}
+@keyframes si{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.cem{font-size:64px;margin-bottom:10px}.cet{font-size:26px;font-weight:900;margin-bottom:4px}.ces{font-size:14px;color:var(--dim);margin-bottom:18px}
+/* UNLOCK */
+.us{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:var(--bg);z-index:450;flex-direction:column}
+.us.on{display:flex}
+/* CONFIG */
+.cfs{background:var(--s1);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.cfs h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.cfs p{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.4}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11px;font-weight:700;color:var(--dim);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.fld input,.fld select{width:100%;background:var(--bg);border:2px solid var(--s2);color:var(--tx);font-family:inherit;font-size:14px;padding:8px 10px;border-radius:var(--rs);outline:none}
+.fld input:focus,.fld select:focus{border-color:var(--acc)}
+.fr0{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+/* STATS */
+.sgg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.scc{background:var(--s1);border-radius:var(--r);padding:14px;text-align:center}
+.scc .em{font-size:22px;margin-bottom:4px}.scc .vl{font-size:26px;font-weight:900;color:var(--acc)}.scc .la{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase}
+.whh{background:var(--s1);border-radius:var(--r);padding:14px}
+.whh h3{font-size:15px;font-weight:800;margin-bottom:10px}
+.hii{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--s2);font-size:13px}
+.hii:last-child{border-bottom:0}
+/* TIMER */
+.tw{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center}
+.te{font-size:52px;margin-bottom:10px;animation:bo 2s infinite}
+@keyframes bo{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.tl{font-size:15px;font-weight:700;color:var(--dim);margin-bottom:4px}
+.td{font-size:72px;font-weight:900;color:var(--acc);text-shadow:0 0 30px var(--accg);font-variant-numeric:tabular-nums;line-height:1;margin-bottom:16px}
+.tbw{width:100%;max-width:320px;height:8px;background:var(--s2);border-radius:4px;overflow:hidden;margin-bottom:24px}
+.tb{height:100%;background:linear-gradient(90deg,var(--acc),var(--grn));border-radius:4px;transition:width .5s linear}
+.ta{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+/* RESPONSIVE */
+@media(max-width:600px){.w-target{font-size:28px}.lbi{width:36px;height:44px;font-size:20px}.td{font-size:52px}.kk{height:38px;font-size:15px}}
+@media(min-width:768px){.kk{height:48px;font-size:19px;max-width:48px}.kb{padding:8px 6px 12px}}
+@media print{.nav,.kb,.lo,.pm,.ce,.us{display:none!important}.mn{overflow:visible}}
+/* STRENGTH BAR */
+.str-wrap{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px}
+.str-bar{width:100px;height:8px;background:var(--s2);border-radius:4px;overflow:hidden}
+.str-fill{height:100%;border-radius:4px;transition:width .4s}
+.str-label{font-size:11px;font-weight:800;min-width:36px}
+.str-green{background:#4ade80}.str-yellow{background:#facc15}.str-red{background:#f87171}
+.w-status{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.w-status.new{background:rgba(96,165,250,.15);color:#60a5fa}
+.w-status.learning{background:rgba(250,204,21,.15);color:#facc15}
+.w-status.reviewing{background:rgba(74,222,128,.15);color:#4ade80}
+.w-status.mastered{background:rgba(168,85,247,.15);color:#a855f7}
+.due-badge{font-size:10px;font-weight:700;color:var(--red);margin-left:4px}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="nav">
+<div class="nav-brand">⭐ Palabras de Lisandro</div>
+<div class="nav-tabs">
+<button class="nt on" data-s="mapa">🗺️</button>
+<button class="nt" data-s="timer">⏱</button>
+<button class="nt" data-s="sesion">✏️</button>
+<button class="nt" data-s="stats">📊</button>
+<button class="nt" data-s="config">⚙️</button>
+</div>
+<div class="nst" id="nst"></div>
+</nav>
+<div class="mn">
+<!-- MAPA -->
+<div class="sc on" id="s-mapa"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🗺️ Mapa de niveles</h2><div id="mapaC"></div></div>
+<!-- TIMER -->
+<div class="sc" id="s-timer"><div class="tw"><div class="te" id="tE">🎮</div><div class="tl" id="tL">Tiempo de iPad</div><div class="td" id="tD">25:00</div><div class="tbw"><div class="tb" id="tB" style="width:100%"></div></div><div class="ta" id="tA"><button class="bt ba bb2" onclick="startIpad()">▶ Empezar iPad</button><button class="bt bg2" onclick="sw('sesion')">Practicar →</button></div></div></div>
+<!-- SESION -->
+<div class="sc" id="s-sesion"><div class="sess-header"><h2 id="sT">¡A escribir!</h2><div class="sess-progress" id="sP"></div></div><div id="sA"></div></div>
+<!-- STATS -->
+<div class="sc" id="s-stats"><h2 style="font-size:18px;font-weight:900;margin-bottom:14px">📊 Progreso</h2><div class="sgg" id="sG"></div><div class="whh" id="wH"></div><div style="margin-top:12px;text-align:center"><button class="bt bd2" onclick="if(confirm('¿Borrar todo el progreso?')){localStorage.removeItem('lis_progress');localStorage.removeItem('lis_stats');ldProg();ldSt();rSt()}">Reiniciar</button></div></div>
+<!-- CONFIG -->
+<div class="sc" id="s-config"><h2 style="font-size:18px;font-weight:900;margin-bottom:14px">⚙️ Configuración</h2>
+<div class="cfs"><h3>✏️ Sesiones</h3><p>Cada sesión mezcla palabras conocidas + nuevas. 2 conocidas + 1 nueva es lo recomendado.</p>
+<div class="fr0"><div class="fld"><label>Conocidas por sesión</label><select id="cKn"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div><div class="fld"><label>Nuevas por sesión</label><select id="cNw"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></div></div>
+<div class="fr0"><div class="fld"><label>Repeticiones</label><select id="cRp"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option></select></div><div class="fld"><label>Letra guía</label><select id="cGu"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div></div>
+<div class="cfs"><h3>⏱ Timer</h3><div class="fr0"><div class="fld"><label>Min. iPad</label><input id="cIp" type="number" value="25" min="1" max="120"/></div><div class="fld"><label>Auto-bloquear</label><select id="cAL"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div></div>
+<div class="cfs"><h3>🔒 PIN</h3><div class="fld"><label>PIN (4 dígitos)</label><input id="cPn" type="password" inputmode="numeric" maxlength="4" value="1234"/></div></div>
+<div class="cfs"><h3>🔊 Sonido</h3><div class="fld"><label>Activado</label><select id="cSn"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div>
+<div style="text-align:center;margin-top:10px"><button class="bt ba" onclick="svCfg()">💾 Guardar</button></div>
+</div>
+</div>
+<!-- KEYBOARD -->
+<div class="kb hid" id="kb">
+<div class="kr"><button class="kk" data-k="q">Q</button><button class="kk" data-k="w">W</button><button class="kk" data-k="e">E</button><button class="kk" data-k="r">R</button><button class="kk" data-k="t">T</button><button class="kk" data-k="y">Y</button><button class="kk" data-k="u">U</button><button class="kk" data-k="i">I</button><button class="kk" data-k="o">O</button><button class="kk" data-k="p">P</button></div>
+<div class="kr"><button class="kk" data-k="a">A</button><button class="kk" data-k="s">S</button><button class="kk" data-k="d">D</button><button class="kk" data-k="f">F</button><button class="kk" data-k="g">G</button><button class="kk" data-k="h">H</button><button class="kk" data-k="j">J</button><button class="kk" data-k="k">K</button><button class="kk" data-k="l">L</button><button class="kk" data-k="ñ">Ñ</button></div>
+<div class="kr"><button class="kk wi" data-k="Backspace">⌫</button><button class="kk" data-k="z">Z</button><button class="kk" data-k="x">X</button><button class="kk" data-k="c">C</button><button class="kk" data-k="v">V</button><button class="kk" data-k="b">B</button><button class="kk" data-k="n">N</button><button class="kk" data-k="m">M</button><button class="kk wi ek" data-k="Enter">→</button></div>
+</div>
+</div>
+<!-- LOCK -->
+<div class="lo" id="lockO">
+<div class="lhd"><div class="ltd">🔒 Hora de practicar</div><button class="lud" onclick="showPin()">🔑 PIN</button></div>
+<div class="lcd"><div style="padding:14px;max-width:740px;margin:0 auto"><div class="sess-header"><h2 id="lsT">¡A escribir!</h2><div class="sess-progress" id="lsP"></div></div><div id="lsA"></div></div></div>
+<div class="kb">
+<div class="kr"><button class="kk" data-k="q">Q</button><button class="kk" data-k="w">W</button><button class="kk" data-k="e">E</button><button class="kk" data-k="r">R</button><button class="kk" data-k="t">T</button><button class="kk" data-k="y">Y</button><button class="kk" data-k="u">U</button><button class="kk" data-k="i">I</button><button class="kk" data-k="o">O</button><button class="kk" data-k="p">P</button></div>
+<div class="kr"><button class="kk" data-k="a">A</button><button class="kk" data-k="s">S</button><button class="kk" data-k="d">D</button><button class="kk" data-k="f">F</button><button class="kk" data-k="g">G</button><button class="kk" data-k="h">H</button><button class="kk" data-k="j">J</button><button class="kk" data-k="k">K</button><button class="kk" data-k="l">L</button><button class="kk" data-k="ñ">Ñ</button></div>
+<div class="kr"><button class="kk wi" data-k="Backspace">⌫</button><button class="kk" data-k="z">Z</button><button class="kk" data-k="x">X</button><button class="kk" data-k="c">C</button><button class="kk" data-k="v">V</button><button class="kk" data-k="b">B</button><button class="kk" data-k="n">N</button><button class="kk" data-k="m">M</button><button class="kk wi ek" data-k="Enter">→</button></div>
+</div>
+</div>
+<!-- PIN -->
+<div class="pm" id="pinM"><div class="pcd"><h3>🔑 PIN de papá/mamá</h3><div class="pds" id="pinD"><div class="pdt"></div><div class="pdt"></div><div class="pdt"></div><div class="pdt"></div></div><div class="pnp"><button class="pn" onclick="pIn('1')">1</button><button class="pn" onclick="pIn('2')">2</button><button class="pn" onclick="pIn('3')">3</button><button class="pn" onclick="pIn('4')">4</button><button class="pn" onclick="pIn('5')">5</button><button class="pn" onclick="pIn('6')">6</button><button class="pn" onclick="pIn('7')">7</button><button class="pn" onclick="pIn('8')">8</button><button class="pn" onclick="pIn('9')">9</button><button class="pn" onclick="pCl()" style="font-size:15px">⌫</button><button class="pn" onclick="pIn('0')">0</button><button class="pn" onclick="pinBuf='';rPD()" style="font-size:12px;color:var(--dim)">C</button></div><button style="margin-top:14px;border:0;background:0;color:var(--dim);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer" onclick="hidePin()">Cancelar</button></div></div>
+<!-- CELEB -->
+<div class="ce" id="celeb"><div class="ccc"><div class="cem" id="ceE">🎉</div><div class="cet" id="ceT">¡Genial!</div><div class="ces" id="ceS"></div><button class="bt ba bb2" onclick="disCel()">Seguir →</button></div></div>
+<!-- UNLOCK -->
+<div class="us" id="unlS"><div style="text-align:center;animation:si .5s ease-out"><div style="font-size:72px;margin-bottom:14px">🏆🎮</div><div style="font-size:24px;font-weight:900;margin-bottom:6px" id="ulT">¡Listo!</div><div style="font-size:14px;color:var(--dim);margin-bottom:20px" id="ulS"></div><button class="bt ba bb2" onclick="unlDone()">🎮 ¡Listo!</button></div></div>
+<script src="datos.js"></script>
+
+<script>
+// ═══════════ HALF-LIFE SPACED REPETITION MODEL ═══════════
+// Based on Duolingo's HLR (Settles & Meeder 2016) adapted for child literacy
+// - halfLife starts at 1 day, doubles on correct, halves on wrong
+// - strength = 2^(-daysSince/halfLife) — probability of recall
+// - word is "due" when strength < 0.5
+// - mastery requires: 4+ correct sessions on different days AND halfLife >= 7
+
+var cfg={known:2,newW:1,reps:3,guide:true,ipadMin:25,autoLock:true,pin:'1234',sound:true};
+var prog={}; // word -> {hl:1, lastP:null, streak:0, sessions:0, correct:0, seen:0}
+var stats={totalWords:0,totalLetters:0,sessions:0,streak:0,lastDate:null};
+var tInt=null,tSec=0,tTot=0,tPh='idle',locked=false,pinBuf='',curScr='mapa';
+var SS={words:[],ci:0,cr:0,ch:[],sessionDone:{}};
+var currentLevel=1;
+
+function $(id){return document.getElementById(id)}
+function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function nc(c){return c.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
+function now(){return Date.now()}
+function daysBetween(a,b){return Math.abs(b-a)/(1000*60*60*24)}
+
+// ═══════════ WORD MODEL ═══════════
+function getP(w){
+  if(!prog[w])prog[w]={hl:1,lastP:null,streak:0,sessions:0,correct:0,seen:0,lastDate:null};
+  return prog[w];
+}
+function getStrength(w){
+  var p=getP(w);
+  if(!p.lastP)return 0;
+  var days=daysBetween(p.lastP,now());
+  return Math.pow(2,-days/Math.max(p.hl,0.5));
+}
+function isDue(w){return getStrength(w)<0.5}
+function getStatus(w){
+  var p=getP(w);
+  if(p.seen===0)return 'new';
+  if(p.sessions>=4&&p.hl>=7)return 'mastered';
+  if(p.sessions>=2&&p.hl>=2)return 'reviewing';
+  return 'learning';
+}
+function wordCorrect(w){
+  var p=getP(w);
+  var today=new Date().toISOString().slice(0,10);
+  p.correct++;p.seen++;
+  // Only count as new session if different day than last
+  if(p.lastDate!==today){p.sessions++;p.streak++}
+  p.hl=Math.min(30,p.hl*2); // double half-life, cap at 30 days
+  p.lastP=now();p.lastDate=today;
+  svProg();
+}
+function wordWrong(w){
+  var p=getP(w);
+  p.seen++;
+  p.hl=Math.max(0.5,p.hl*0.5); // halve half-life, min 0.5 days
+  p.streak=0;
+  svProg();
+}
+// "Session correct" = completed all reps of word in this session without giving up
+function wordSessionDone(w){
+  var p=getP(w);
+  var today=new Date().toISOString().slice(0,10);
+  p.lastP=now();p.lastDate=today;
+  // hl already updated per-keystroke via wordCorrect
+  svProg();
+  stats.totalWords++;stats.totalLetters+=Array.from(w).length;svSt();
+}
+
+// ═══════════ PERSISTENCE ═══════════
+function ldCfg(){try{var s=localStorage.getItem('lis_cfg');if(s)cfg=Object.assign({},cfg,JSON.parse(s))}catch(e){}aCfg()}
+function svCfg(){cfg.known=+$('cKn').value;cfg.newW=+$('cNw').value;cfg.reps=+$('cRp').value;cfg.guide=$('cGu').value==='1';cfg.ipadMin=Math.max(1,+$('cIp').value);cfg.autoLock=$('cAL').value==='1';cfg.pin=$('cPn').value||'1234';cfg.sound=$('cSn').value==='1';localStorage.setItem('lis_cfg',JSON.stringify(cfg));toast('Guardado ✓')}
+function aCfg(){$('cKn').value=cfg.known;$('cNw').value=cfg.newW;$('cRp').value=cfg.reps;$('cGu').value=cfg.guide?'1':'0';$('cIp').value=cfg.ipadMin;$('cAL').value=cfg.autoLock?'1':'0';$('cPn').value=cfg.pin;$('cSn').value=cfg.sound?'1':'0'}
+function ldProg(){try{var s=localStorage.getItem('lis_progress');if(s)prog=JSON.parse(s)}catch(e){}}
+function svProg(){localStorage.setItem('lis_progress',JSON.stringify(prog))}
+function ldSt(){try{var s=localStorage.getItem('lis_stats');if(s)stats=Object.assign(stats,JSON.parse(s))}catch(e){}uStr()}
+function svSt(){localStorage.setItem('lis_stats',JSON.stringify(stats));uStr()}
+function uStr(){$('nst').textContent=stats.streak>0?'\uD83D\uDD25'+stats.streak:''}
+
+// ═══════════ AUDIO ═══════════
+var ax=null;
+function ga(){if(!ax)ax=new(window.AudioContext||window.webkitAudioContext)();return ax}
+function tn(f,d,tp,v){if(!cfg.sound)return;try{var c=ga(),o=c.createOscillator(),g=c.createGain();o.type=tp||'sine';o.frequency.value=f;g.gain.setValueAtTime(v||.12,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
+function sOk(){tn(880,.1)}function sBd(){tn(200,.15,'square',.08)}
+function sWd(){tn(523,.1);setTimeout(function(){tn(659,.1)},100);setTimeout(function(){tn(784,.15)},200)}
+function sAl(){[523,659,784,1047].forEach(function(f,i){setTimeout(function(){tn(f,.2,'sine',.15)},i*120)})}
+function sTm(){tn(440,.3,'triangle',.2);setTimeout(function(){tn(440,.3,'triangle',.2)},400);setTimeout(function(){tn(660,.5,'triangle',.2)},800)}
+document.addEventListener('touchstart',function r(){try{ga().resume()}catch(e){}document.removeEventListener('touchstart',r)},{once:true});
+
+// ═══════════ NAV ═══════════
+document.querySelectorAll('.nt').forEach(function(t){t.addEventListener('click',function(){sw(t.dataset.s)})});
+function sw(n){curScr=n;document.querySelectorAll('.nt').forEach(function(t){t.classList.toggle('on',t.dataset.s===n)});document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on')});var s=$('s-'+n);if(s)s.classList.add('on');var k=$('kb');if(n==='sesion'){k.classList.remove('hid');buildSession()}else k.classList.add('hid');if(n==='mapa')rMap();if(n==='stats')rSt()}
+
+// ═══════════ MAPA ═══════════
+function rMap(){
+  var h='';
+  NIVELES.forEach(function(nv){
+    var ws=PALABRAS.filter(function(w){return w.n===nv.id});
+    var total=ws.length,mastered=0,due=0;
+    ws.forEach(function(w){
+      var st=getStatus(w.t);
+      if(st==='mastered')mastered++;
+      if(isDue(w.t)||st==='new')due++;
+    });
+    var pct=total>0?Math.round((mastered/total)*100):0;
+    var unlocked=true;
+    var isCur=isCurrentLevel(nv.id);
+    h+='<div class="map-card'+(isCur?' current':'')+(unlocked?'':' locked')+'" onclick="'+(unlocked?'startLevel('+nv.id+')':'')+'">';
+    h+='<div class="mc-emoji">'+nv.emoji+'</div>';
+    h+='<div class="mc-info"><div class="mc-title">Nivel '+nv.id+': '+nv.nombre+'</div>';
+    h+='<div class="mc-sub">'+total+' palabras'+(due>0?' · <span class="due-badge">'+due+' pendientes</span>':'')+'</div>';
+    h+='<div class="mc-bar"><div class="mc-fill" style="width:'+pct+'%;background:'+nv.color+'"></div></div></div>';
+    h+='<div class="mc-badge'+(pct>=100?' done':'')+'">'+pct+'%</div></div>';
+  });
+  $('mapaC').innerHTML=h;
+}
+function isLevelUnlocked(id){
+  var prev=PALABRAS.filter(function(w){return w.n===id-1});
+  if(prev.length===0)return true;
+  var m=0;prev.forEach(function(w){if(getStatus(w.t)==='mastered')m++});
+  return(m/prev.length)>=0.5;
+}
+function isCurrentLevel(id){
+  var ws=PALABRAS.filter(function(w){return w.n===id});
+  var m=0;ws.forEach(function(w){if(getStatus(w.t)==='mastered')m++});
+  if(m>=ws.length)return false;
+  return isLevelUnlocked(id);
+}
+function startLevel(id){currentLevel=id;sw('sesion')}
+
+// ═══════════ SESSION BUILDER ═══════════
+// Priority: 1) due words (weakest first), 2) new words from current level
+function buildSession(){
+  var lvWords=PALABRAS.filter(function(w){return w.n<=currentLevel});
+  var dueWords=[],newWords=[];
+  lvWords.forEach(function(w){
+    var st=getStatus(w.t);
+    if(st==='new'){newWords.push(w)}
+    else if(isDue(w.t)){dueWords.push(w)}
+  });
+  // Sort due words by strength ascending (weakest first)
+  dueWords.sort(function(a,b){return getStrength(a.t)-getStrength(b.t)});
+  // Prioritize current level for new words
+  var curNew=newWords.filter(function(w){return w.n===currentLevel});
+  var otherNew=newWords.filter(function(w){return w.n!==currentLevel});
+  var session=[];
+  // Pick due words (up to cfg.known)
+  for(var i=0;i<cfg.known&&dueWords.length>0;i++)session.push(dueWords.shift());
+  // Pick new words (up to cfg.newW)
+  var nPool=curNew.length>0?curNew:otherNew;
+  shuffle(nPool);
+  for(var i=0;i<cfg.newW&&nPool.length>0;i++)session.push(nPool.shift());
+  // Fallback: if nothing due and no new, pick random for review
+  if(session.length===0){
+    var all=lvWords.slice();shuffle(all);
+    session=all.slice(0,Math.min(3,all.length));
+  }
+  SS={words:session,ci:0,cr:0,ch:[],sessionDone:{}};
+  if(locked)rLP();else rSes();
+}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}}
+
+// ═══════════ RENDER ═══════════
+function rSes(){rIn($('sA'),$('sT'),$('sP'))}
+function rLP(){rIn($('lsA'),$('lsT'),$('lsP'))}
+function rIn(area,tEl,dEl){
+  var ws=SS.words,ci=SS.ci,cr=SS.cr,ch=SS.ch;
+  if(ci>=ws.length){
+    tEl.textContent='\u00a1Sesi\u00f3n completa!';dEl.innerHTML='';recSes();sAl();
+    if(locked){$('ulT').textContent='\u00a1Muy bien, Lisandro!';$('ulS').textContent='\u00a1Completaste la sesi\u00f3n!';$('unlS').classList.add('on');area.innerHTML=''}
+    else{area.innerHTML='<div class="wcard" style="padding:32px"><div style="font-size:52px;margin-bottom:10px">\uD83C\uDFC6</div><div style="font-size:22px;font-weight:900;margin-bottom:4px">\u00a1Excelente!</div><div style="color:var(--dim);margin-bottom:16px">'+ws.length+' palabras \u00d7 '+cfg.reps+'</div><div class="wcc"><button class="bt bgrn bb2" onclick="buildSession()">\uD83D\uDD04 Otra sesi\u00f3n</button><button class="bt bg2" onclick="sw(\'mapa\')">\uD83D\uDDFA\uFE0F Mapa</button></div></div>'}
+    return;
+  }
+  var w=ws[ci],L=Array.from(w.t),p=getP(w.t);
+  var str=getStrength(w.t);var status=getStatus(w.t);
+  tEl.textContent='Palabra '+(ci+1)+' de '+ws.length;
+  dEl.innerHTML=ws.map(function(_,i){var c='sp-dot';if(i<ci)c+=' done';else if(i===ci)c+=' cur';return'<div class="'+c+'"></div>'}).join('');
+  // Status badge
+  var statusText={new:'Nueva',learning:'Aprendiendo',reviewing:'Repasando',mastered:'Dominada'};
+  var badge='<span class="w-status '+status+'">'+statusText[status]+'</span>';
+  // Strength bar
+  var strPct=Math.round(str*100);
+  var strClass=strPct>=70?'str-green':strPct>=40?'str-yellow':'str-red';
+  var strBar='<div class="str-wrap"><div class="str-bar"><div class="str-fill '+strClass+'" style="width:'+strPct+'%"></div></div><span class="str-label" style="color:var(--dim)">'+strPct+'%</span></div>';
+  // Session info
+  var sessInfo='<div style="font-size:10px;color:var(--dim);margin-bottom:4px">Sesiones: '+p.sessions+' \u00b7 Vida media: '+p.hl.toFixed(1)+'d</div>';
+  // Syllables
+  var syls='<div class="w-syl">'+w.s.map(function(s,i){
+    var lettersSoFar=0;for(var j=0;j<i;j++)lettersSoFar+=w.s[j].length;
+    var isActive=ch.length>=lettersSoFar&&ch.length<lettersSoFar+s.length;
+    return'<span'+(isActive?' class="hi"':'')+'>'+esc(s)+'</span>'
+  }).join('')+'</div>';
+  // Letter boxes
+  var boxes=L.map(function(c,i){var tp=ch[i]||'',fl=i<ch.length,ac=i===ch.length;var cl='lbi';if(fl)cl+=' fi';if(ac)cl+=' ac';var g=cfg.guide&&!fl?'<span class="gl">'+esc(c)+'</span>':'';return'<div class="'+cl+'" id="lb-'+i+'">'+esc(tp)+g+'</div>'}).join('');
+  var ctrl=locked?'':'<div class="wcc"><button class="bt bg2" onclick="sPrev()">\u2190</button><button class="bt bg2" onclick="sClr()">Borrar</button><button class="bt bg2" onclick="sNxt()">\u2192</button></div>';
+  area.innerHTML='<div class="wcard"><div class="w-rep">Repetici\u00f3n '+(cr+1)+' de '+cfg.reps+'</div>'+badge+strBar+sessInfo+'<div class="w-emoji">'+w.e+'</div><div class="w-target">'+esc(w.t)+'</div>'+syls+'<div class="lbx">'+boxes+'</div>'+ctrl+'</div>';
+}
+
+// ═══════════ KEY HANDLING ═══════════
+var wrongInWord=false; // track if any error in current word attempt
+function hL(key){
+  if(!locked&&curScr!=='sesion')return;
+  var ws=SS.words,ci=SS.ci,cr=SS.cr,ch=SS.ch;if(ci>=ws.length)return;
+  var w=ws[ci],L=Array.from(w.t);
+  if(key==='Backspace'){SS.ch.pop();ren();return}
+  if(key==='Enter'){sNxt();return}
+  if(key.length===1&&/[a-zA-Z\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00f1\u00d1\u00fc\u00dc]/i.test(key)){
+    if(ch.length>=L.length)return;var exp=L[ch.length];
+    if(nc(key)===nc(exp)){
+      SS.ch.push(exp);sOk();ren();
+      if(SS.ch.length===L.length){
+        // Word completed this rep
+        if(!wrongInWord)wordCorrect(w.t); // only count if no errors
+        wrongInWord=false;
+        if(cr+1<cfg.reps){
+          setTimeout(function(){SS.cr++;SS.ch=[];sWd();ren()},400);
+        } else {
+          // All reps done for this word
+          wordSessionDone(w.t);
+          setTimeout(function(){var was=SS.ci;SS.ci++;SS.cr=0;SS.ch=[];wrongInWord=false;if(was+1<ws.length)showCel(w);ren()},400);
+        }
+      }
+    } else {
+      sBd();wrongInWord=true;
+      wordWrong(w.t); // penalty on half-life
+      var b=document.getElementById('lb-'+ch.length);
+      if(b){b.classList.add('wr');setTimeout(function(){b.classList.remove('wr')},300)}
+    }
+  }
+}
+function ren(){if(locked)rLP();else if(curScr==='sesion')rSes()}
+function sNxt(){if(SS.cr+1<cfg.reps){SS.cr++;SS.ch=[]}else if(SS.ci<SS.words.length){SS.ci++;SS.cr=0;SS.ch=[]}wrongInWord=false;ren()}
+function sPrev(){if(SS.cr>0){SS.cr--;SS.ch=[]}else if(SS.ci>0){SS.ci--;SS.cr=cfg.reps-1;SS.ch=[]}wrongInWord=false;ren()}
+function sClr(){SS.ch=[];ren()}
+document.addEventListener('keydown',function(e){if($('pinM').classList.contains('on'))return;if(['INPUT','TEXTAREA','SELECT'].indexOf(e.target.tagName)!==-1)return;if(e.key==='Backspace'||e.key==='Enter'||(e.key.length===1&&/[a-zA-Z\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00f1\u00d1\u00fc\u00dc ]/i.test(e.key))){if(e.key===' '){e.preventDefault();return}e.preventDefault();hL(e.key)}});
+document.querySelectorAll('.kk').forEach(function(b){b.addEventListener('touchstart',function(e){e.preventDefault();b.classList.add('pr');setTimeout(function(){b.classList.remove('pr')},120);hL(b.dataset.k)},{passive:false});b.addEventListener('click',function(e){e.preventDefault();hL(b.dataset.k)})});
+
+// ═══════════ CELEBRATION ═══════════
+var cels=[{e:'\uD83C\uDF89',t:'\u00a1Genial!'},{e:'\u2B50',t:'\u00a1Muy bien!'},{e:'\uD83D\uDE80',t:'\u00a1Incre\u00edble!'},{e:'\uD83C\uDFC5',t:'\u00a1Campe\u00f3n!'},{e:'\uD83D\uDCAA',t:'\u00a1Crack!'},{e:'\uD83C\uDF1F',t:'\u00a1Espectacular!'}];
+function showCel(w){var c=cels[Math.floor(Math.random()*cels.length)];$('ceE').textContent=c.e;$('ceT').textContent=c.t;$('ceS').textContent=w.e+' '+w.t+' \u2713';$('celeb').classList.add('on');sWd()}
+function disCel(){$('celeb').classList.remove('on')}
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&$('celeb').classList.contains('on'))disCel()});
+
+// ═══════════ TIMER ═══════════
+function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function startIpad(){tPh='ipad';tTot=cfg.ipadMin*60;tSec=tTot;$('tE').textContent='\uD83C\uDFAE';$('tL').textContent='Tiempo de iPad';uTU();$('tA').innerHTML='<button class="bt bd2" onclick="stopT()">\u23F9 Parar</button>';clearInterval(tInt);tInt=setInterval(tick,1000)}
+function tick(){tSec--;if(tSec<=0){clearInterval(tInt);if(tPh==='ipad'){sTm();tPh='practice';$('tE').textContent='\u270F\uFE0F';$('tL').textContent='\u00a1Hora de practicar!';$('tD').textContent='\u00a1YA!';$('tB').style.width='0%';$('tA').innerHTML='<button class="bt ba bb2" onclick="goP()">\u270F\uFE0F A practicar</button>';if(cfg.autoLock)setTimeout(goP,2000)}return}uTU()}
+function uTU(){$('tD').textContent=fmt(tSec);$('tB').style.width=((tSec/tTot)*100)+'%'}
+function goP(){clearInterval(tInt);tPh='idle';if(cfg.autoLock)actLock();else sw('sesion')}
+function stopT(){clearInterval(tInt);tPh='idle';rTU()}
+function rTU(){tSec=cfg.ipadMin*60;tTot=tSec;$('tE').textContent='\uD83C\uDFAE';$('tL').textContent='Tiempo de iPad';$('tD').textContent=fmt(tSec);$('tB').style.width='100%';$('tA').innerHTML='<button class="bt ba bb2" onclick="startIpad()">\u25B6 Empezar iPad</button><button class="bt bg2" onclick="sw(\'sesion\')">Practicar \u2192</button>'}
+
+// ═══════════ LOCK ═══════════
+function actLock(){locked=true;$('lockO').classList.add('on');buildSession()}
+function deactLock(){locked=false;$('lockO').classList.remove('on');$('unlS').classList.remove('on');rTU();sw('mapa')}
+function unlDone(){deactLock()}
+function showPin(){pinBuf='';rPD();$('pinM').classList.add('on')}
+function hidePin(){$('pinM').classList.remove('on');pinBuf=''}
+function pIn(d){if(pinBuf.length>=4)return;pinBuf+=d;rPD();if(pinBuf.length===4){setTimeout(function(){if(pinBuf===cfg.pin){hidePin();deactLock()}else{document.querySelectorAll('.pdt').forEach(function(d){d.classList.add('wrx')});setTimeout(function(){pinBuf='';rPD();document.querySelectorAll('.pdt').forEach(function(d){d.classList.remove('wrx')})},500)}},200)}}
+function pCl(){pinBuf=pinBuf.slice(0,-1);rPD()}
+function rPD(){$('pinD').querySelectorAll('.pdt').forEach(function(d,i){d.classList.toggle('fl',i<pinBuf.length);d.classList.remove('wrx')})}
+
+// ═══════════ STATS ═══════════
+function recSes(){stats.sessions++;var t=new Date().toISOString().slice(0,10),y=new Date(Date.now()-86400000).toISOString().slice(0,10);if(stats.lastDate===y||stats.lastDate===t){if(stats.lastDate!==t)stats.streak++}else stats.streak=1;stats.lastDate=t;svSt()}
+function rSt(){
+  var totalW=PALABRAS.length,mastered=0,learning=0,reviewing=0,newW=0,dueNow=0;
+  PALABRAS.forEach(function(w){
+    var st=getStatus(w.t);
+    if(st==='mastered')mastered++;
+    else if(st==='reviewing')reviewing++;
+    else if(st==='learning')learning++;
+    else newW++;
+    if(isDue(w.t)&&st!=='new')dueNow++;
+  });
+  $('sG').innerHTML='<div class="scc"><div class="em">\uD83D\uDC9C</div><div class="vl">'+mastered+'</div><div class="la">Dominadas</div></div><div class="scc"><div class="em">\uD83D\uDFE1</div><div class="vl">'+learning+'</div><div class="la">Aprendiendo</div></div><div class="scc"><div class="em">\uD83D\uDFE2</div><div class="vl">'+reviewing+'</div><div class="la">Repasando</div></div><div class="scc"><div class="em">\u23F0</div><div class="vl">'+dueNow+'</div><div class="la">Pendientes hoy</div></div>';
+  var h='<h3>Progreso por nivel</h3>';
+  NIVELES.forEach(function(nv){
+    var ws=PALABRAS.filter(function(w){return w.n===nv.id});
+    var m=0;ws.forEach(function(w){if(getStatus(w.t)==='mastered')m++});
+    var pct=ws.length>0?Math.round((m/ws.length)*100):0;
+    h+='<div class="hii"><span style="font-size:18px">'+nv.emoji+'</span><span style="flex:1;font-weight:800">'+nv.nombre+'</span><div style="width:80px;height:6px;background:var(--s2);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+nv.color+';border-radius:3px"></div></div><span style="font-size:12px;font-weight:800;color:var(--dim);width:36px;text-align:right">'+pct+'%</span></div>';
+  });
+  h+='<h3 style="margin-top:14px">Resumen</h3>';
+  h+='<div class="hii"><span>\u270F\uFE0F</span><span style="flex:1">Palabras escritas</span><span style="font-weight:800">'+stats.totalWords+'</span></div>';
+  h+='<div class="hii"><span>\uD83D\uDD25</span><span style="flex:1">Racha</span><span style="font-weight:800">'+stats.streak+' d\u00edas</span></div>';
+  h+='<div class="hii"><span>\uD83D\uDCDA</span><span style="flex:1">Sesiones</span><span style="font-weight:800">'+stats.sessions+'</span></div>';
+  $('wH').innerHTML=h;
+}
+
+function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
+
+// ═══════════ GLOBALS ═══════════
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;
+
+ldCfg();ldProg();ldSt();rTU();rMap();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
+</script>
+</body>
+</html>
