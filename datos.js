@@ -394,37 +394,157 @@ assignImages();
 // Frases personales y simples para practicar escritura de oraciones
 // Cada frase tiene: texto completo, palabras separadas, emoji, dificultad (1-3)
 const FRASES = [
-  // === Nivel 1 — Sobre Lisandro (personales) ===
-  {f:"Me llamo Lisandro",w:["Me","llamo","Lisandro"],e:"⭐",d:1,cat:"sobre mí"},
-  {f:"Soy argentino",w:["Soy","argentino"],e:"🇦🇷",d:1,cat:"sobre mí"},
-  {f:"Nací en Uruguay",w:["Nací","en","Uruguay"],e:"🇺🇾",d:1,cat:"sobre mí"},
-  {f:"Me gusta Minecraft",w:["Me","gusta","Minecraft"],e:"⛏️",d:1,cat:"me gusta"},
-  {f:"Me gusta Roblox",w:["Me","gusta","Roblox"],e:"🎮",d:1,cat:"me gusta"},
-  {f:"Me gusta Fortnite",w:["Me","gusta","Fortnite"],e:"🎯",d:1,cat:"me gusta"},
-  {f:"Me gusta el chocolate",w:["Me","gusta","el","chocolate"],e:"🍫",d:1,cat:"me gusta"},
-  {f:"Aparicio es mi amigo",w:["Aparicio","es","mi","amigo"],e:"🤝",d:1,cat:"sobre mí"},
-  {f:"Voy al colegio Woodside",w:["Voy","al","colegio","Woodside"],e:"🏫",d:2,cat:"sobre mí"},
-  {f:"Mi nombre completo es Lisandro Agustín Flores",w:["Mi","nombre","completo","es","Lisandro","Agustín","Flores"],e:"📛",d:3,cat:"sobre mí"},
-  // === Nivel 2 — Frases simples del entorno ===
-  {f:"El gato duerme",w:["El","gato","duerme"],e:"🐱",d:1,cat:"animales"},
-  {f:"La casa es grande",w:["La","casa","es","grande"],e:"🏠",d:1,cat:"cosas"},
-  {f:"El sol brilla",w:["El","sol","brilla"],e:"☀️",d:1,cat:"naturaleza"},
-  {f:"La luna sale",w:["La","luna","sale"],e:"🌙",d:1,cat:"naturaleza"},
-  {f:"El perro corre",w:["El","perro","corre"],e:"🐕",d:1,cat:"animales"},
-  {f:"Yo tengo hambre",w:["Yo","tengo","hambre"],e:"🍽️",d:1,cat:"diario"},
-  {f:"Mamá me quiere",w:["Mamá","me","quiere"],e:"❤️",d:1,cat:"familia"},
-  {f:"Papá es grande",w:["Papá","es","grande"],e:"👨",d:1,cat:"familia"},
-  // === Nivel 3 — Frases más largas ===
-  {f:"El pájaro vuela alto",w:["El","pájaro","vuela","alto"],e:"🐦",d:2,cat:"animales"},
-  {f:"Me gusta ir al parque",w:["Me","gusta","ir","al","parque"],e:"🏞️",d:2,cat:"me gusta"},
-  {f:"Hoy hace mucho calor",w:["Hoy","hace","mucho","calor"],e:"🌡️",d:2,cat:"diario"},
-  {f:"Mi mamá cocina rico",w:["Mi","mamá","cocina","rico"],e:"👩‍🍳",d:2,cat:"familia"},
-  {f:"Quiero un helado",w:["Quiero","un","helado"],e:"🍦",d:1,cat:"diario"},
-  {f:"La mariposa es linda",w:["La","mariposa","es","linda"],e:"🦋",d:2,cat:"animales"},
-  {f:"Vamos a jugar afuera",w:["Vamos","a","jugar","afuera"],e:"🌳",d:2,cat:"diario"},
-  {f:"El robot es genial",w:["El","robot","es","genial"],e:"🤖",d:2,cat:"cosas"},
-  {f:"Me gusta leer cuentos",w:["Me","gusta","leer","cuentos"],e:"📖",d:2,cat:"me gusta"},
-  {f:"La estrella brilla mucho",w:["La","estrella","brilla","mucho"],e:"⭐",d:2,cat:"naturaleza"}
+  // ══════════════════════════════════════════════════
+  // NIVEL 1 (d:1) — Frases cortas, 2-4 palabras
+  // ══════════════════════════════════════════════════
+  // --- Sobre Lisandro ---
+  {f:"Me llamo Lisandro.",w:["Me","llamo","Lisandro"],e:"⭐",d:1,cat:"sobre mí"},
+  {f:"Soy argentino.",w:["Soy","argentino"],e:"🇦🇷",d:1,cat:"sobre mí"},
+  {f:"Nací en Uruguay.",w:["Nací","en","Uruguay"],e:"🇺🇾",d:1,cat:"sobre mí"},
+  {f:"Aparicio es mi amigo.",w:["Aparicio","es","mi","amigo"],e:"🤝",d:1,cat:"sobre mí"},
+  // --- Me gusta ---
+  {f:"Me gusta Minecraft.",w:["Me","gusta","Minecraft"],e:"⛏️",d:1,cat:"me gusta"},
+  {f:"Me gusta Roblox.",w:["Me","gusta","Roblox"],e:"🎮",d:1,cat:"me gusta"},
+  {f:"Me gusta Fortnite.",w:["Me","gusta","Fortnite"],e:"🎯",d:1,cat:"me gusta"},
+  {f:"Me gusta el chocolate.",w:["Me","gusta","el","chocolate"],e:"🍫",d:1,cat:"me gusta"},
+  // --- Animales simples ---
+  {f:"El gato duerme.",w:["El","gato","duerme"],e:"🐱",d:1,cat:"animales"},
+  {f:"El perro corre.",w:["El","perro","corre"],e:"🐕",d:1,cat:"animales"},
+  {f:"El pato nada.",w:["El","pato","nada"],e:"🦆",d:1,cat:"animales"},
+  {f:"La vaca come.",w:["La","vaca","come"],e:"🐄",d:1,cat:"animales"},
+  {f:"El oso duerme.",w:["El","oso","duerme"],e:"🐻",d:1,cat:"animales"},
+  {f:"El sapo salta.",w:["El","sapo","salta"],e:"🐸",d:1,cat:"animales"},
+  // --- Naturaleza ---
+  {f:"El sol brilla.",w:["El","sol","brilla"],e:"☀️",d:1,cat:"naturaleza"},
+  {f:"La luna sale.",w:["La","luna","sale"],e:"🌙",d:1,cat:"naturaleza"},
+  {f:"El mar es azul.",w:["El","mar","es","azul"],e:"🌊",d:1,cat:"naturaleza"},
+  {f:"La flor es rosa.",w:["La","flor","es","rosa"],e:"🌸",d:1,cat:"naturaleza"},
+  // --- Familia ---
+  {f:"Mamá me quiere.",w:["Mamá","me","quiere"],e:"❤️",d:1,cat:"familia"},
+  {f:"Papá es grande.",w:["Papá","es","grande"],e:"👨",d:1,cat:"familia"},
+  {f:"Yo tengo hambre.",w:["Yo","tengo","hambre"],e:"🍽️",d:1,cat:"diario"},
+  {f:"Quiero un helado.",w:["Quiero","un","helado"],e:"🍦",d:1,cat:"diario"},
+  // --- Cosas ---
+  {f:"La casa es grande.",w:["La","casa","es","grande"],e:"🏠",d:1,cat:"cosas"},
+  {f:"La mesa es baja.",w:["La","mesa","es","baja"],e:"🪑",d:1,cat:"cosas"},
+  {f:"La silla es roja.",w:["La","silla","es","roja"],e:"🪑",d:1,cat:"cosas"},
+  // --- Concordancia artículo-sustantivo-adjetivo ---
+  {f:"El gato negro.",w:["El","gato","negro"],e:"🐱",d:1,cat:"concordancia"},
+  {f:"La casa blanca.",w:["La","casa","blanca"],e:"🏠",d:1,cat:"concordancia"},
+  {f:"El perro grande.",w:["El","perro","grande"],e:"🐕",d:1,cat:"concordancia"},
+  {f:"La luna llena.",w:["La","luna","llena"],e:"🌕",d:1,cat:"concordancia"},
+  {f:"El cielo azul.",w:["El","cielo","azul"],e:"🌤️",d:1,cat:"concordancia"},
+  {f:"La nube blanca.",w:["La","nube","blanca"],e:"☁️",d:1,cat:"concordancia"},
+  // --- Exclamaciones ¡! ---
+  {f:"¡Hola!",w:["Hola"],e:"👋",d:1,cat:"puntuación"},
+  {f:"¡Vamos!",w:["Vamos"],e:"🏃",d:1,cat:"puntuación"},
+  {f:"¡Sí!",w:["Sí"],e:"✅",d:1,cat:"puntuación"},
+  {f:"¡Qué lindo!",w:["Qué","lindo"],e:"😍",d:1,cat:"puntuación"},
+  {f:"¡Bien hecho!",w:["Bien","hecho"],e:"👏",d:1,cat:"puntuación"},
+  // --- Preguntas ¿? ---
+  {f:"¿Cómo te llamás?",w:["Cómo","te","llamás"],e:"❓",d:1,cat:"puntuación"},
+  {f:"¿Qué hora es?",w:["Qué","hora","es"],e:"⏰",d:1,cat:"puntuación"},
+  {f:"¿Tenés hambre?",w:["Tenés","hambre"],e:"🍽️",d:1,cat:"puntuación"},
+
+  // ══════════════════════════════════════════════════
+  // NIVEL 2 (d:2) — Frases medianas, 4-6 palabras
+  // ══════════════════════════════════════════════════
+  // --- Sobre Lisandro ---
+  {f:"Voy al colegio Woodside.",w:["Voy","al","colegio","Woodside"],e:"🏫",d:2,cat:"sobre mí"},
+  {f:"Mi color favorito es azul.",w:["Mi","color","favorito","es","azul"],e:"🔵",d:2,cat:"sobre mí"},
+  // --- Animales ---
+  {f:"El pájaro vuela muy alto.",w:["El","pájaro","vuela","muy","alto"],e:"🐦",d:2,cat:"animales"},
+  {f:"La mariposa es muy linda.",w:["La","mariposa","es","muy","linda"],e:"🦋",d:2,cat:"animales"},
+  {f:"El conejo come zanahoria.",w:["El","conejo","come","zanahoria"],e:"🐰",d:2,cat:"animales"},
+  {f:"La tortuga camina despacio.",w:["La","tortuga","camina","despacio"],e:"🐢",d:2,cat:"animales"},
+  {f:"El mono trepa al árbol.",w:["El","mono","trepa","al","árbol"],e:"🐒",d:2,cat:"animales"},
+  // --- Me gusta ---
+  {f:"Me gusta ir al parque.",w:["Me","gusta","ir","al","parque"],e:"🏞️",d:2,cat:"me gusta"},
+  {f:"Me gusta leer cuentos.",w:["Me","gusta","leer","cuentos"],e:"📖",d:2,cat:"me gusta"},
+  {f:"Me gusta jugar con Legos.",w:["Me","gusta","jugar","con","Legos"],e:"🧱",d:2,cat:"me gusta"},
+  {f:"Me gusta comer pizza.",w:["Me","gusta","comer","pizza"],e:"🍕",d:2,cat:"me gusta"},
+  // --- Familia ---
+  {f:"Mi mamá cocina muy rico.",w:["Mi","mamá","cocina","muy","rico"],e:"👩‍🍳",d:2,cat:"familia"},
+  {f:"Mi papá juega conmigo.",w:["Mi","papá","juega","conmigo"],e:"👨",d:2,cat:"familia"},
+  {f:"La abuela me da besos.",w:["La","abuela","me","da","besos"],e:"👵",d:2,cat:"familia"},
+  {f:"Mi hermana es chiquita.",w:["Mi","hermana","es","chiquita"],e:"👧",d:2,cat:"familia"},
+  // --- Diario ---
+  {f:"Hoy hace mucho calor.",w:["Hoy","hace","mucho","calor"],e:"🌡️",d:2,cat:"diario"},
+  {f:"Vamos a jugar afuera.",w:["Vamos","a","jugar","afuera"],e:"🌳",d:2,cat:"diario"},
+  {f:"Mañana voy a la plaza.",w:["Mañana","voy","a","la","plaza"],e:"🏛️",d:2,cat:"diario"},
+  {f:"Hoy llueve mucho afuera.",w:["Hoy","llueve","mucho","afuera"],e:"🌧️",d:2,cat:"diario"},
+  // --- Naturaleza ---
+  {f:"La estrella brilla mucho.",w:["La","estrella","brilla","mucho"],e:"⭐",d:2,cat:"naturaleza"},
+  {f:"El río tiene agua fría.",w:["El","río","tiene","agua","fría"],e:"🏞️",d:2,cat:"naturaleza"},
+  {f:"La montaña es muy alta.",w:["La","montaña","es","muy","alta"],e:"⛰️",d:2,cat:"naturaleza"},
+  // --- Cosas ---
+  {f:"El robot es muy genial.",w:["El","robot","es","muy","genial"],e:"🤖",d:2,cat:"cosas"},
+  {f:"Mi mochila es de Minecraft.",w:["Mi","mochila","es","de","Minecraft"],e:"🎒",d:2,cat:"cosas"},
+  // --- Concordancia ---
+  {f:"El gato negro duerme.",w:["El","gato","negro","duerme"],e:"🐱",d:2,cat:"concordancia"},
+  {f:"La casa blanca es linda.",w:["La","casa","blanca","es","linda"],e:"🏠",d:2,cat:"concordancia"},
+  {f:"El árbol grande da sombra.",w:["El","árbol","grande","da","sombra"],e:"🌳",d:2,cat:"concordancia"},
+  {f:"La pelota roja rebota.",w:["La","pelota","roja","rebota"],e:"⚽",d:2,cat:"concordancia"},
+  {f:"El libro nuevo es lindo.",w:["El","libro","nuevo","es","lindo"],e:"📖",d:2,cat:"concordancia"},
+  {f:"La flor amarilla es bonita.",w:["La","flor","amarilla","es","bonita"],e:"🌻",d:2,cat:"concordancia"},
+  // --- Exclamaciones ¡! ---
+  {f:"¡Qué día tan lindo!",w:["Qué","día","tan","lindo"],e:"☀️",d:2,cat:"puntuación"},
+  {f:"¡Me encanta este juego!",w:["Me","encanta","este","juego"],e:"🎮",d:2,cat:"puntuación"},
+  {f:"¡Vamos a la plaza!",w:["Vamos","a","la","plaza"],e:"🏛️",d:2,cat:"puntuación"},
+  {f:"¡Mirá esa mariposa!",w:["Mirá","esa","mariposa"],e:"🦋",d:2,cat:"puntuación"},
+  {f:"¡Qué rico el helado!",w:["Qué","rico","el","helado"],e:"🍦",d:2,cat:"puntuación"},
+  {f:"¡Feliz cumpleaños!",w:["Feliz","cumpleaños"],e:"🎂",d:2,cat:"puntuación"},
+  // --- Preguntas ¿? ---
+  {f:"¿Querés jugar conmigo?",w:["Querés","jugar","conmigo"],e:"🎮",d:2,cat:"puntuación"},
+  {f:"¿Dónde está el gato?",w:["Dónde","está","el","gato"],e:"🐱",d:2,cat:"puntuación"},
+  {f:"¿Vamos al parque hoy?",w:["Vamos","al","parque","hoy"],e:"🏞️",d:2,cat:"puntuación"},
+  {f:"¿Qué comemos de postre?",w:["Qué","comemos","de","postre"],e:"🍰",d:2,cat:"puntuación"},
+  {f:"¿Puedo tomar un jugo?",w:["Puedo","tomar","un","jugo"],e:"🧃",d:2,cat:"puntuación"},
+  // --- Textos con propósito (carteles, listas) ---
+  {f:"No correr en el pasillo.",w:["No","correr","en","el","pasillo"],e:"🚶",d:2,cat:"cartel"},
+  {f:"Lavar las manos antes.",w:["Lavar","las","manos","antes"],e:"🧼",d:2,cat:"cartel"},
+  {f:"Tirar la basura aquí.",w:["Tirar","la","basura","aquí"],e:"🗑️",d:2,cat:"cartel"},
+
+  // ══════════════════════════════════════════════════
+  // NIVEL 3 (d:3) — Frases largas, 5-8 palabras
+  // ══════════════════════════════════════════════════
+  // --- Sobre Lisandro ---
+  {f:"Mi nombre completo es Lisandro Agustín Flores.",w:["Mi","nombre","completo","es","Lisandro","Agustín","Flores"],e:"📛",d:3,cat:"sobre mí"},
+  {f:"Lisandro vive en Buenos Aires con su familia.",w:["Lisandro","vive","en","Buenos","Aires","con","su","familia"],e:"🏠",d:3,cat:"sobre mí"},
+  // --- Animales ---
+  {f:"El elefante grande toma agua del río.",w:["El","elefante","grande","toma","agua","del","río"],e:"🐘",d:3,cat:"animales"},
+  {f:"La tortuga verde camina muy despacio.",w:["La","tortuga","verde","camina","muy","despacio"],e:"🐢",d:3,cat:"animales"},
+  {f:"El pingüino negro y blanco nada bien.",w:["El","pingüino","negro","y","blanco","nada","bien"],e:"🐧",d:3,cat:"animales"},
+  // --- Familia ---
+  {f:"Mi familia y yo vamos al parque los domingos.",w:["Mi","familia","y","yo","vamos","al","parque","los","domingos"],e:"👨‍👩‍👦",d:3,cat:"familia"},
+  {f:"La abuela nos cuenta cuentos a la noche.",w:["La","abuela","nos","cuenta","cuentos","a","la","noche"],e:"👵",d:3,cat:"familia"},
+  // --- Naturaleza ---
+  {f:"Las estrellas brillan en el cielo oscuro.",w:["Las","estrellas","brillan","en","el","cielo","oscuro"],e:"⭐",d:3,cat:"naturaleza"},
+  {f:"El arcoíris tiene muchos colores bonitos.",w:["El","arcoíris","tiene","muchos","colores","bonitos"],e:"🌈",d:3,cat:"naturaleza"},
+  {f:"Las hojas del árbol se caen en otoño.",w:["Las","hojas","del","árbol","se","caen","en","otoño"],e:"🍂",d:3,cat:"naturaleza"},
+  // --- Escuela ---
+  {f:"En la escuela aprendo a leer y escribir.",w:["En","la","escuela","aprendo","a","leer","y","escribir"],e:"🏫",d:3,cat:"escuela"},
+  {f:"La maestra nos lee un cuento cada día.",w:["La","maestra","nos","lee","un","cuento","cada","día"],e:"👩‍🏫",d:3,cat:"escuela"},
+  {f:"En el recreo juego con mis amigos.",w:["En","el","recreo","juego","con","mis","amigos"],e:"⛹️",d:3,cat:"escuela"},
+  // --- Concordancia avanzada ---
+  {f:"Los gatos negros duermen en la cama.",w:["Los","gatos","negros","duermen","en","la","cama"],e:"🐱",d:3,cat:"concordancia"},
+  {f:"Las flores rojas crecen en el jardín.",w:["Las","flores","rojas","crecen","en","el","jardín"],e:"🌹",d:3,cat:"concordancia"},
+  {f:"Los perros grandes corren por el parque.",w:["Los","perros","grandes","corren","por","el","parque"],e:"🐕",d:3,cat:"concordancia"},
+  {f:"Las nubes blancas pasan por el cielo.",w:["Las","nubes","blancas","pasan","por","el","cielo"],e:"☁️",d:3,cat:"concordancia"},
+  // --- Exclamaciones ¡! ---
+  {f:"¡Qué lindo día para ir a la playa!",w:["Qué","lindo","día","para","ir","a","la","playa"],e:"🏖️",d:3,cat:"puntuación"},
+  {f:"¡Mi equipo ganó el partido de fútbol!",w:["Mi","equipo","ganó","el","partido","de","fútbol"],e:"⚽",d:3,cat:"puntuación"},
+  {f:"¡Hoy es el mejor día del mundo!",w:["Hoy","es","el","mejor","día","del","mundo"],e:"🎉",d:3,cat:"puntuación"},
+  // --- Preguntas ¿? ---
+  {f:"¿Podemos ir a la plaza después de comer?",w:["Podemos","ir","a","la","plaza","después","de","comer"],e:"🏛️",d:3,cat:"puntuación"},
+  {f:"¿Por qué la luna sale de noche?",w:["Por","qué","la","luna","sale","de","noche"],e:"🌙",d:3,cat:"puntuación"},
+  {f:"¿Cuántos planetas hay en el cielo?",w:["Cuántos","planetas","hay","en","el","cielo"],e:"🪐",d:3,cat:"puntuación"},
+  // --- Textos con propósito ---
+  {f:"Querida mamá: te quiero mucho.",w:["Querida","mamá","te","quiero","mucho"],e:"💌",d:3,cat:"tarjeta"},
+  {f:"Feliz cumpleaños, pasala muy lindo.",w:["Feliz","cumpleaños","pasala","muy","lindo"],e:"🎂",d:3,cat:"tarjeta"},
+  {f:"Lista: leche, pan, huevos y queso.",w:["Lista","leche","pan","huevos","y","queso"],e:"📝",d:3,cat:"lista"},
+  {f:"Prohibido pisar el pasto del jardín.",w:["Prohibido","pisar","el","pasto","del","jardín"],e:"🚫",d:3,cat:"cartel"},
+  {f:"Horario: lunes a viernes de ocho a doce.",w:["Horario","lunes","a","viernes","de","ocho","a","doce"],e:"🕐",d:3,cat:"cartel"}
 ];
 
 // STICKERS ALBUM - 40 stickers organized in 5 categories

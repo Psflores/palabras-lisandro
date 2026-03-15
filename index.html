@@ -1283,7 +1283,7 @@ function renderFrasesList(){
   FR.active=false;
   ldFraseProg();
   // Category buttons
-  var cats=['todas','sobre mí','me gusta','animales','naturaleza','familia','diario','cosas'];
+  var cats=['todas','sobre mí','me gusta','animales','naturaleza','familia','diario','cosas','concordancia','puntuación','cartel','tarjeta','lista','escuela'];
   var catHtml='';
   cats.forEach(function(c){
     catHtml+='<button class="fr-cat-btn'+(FR.cat===c?' active':'')+'" onclick="FR.cat=\''+c+'\';renderFrasesList()">'+c+'</button>';
@@ -1341,8 +1341,10 @@ function renderFrase(){
   }
   var curWord=f.w[FR.wi];
   var L=Array.from(curWord);
-  // Phrase display with highlighted current word
-  var phraseHtml='<div class="fr-phrase">';
+  // Full phrase with punctuation (read-only display)
+  var phraseHtml='<div class="fr-full" style="font-size:15px;color:var(--dim);font-style:italic;margin-bottom:6px">"'+esc(f.f)+'"</div>';
+  // Word-by-word progress with highlighted current word
+  phraseHtml+='<div class="fr-phrase">';
   f.w.forEach(function(w,i){
     var cls='fr-word';
     if(i<FR.wi)cls+=' done';
