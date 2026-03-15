@@ -887,6 +887,7 @@ function rIn(area,tEl,dEl){
 // ═══════════ KEY HANDLING ═══════════
 var wrongInWord=false; // track if any error in current word attempt
 function hL(key){
+  if(curScr==='dictado'){if(key==='Backspace'){DIC.correct.pop();renderDictadoWord()}else if(key.length===1)typeDictadoLetter(key);return}
   if(!locked&&curScr!=='sesion'&&curScr!=='frases')return;
   if(curScr==='frases'){hLFrase(key);return;}
   var ws=SS.words,ci=SS.ci,cr=SS.cr,ch=SS.ch;if(ci>=ws.length)return;
@@ -1551,7 +1552,7 @@ function updateLastBackupInfo(){
 function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
 
 // ═══════════ GLOBALS ═══════════
-window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;
 
 /* DICTADO FEATURE */
 /* DICTADO FEATURE — Progressive Levels */
