@@ -426,3 +426,52 @@ const FRASES = [
   {f:"Me gusta leer cuentos",w:["Me","gusta","leer","cuentos"],e:"📖",d:2,cat:"me gusta"},
   {f:"La estrella brilla mucho",w:["La","estrella","brilla","mucho"],e:"⭐",d:2,cat:"naturaleza"}
 ];
+
+// STICKERS ALBUM - 40 stickers organized in 5 categories
+const STICKERS=[
+  // Planetas - 8 stickers (one per level at 50% completion)
+  {id:'p1',cat:'planetas',name:'Explorador Alfa',icon:'🌱',desc:'Completar 50% del Planeta Alfa',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===1});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  {id:'p2',cat:'planetas',name:'Navegante Beta',icon:'🌿',desc:'Completar 50% del Planeta Beta',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===2});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  {id:'p3',cat:'planetas',name:'Erudito Gamma',icon:'📚',desc:'Completar 50% del Planeta Gamma',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===3});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  {id:'p4',cat:'planetas',name:'Viajero Delta',icon:'💛',desc:'Completar 50% del Planeta Delta',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===4});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  {id:'p5',cat:'planetas',name:'Cosechador Épsilon',icon:'🍎',desc:'Completar 50% del Planeta Épsilon',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===5});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  {id:'p6',cat:'planetas',name:'Estilista Zeta',icon:'🧍',desc:'Completar 50% del Planeta Zeta',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===6});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  {id:'p7',cat:'planetas',name:'Conservador Eta',icon:'🌍',desc:'Completar 50% del Planeta Eta',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===7});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  {id:'p8',cat:'planetas',name:'Campeón Theta',icon:'🏆',desc:'Completar 50% del Planeta Theta',check:function(){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===8});var done=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length;return done>=w.length*.5}},
+  // Animales - 8 stickers
+  {id:'a1',cat:'animales',name:'Amiguito Gato',icon:'🐱',desc:'Dominar 5 palabras de animales',check:function(){var animalWords=['gato','perro','pajaro','vaca','oveja','cerdo','caballo','gallina','pato','rana'];var mastered=animalWords.filter(function(w){return prog[w]&&prog[w].hl>=7&&prog[w].sessions>=4}).length;return mastered>=5}},
+  {id:'a2',cat:'animales',name:'Observador de Aves',icon:'🦅',desc:'Escribir 10 palabras de naturaleza',check:function(){var count=stats.dictadoCorrect||0;return count>=10}},
+  {id:'a3',cat:'animales',name:'Guardián del Bosque',icon:'🌲',desc:'Completar 100 letras escritas',check:function(){return stats.totalLetters>=100}},
+  {id:'a4',cat:'animales',name:'Maestro del Océano',icon:'🐳',desc:'3 sesiones sin errores',check:function(){return stats.streak>=3}},
+  {id:'a5',cat:'animales',name:'Corredor Rápido',icon:'🐆',desc:'50 palabras correctas en dictado',check:function(){return stats.dictadoCorrect>=50}},
+  {id:'a6',cat:'animales',name:'Salteador Ágil',icon:'🦘',desc:'Alcanzar 200 palabras totales',check:function(){return stats.totalWords>=200}},
+  {id:'a7',cat:'animales',name:'Volador Épico',icon:'🦅',desc:'10 sesiones completadas',check:function(){return stats.sessions>=10}},
+  {id:'a8',cat:'animales',name:'Cazador Exitoso',icon:'🦁',desc:'Dominar 20 palabras totales',check:function(){var mastered=Object.keys(prog).filter(function(w){return prog[w]&&prog[w].hl>=7&&prog[w].sessions>=4}).length;return mastered>=20}},
+  // Logros - 8 stickers
+  {id:'l1',cat:'logros',name:'Primer Paso',icon:'👣',desc:'Completar primera palabra',check:function(){return stats.totalWords>=1}},
+  {id:'l2',cat:'logros',name:'Racha de Fuego',icon:'🔥',desc:'10 palabras correctas seguidas',check:function(){return stats.streak>=10}},
+  {id:'l3',cat:'logros',name:'Combo Dorado',icon:'✨',desc:'Combo x20 alcanzado',check:function(){return window.maxCombo>=20}},
+  {id:'l4',cat:'logros',name:'Perfeccionista',icon:'🎯',desc:'10 palabras perfectas',check:function(){var p=Object.keys(prog).filter(function(w){return prog[w]&&prog[w].correct===prog[w].sessions&&prog[w].sessions>0}).length;return p>=10}},
+  {id:'l5',cat:'logros',name:'Estudioso',icon:'📖',desc:'50 sesiones de práctica',check:function(){return stats.sessions>=50}},
+  {id:'l6',cat:'logros',name:'Maratonista',icon:'🏃',desc:'1000 letras escribidas',check:function(){return stats.totalLetters>=1000}},
+  {id:'l7',cat:'logros',name:'Leyenda',icon:'👑',desc:'Dominar 40 palabras',check:function(){var mastered=Object.keys(prog).filter(function(w){return prog[w]&&prog[w].hl>=7&&prog[w].sessions>=4}).length;return mastered>=40}},
+  {id:'l8',cat:'logros',name:'Superestrella',icon:'⭐',desc:'500 palabras correctas',check:function(){var correct=Object.keys(prog).reduce(function(s,w){return s+(prog[w].correct||0)},0);return correct>=500}},
+  // Letras - 8 stickers
+  {id:'le1',cat:'letras',name:'Amigo de la A',icon:'🅰️',desc:'3 palabras con A',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('a')&&prog[x].seen>0});return w.length>=3}},
+  {id:'le2',cat:'letras',name:'Aventurero B',icon:'🅱️',desc:'3 palabras con B',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('b')&&prog[x].seen>0});return w.length>=3}},
+  {id:'le3',cat:'letras',name:'Curioso C',icon:'©️',desc:'3 palabras con C',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('c')&&prog[x].seen>0});return w.length>=3}},
+  {id:'le4',cat:'letras',name:'Dueño de D',icon:'🔤',desc:'3 palabras con D',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('d')&&prog[x].seen>0});return w.length>=3}},
+  {id:'le5',cat:'letras',name:'Elegante E',icon:'ℹ️',desc:'3 palabras con E',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('e')&&prog[x].seen>0});return w.length>=3}},
+  {id:'le6',cat:'letras',name:'Famoso F',icon:'🔤',desc:'3 palabras con F',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('f')&&prog[x].seen>0});return w.length>=3}},
+  {id:'le7',cat:'letras',name:'Ganador G',icon:'🔤',desc:'3 palabras con G',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('g')&&prog[x].seen>0});return w.length>=3}},
+  {id:'le8',cat:'letras',name:'Heroico H',icon:'🔤',desc:'3 palabras con H',check:function(){var w=Object.keys(prog).filter(function(x){return x.toLowerCase().includes('h')&&prog[x].seen>0});return w.length>=3}},
+  // Especiales - 8 stickers
+  {id:'e1',cat:'especiales',name:'Optimista',icon:'😊',desc:'30 días de racha',check:function(){return stats.streak>=30}},
+  {id:'e2',cat:'especiales',name:'Dedicado',icon:'💪',desc:'100 sesiones completadas',check:function(){return stats.sessions>=100}},
+  {id:'e3',cat:'especiales',name:'Incansable',icon:'⚡',desc:'2000 letras en una semana',check:function(){return stats.weeklyWords>=200}},
+  {id:'e4',cat:'especiales',name:'Veloz',icon:'💨',desc:'Escribir 10 palabras en dictado sin errores',check:function(){return stats.dictadoCorrect>=100}},
+  {id:'e5',cat:'especiales',name:'Sabio',icon:'🧠',desc:'Todas las palabras del nivel 1 al 50%',check:function(){var total=0,done=0;for(var i=1;i<=8;i++){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===i});total+=w.length;done+=w.filter(function(x){return prog[x]&&prog[x].seen>0}).length}return done>=total*.5}},
+  {id:'e6',cat:'especiales',name:'Explorador',icon:'🗺️',desc:'Visitar todos los 8 planetas',check:function(){var visited=0;for(var i=1;i<=8;i++){var w=Object.keys(PALABRAS).filter(function(x){return PALABRAS[x].nivel===i});if(w.some(function(x){return prog[x]&&prog[x].seen>0}))visited++}return visited===8}},
+  {id:'e7',cat:'especiales',name:'Persistente',icon:'🎖️',desc:'100 palabras dominadas',check:function(){var mastered=Object.keys(prog).filter(function(w){return prog[w]&&prog[w].hl>=7&&prog[w].sessions>=4}).length;return mastered>=100}},
+  {id:'e8',cat:'especiales',name:'Campeón Total',icon:'🏅',desc:'¡Todas las colecciones completadas!',check:function(){return unlockedStickers.length===40}}
+];

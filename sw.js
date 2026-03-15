@@ -1,5 +1,5 @@
 // Service Worker — Palabras de Lisandro — Cache offline
-const CACHE_NAME = 'palabras-v8';
+const CACHE_NAME = 'palabras-v9';
 const ASSETS = [
   './',
   './index.html',
