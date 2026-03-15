@@ -366,7 +366,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 </div>
 <div class="nst" id="nst"></div>
 </nav>
-<div class="mn">
+<div class="mn" id="mn">
 <!-- MAPA -->
 <div class="sc on" id="s-mapa"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🚀 Viaje espacial</h2><div class="rocket-wrap" id="rocketW"></div><div id="mapaC"></div></div>
 <!-- TIMER -->
@@ -405,6 +405,17 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 <div class="backup-info">💡 Tip: Exportá el progreso regularmente para no perderlo si se borran los datos del navegador.</div>
 </div>
 </div>
+<!-- LECTURA -->
+<div class="sc" id="s-lectura">
+<div class="rd-header"><h2>📖 Lectura y Comprensión</h2><p style="font-size:12px;color:var(--dim);margin-top:4px;">Textos adaptados para 1er-2do grado</p></div>
+<div class="rd-filters" style="margin-bottom:14px;display:flex;gap:6px;flex-wrap:wrap;">
+<button class="bf" data-level="0" style="background:var(--acc);color:#1a1040;">📚 Todos</button>
+<button class="bf" data-level="1">⭐ Fácil</button>
+<button class="bf" data-level="2">⭐⭐ Medio</button>
+<button class="bf" data-level="3">⭐⭐⭐ Difícil</button>
+</div>
+<div class="rd-list" id="rd-list"></div>
+</div>
 </div>
 <!-- KEYBOARD -->
 <div class="kb hid" id="kb">
@@ -431,19 +442,6 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 <div class="ce" id="celeb"><div class="ccc"><div class="cem" id="ceE">🎉</div><div class="cet" id="ceT">¡Genial!</div><div class="ces" id="ceS"></div><button class="bt ba bb2" onclick="disCel()">Seguir →</button></div></div>
 <!-- UNLOCK -->
 <div class="us" id="unlS"><div style="text-align:center;animation:si .5s ease-out"><div style="font-size:72px;margin-bottom:14px">🏆🎮</div><div style="font-size:24px;font-weight:900;margin-bottom:6px" id="ulT">¡Listo!</div><div style="font-size:14px;color:var(--dim);margin-bottom:20px" id="ulS"></div><button class="bt ba bb2" onclick="unlDone()">🎮 ¡Listo!</button></div></div>
-<div class="sc" id="s-lectura">
-<div class="rd-header">
-<h2>📖 Lectura y Comprensión</h2>
-<p style="font-size:12px;color:var(--dim);margin-top:4px;">Textos adaptados para 1er-2do grado</p>
-</div>
-<div class="rd-filters" style="margin-bottom:14px;display:flex;gap:6px;flex-wrap:wrap;">
-<button class="bf" data-level="0" style="background:var(--acc);color:#1a1040;">📚 Todos</button>
-<button class="bf" data-level="1">⭐ Fácil</button>
-<button class="bf" data-level="2">⭐⭐ Medio</button>
-<button class="bf" data-level="3">⭐⭐⭐ Difícil</button>
-</div>
-<div class="rd-list" id="rd-list"></div>
-</div>
 <div class="rd-reader" id="rd-reader"></div>
 <script src="datos.js"></script>
 <script src="datos_lectura.js"></script>
