@@ -287,6 +287,65 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .sticker-slot.locked .sticker-name{color:var(--dim)}
 .sticker-reveal{animation:stickerReveal .4s ease-out}
 @keyframes stickerReveal{0%{transform:scale(0) rotateZ(-10deg);opacity:0}50%{transform:scale(1.1) rotateZ(10deg)}100%{transform:scale(1) rotateZ(0);opacity:1}}
+
+/* READING COMPREHENSION */
+.rd-header{text-align:center;margin-bottom:14px}
+.rd-header h2{font-size:18px;font-weight:900}
+.rd-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.bf{border:0;background:var(--s2);color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .12s}
+.bf:active{transform:scale(.95)}
+.bf.on{background:var(--acc);color:#1a1040}
+.rd-list{display:grid;grid-template-columns:1fr;gap:10px}
+.rd-card{background:var(--card);border-radius:16px;padding:14px;cursor:pointer;transition:all .15s;border:2px solid transparent;position:relative;display:flex;align-items:flex-start;gap:12px}
+.rd-card:active{transform:scale(.98)}
+.rd-card.done{opacity:.7}
+.rd-card.done::after{content:"✅";position:absolute;top:8px;right:8px;font-size:16px}
+.rc-emoji{font-size:32px;flex-shrink:0;min-width:32px}
+.rc-info{flex:1;min-width:0}
+.rc-title{font-size:14px;font-weight:900;margin-bottom:3px}
+.rc-tipo{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.rc-stars{font-size:10px;margin-top:3px}
+.rd-reader{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;flex-direction:column;overflow-y:auto}
+.rd-reader.on{display:flex}
+.rd-reader.on{-webkit-overflow-scrolling:touch}
+.rdr-header{background:var(--s1);padding:12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.05)}
+.rdr-title{font-size:14px;font-weight:900}
+.rdr-close{border:0;background:var(--s2);color:var(--dim);font-size:18px;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.rdr-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column}
+.rd-step{display:none;flex-direction:column;flex:1}
+.rd-step.on{display:flex}
+.rds-prediction{text-align:center}
+.rds-prediction .emoji{font-size:48px;margin-bottom:8px}
+.rds-prediction .pred-q{font-size:14px;font-weight:700;margin-bottom:12px}
+.rds-prediction .pred-opts{display:flex;flex-direction:column;gap:8px}
+.rd-opt{border:0;background:var(--s2);color:var(--tx);font-family:inherit;font-size:13px;font-weight:700;padding:12px 14px;border-radius:10px;cursor:pointer;transition:all .2s;text-align:left;border:2px solid transparent}
+.rd-opt:active{transform:scale(.98)}
+.rd-opt.sel{background:var(--acc);color:#1a1040;border-color:var(--acc)}
+.rd-opt.cor{background:var(--grn);color:#064e3b;border-color:var(--grn)}
+.rd-opt.wro{background:var(--red);color:#fff;border-color:var(--red)}
+.rds-reading{flex:1;display:flex;flex-direction:column}
+.rds-reading .reading-toolbar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.rds-reading .reading-toolbar button{font-size:11px;padding:6px 10px}
+.rds-reading .rd-text{flex:1;overflow-y:auto;padding:12px;background:var(--card);border-radius:12px;margin-bottom:10px;font-size:15px;line-height:1.8}
+.rd-sentence{margin-bottom:6px}
+.rd-vocab{color:var(--acc);border-bottom:2px solid var(--acc);cursor:pointer;text-decoration:underline;font-weight:600}
+.rd-vocab-tooltip{position:absolute;background:var(--s1);color:var(--tx);padding:8px 12px;border-radius:8px;font-size:11px;max-width:150px;z-index:300;white-space:normal;box-shadow:0 4px 12px rgba(0,0,0,.3);border:1px solid var(--acc)}
+.rds-questions{flex:1;display:flex;flex-direction:column}
+.rds-questions .quest-header{font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.rds-questions .quest-text{font-size:14px;font-weight:700;margin-bottom:10px}
+.rds-questions .quest-opts{display:flex;flex-direction:column;gap:8px;flex:1}
+.rds-summary{text-align:center;padding:20px 0}
+.rds-summary .summ-score{font-size:32px;font-weight:900;margin-bottom:6px}
+.rds-summary .summ-message{font-size:14px;margin-bottom:14px;color:var(--dim)}
+.rds-summary .summ-vocab{background:var(--card);border-radius:12px;padding:12px;margin:12px 0;text-align:left}
+.rds-summary .summ-vocab h4{font-size:12px;font-weight:700;margin-bottom:8px;text-transform:uppercase;color:var(--acc)}
+.rds-summary .summ-vocab .vocab-list{display:flex;flex-wrap:wrap;gap:6px}
+.rds-summary .vocab-tag{background:var(--s2);color:var(--tx);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:600}
+.rds-summary .action-buttons{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.progress-dots{display:flex;justify-content:center;gap:5px;margin-top:10px;flex-wrap:wrap}
+.prog-dot{width:8px;height:8px;border-radius:50%;background:var(--s2);transition:all .3s}
+.prog-dot.done{background:var(--grn)}
+.prog-dot.cur{background:var(--acc);transform:scale(1.2)}
 </style>
 </head>
 <body>
@@ -297,6 +356,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 <button class="nt on" data-s="mapa">🗺️</button>
 <button class="nt" data-s="timer">⏱</button>
 <button class="nt" data-s="sesion">✏️</button>
+<button class="nt" data-s="lectura">📖</button>
 <button class="nt" data-s="juegos">🎮</button>
 <button class="nt" data-s="frases">📝</button>
 <button class="nt" data-s="dictado">🎧</button>
@@ -370,8 +430,23 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 <!-- CELEB -->
 <div class="ce" id="celeb"><div class="ccc"><div class="cem" id="ceE">🎉</div><div class="cet" id="ceT">¡Genial!</div><div class="ces" id="ceS"></div><button class="bt ba bb2" onclick="disCel()">Seguir →</button></div></div>
 <!-- UNLOCK -->
-<div class="us" id="unlS"><div style="text-align:center;animation:si .5s ease-out"><div style="font-size:72px;margin-bottom:14px">🏆🎮</div><div style="font-size:24px;font-weight:900;margin-bottom:6px" id="ulT">¡Listo!</div><div style="font-size:14px;color:var(--dim);margin-bottom:20px" id="ulS"></div><button class="bt ba bb2" onclick="unlDone()">🎮 ¡Listo!</button></div></div>
+<div class="us" id="unlS"><div style="text-align:center;animation:si .5s ease-out"><div style="font-size:72px;margin-bottom:14px">🏆🎮</div><div style="font-size:24px;font-weight:900;margin-bottom:6px" id="ulT">¡Listo!</div><div style="font-size:14px;color:var(--dim);margin-bottom:20px" id="ulS"></div><button class="bt ba bb2" onclick="unlDone()">🎮 ¡Listo!</button></div><div class="sc" id="s-lectura">
+<div class="rd-header">
+<h2>📖 Lectura y Comprensión</h2>
+<p style="font-size:12px;color:var(--dim);margin-top:4px;">Textos adaptados para 1er-2do grado</p>
+</div>
+<div class="rd-filters" style="margin-bottom:14px;display:flex;gap:6px;flex-wrap:wrap;">
+<button class="bf" data-level="0" style="background:var(--acc);color:#1a1040;">📚 Todos</button>
+<button class="bf" data-level="1">⭐ Fácil</button>
+<button class="bf" data-level="2">⭐⭐ Medio</button>
+<button class="bf" data-level="3">⭐⭐⭐ Difícil</button>
+</div>
+<div class="rd-list" id="rd-list"></div>
+</div>
+<div class="rd-reader" id="rd-reader"></div>
+</div>
 <script src="datos.js"></script>
+<script src="datos_lectura.js"></script>
 
 <script>
 // ═══════════ HALF-LIFE SPACED REPETITION MODEL ═══════════
@@ -553,7 +628,7 @@ if('speechSynthesis' in window){
 
 // ═══════════ NAV ═══════════
 document.querySelectorAll('.nt').forEach(function(t){t.addEventListener('click',function(){sw(t.dataset.s)})});
-function sw(n){curScr=n;document.querySelectorAll('.nt').forEach(function(t){t.classList.toggle('on',t.dataset.s===n)});document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on')});var s=$('s-'+n);if(s)s.classList.add('on');var k=$('kb');var mn=$('mn');for(var i=1;i<=8;i++)mn.classList.remove('bg-level-'+i);if(n==='sesion'||n==='frases'){k.classList.remove('hid');if(n==='sesion'){startSessionTimer();buildSession();var lv=currentLevel();if(lv){mn.classList.add('bg-level-'+lv)}}}else{k.classList.add('hid');stopSessionTimer()}if(n==='mapa')rMap();if(n==='stats')rSt();if(n==='juegos')startMiniGame();if(n==='frases')renderFrasesList();if(n==='dictado')startDictado();if(n==='album'){checkStickerEarnings();renderAlbum()}}
+function sw(n){curScr=n;document.querySelectorAll('.nt').forEach(function(t){t.classList.toggle('on',t.dataset.s===n)});document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on')});var s=$('s-'+n);if(s)s.classList.add('on');var k=$('kb');var mn=$('mn');for(var i=1;i<=8;i++)mn.classList.remove('bg-level-'+i);if(n==='sesion'||n==='frases'){k.classList.remove('hid');if(n==='sesion'){startSessionTimer();buildSession();var lv=currentLevel();if(lv){mn.classList.add('bg-level-'+lv)}}}else{k.classList.add('hid');stopSessionTimer()}if(n==='mapa')rMap();if(n==='stats')rSt();if(n==='juegos')startMiniGame();if(n==='frases')renderFrasesList();if(n==='dictado')startDictado();if(n==='album'){checkStickerEarnings();renderAlbum()}if(n==='lectura')renderLectura()}
 
 // ═══════════ MAPA ═══════════
 function rMap(){
@@ -1418,8 +1493,258 @@ function showStickerReveal(st){var reveal=document.createElement('div');reveal.s
 function renderAlbum(){var catIcons={planetas:'🌍',animales:'🦁',logros:'⭐',letras:'🔤',especiales:'🎯'};var activeCat='planetas';var tabsHtml='<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px">';Object.keys(catIcons).forEach(function(c){tabsHtml+='<button class="album-cat-tab'+(c===activeCat?' active':'')+'" onclick="filterAlbumCat(\''+c+'\')">'+catIcons[c]+'</button>'});tabsHtml+='</div>';$('albumTabs').innerHTML=tabsHtml;var grid=$('albumGrid');grid.innerHTML='';STICKERS.filter(function(s){return s.cat===activeCat}).forEach(function(st){var slot=document.createElement('div');var unlocked=unlockedStickers.indexOf(st.id)>=0;slot.className='sticker-slot '+(unlocked?'unlocked':'locked');if(unlocked){slot.classList.add('sticker-reveal');slot.innerHTML='<div class="sticker-icon">'+st.icon+'</div><div class="sticker-name">'+st.name+'</div>'}else{slot.innerHTML='<div class="sticker-icon">?</div><div class="sticker-name">???</div>'}grid.appendChild(slot)});$('stickerCount').textContent=unlockedStickers.length+'/40'}
 function filterAlbumCat(cat){document.querySelectorAll('.album-cat-tab').forEach(function(b){b.classList.remove('active')});event.target.classList.add('active');var grid=$('albumGrid');grid.innerHTML='';STICKERS.filter(function(s){return s.cat===cat}).forEach(function(st){var slot=document.createElement('div');var unlocked=unlockedStickers.indexOf(st.id)>=0;slot.className='sticker-slot '+(unlocked?'unlocked':'locked');if(unlocked){slot.classList.add('sticker-reveal');slot.innerHTML='<div class="sticker-icon">'+st.icon+'</div><div class="sticker-name">'+st.name+'</div>'}else{slot.innerHTML='<div class="sticker-icon">?</div><div class="sticker-name">???</div>'}grid.appendChild(slot)})}
 function currentLevel(){var maxLevel=1;Object.keys(prog).forEach(function(w){if(PALABRAS[w]&&PALABRAS[w].nivel>maxLevel){maxLevel=PALABRAS[w].nivel}});return maxLevel}
+
+/* READING MODE STATE */
+var RD = {active:false,texto:null,step:'list',sentenceIdx:0,questionIdx:0,score:0,completed:{}};
+var rdLevelFilter = 0;
+
+function initLectura() {
+  if(!window.TEXTOS){console.error('TEXTOS not loaded');return;}
+  RD.completed = JSON.parse(localStorage.getItem('lis_lectura')||'{}');
+  renderLecturaList();
+}
+
+function renderLecturaList() {
+  var container = document.getElementById('rd-list');
+  if(!container)return;
+  var filtered = TEXTOS.filter(function(t){return rdLevelFilter===0||t.nivel===rdLevelFilter});
+  container.innerHTML = filtered.map(function(t){
+    var done = RD.completed[t.id]?'done':'';
+    var stars = '⭐'.repeat(t.nivel);
+    return '<div class="rd-card '+done+'" onclick="startLectura(\''+t.id+'\')">'+
+      '<div class="rc-emoji">'+t.emoji+'</div>'+
+      '<div class="rc-info">'+
+      '<div class="rc-title">'+t.titulo+'</div>'+
+      '<div class="rc-tipo">'+t.tipo+'</div>'+
+      '<div class="rc-stars">'+stars+'</div>'+
+      '</div></div>';
+  }).join('');
+}
+
+function filterByLevel(level) {
+  rdLevelFilter = level;
+  document.querySelectorAll('.bf').forEach(function(b){b.classList.remove('on')});
+  event.target.classList.add('on');
+  renderLecturaList();
+}
+
+function startLectura(textoId) {
+  var t = TEXTOS.find(function(x){return x.id===textoId});
+  if(!t)return;
+  RD.texto = t;
+  RD.step = 'prediction';
+  RD.sentenceIdx = 0;
+  RD.questionIdx = 0;
+  RD.score = 0;
+  renderLecturaReader();
+}
+
+function renderLecturaReader() {
+  var reader = document.getElementById('rd-reader');
+  var listContainer = document.getElementById('s-lectura');
+  if(!reader)return;
+  
+  reader.classList.add('on');
+  listContainer.style.display = 'none';
+  
+  var header = '<div class="rdr-header">'+
+    '<div class="rdr-title">📖 '+RD.texto.titulo+'</div>'+
+    '<button class="rdr-close" onclick="closeLectura()">✕</button>'+
+    '</div>';
+  
+  var body = '<div class="rdr-body">';
+  
+  if(RD.step==='prediction') {
+    body += '<div class="rd-step on rds-prediction">'+
+      '<div class="emoji">'+RD.texto.imagen+'</div>'+
+      '<div class="pred-q">'+RD.texto.prediccion+'</div>'+
+      '<div class="pred-opts">'+
+      RD.texto.opcionesPrediccion.map(function(o,i){
+        return '<button class="rd-opt" onclick="selectPrediction('+i+')">'+o+'</button>';
+      }).join('')+
+      '</div></div>';
+  } else if(RD.step==='reading') {
+    var sentences = RD.texto.texto.split(/(?<=[.!?])\s+/);
+    var progDots = sentences.map(function(_,i){
+      var cls = i===RD.sentenceIdx?'cur':i<RD.sentenceIdx?'done':'';
+      return '<div class="prog-dot '+cls+'"></div>';
+    }).join('');
+    
+    var textHtml = sentences.map(function(s,i){
+      // Simple vocabulary highlighting (find TEXTOS words in sentence)
+      var html = s;
+      if(RD.texto.vocabulario && RD.texto.vocabulario.length>0){
+        RD.texto.vocabulario.forEach(function(v){
+          var regex = new RegExp('\b'+v.palabra+'\b','gi');
+          html = html.replace(regex,'<span class="rd-vocab" title="'+v.significado+'">'+v.palabra+'</span>');
+        });
+      }
+      var cls = i===RD.sentenceIdx?'cur':'';
+      return '<div class="rd-sentence '+cls+'">'+html+'</div>';
+    }).join('');
+    
+    body += '<div class="rd-step on rds-reading">'+
+      '<div class="reading-toolbar">'+
+      '<button class="bt ba" onclick="playFullText()">🔊 Leer todo</button>'+
+      '<button class="bt bg2" onclick="playCurrentSentence()">🔊 Esta oración</button>'+
+      '<button class="bt bg2" onclick="nextSentence()" style="margin-left:auto">Siguiente ▶</button>'+
+      '</div>'+
+      '<div class="rd-text" id="rd-text">'+textHtml+'</div>'+
+      '<div class="progress-dots">'+progDots+'</div>'+
+      '</div>';
+  } else if(RD.step==='questions') {
+    var q = RD.texto.preguntas[RD.questionIdx];
+    if(!q){
+      RD.step='summary';
+      renderLecturaReader();
+      return;
+    }
+    var progDots = RD.texto.preguntas.map(function(_,i){
+      var cls = i===RD.questionIdx?'cur':i<RD.questionIdx?'done':'';
+      return '<div class="prog-dot '+cls+'"></div>';
+    }).join('');
+    
+    body += '<div class="rd-step on rds-questions">'+
+      '<div class="quest-header">'+
+      (q.tipo==='literal'?'📝 Pregunta explícita':'🧠 Pregunta de inferencia')+
+      '</div>'+
+      '<div class="quest-text">'+q.pregunta+'</div>'+
+      '<div class="quest-opts">'+
+      q.opciones.map(function(o,i){
+        return '<button class="rd-opt" onclick="answerQuestion('+i+')">'+o+'</button>';
+      }).join('')+
+      '</div>'+
+      '<div class="progress-dots" style="margin-top:auto">'+progDots+'</div>'+
+      '</div>';
+  } else if(RD.step==='summary') {
+    var correct = RD.score;
+    var total = RD.texto.preguntas.length;
+    var percent = Math.round(correct*100/total);
+    var message = percent>=80?'¡Excelente!':percent>=60?'¡Muy bien!':'Intenta de nuevo';
+    var vocabList = RD.texto.vocabulario.map(function(v){
+      return '<div class="vocab-tag">'+v.palabra+'</div>';
+    }).join('');
+    
+    body += '<div class="rd-step on rds-summary">'+
+      '<div class="summ-score">'+correct+'/'+total+'</div>'+
+      '<div class="summ-message">'+message+'</div>'+
+      (vocabList?'<div class="summ-vocab"><h4>📚 Palabras aprendidas</h4><div class="vocab-list">'+vocabList+'</div></div>':'')+
+      '<div class="action-buttons">'+
+      '<button class="bt ba bb2" onclick="renderLecturaList();closeLectura()">📖 Otro texto</button>'+
+      '<button class="bt bg2 bb2" onclick="startLectura(\''+RD.texto.id+'\')">🔄 Releer</button>'+
+      '</div></div>';
+  }
+  
+  body += '</div>';
+  reader.innerHTML = header + body;
+  
+  // Attach vocabulary tooltips
+  document.querySelectorAll('.rd-vocab').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      showVocabTooltip(this);
+    });
+  });
+}
+
+function showVocabTooltip(el) {
+  var existing = document.querySelector('.rd-vocab-tooltip');
+  if(existing)existing.remove();
+  var tooltip = document.createElement('div');
+  tooltip.className = 'rd-vocab-tooltip';
+  tooltip.textContent = el.getAttribute('title');
+  document.body.appendChild(tooltip);
+  var rect = el.getBoundingClientRect();
+  tooltip.style.top = (rect.top - tooltip.offsetHeight - 5)+'px';
+  tooltip.style.left = (rect.left + rect.width/2 - tooltip.offsetWidth/2)+'px';
+  setTimeout(function(){tooltip.remove()},3000);
+}
+
+function selectPrediction(idx) {
+  playSound(idx===RD.texto.respuestaPrediccion?'ok':'err');
+  RD.step = 'reading';
+  renderLecturaReader();
+}
+
+function nextSentence() {
+  var sentences = RD.texto.texto.split(/(?<=[.!?])\s+/);
+  RD.sentenceIdx++;
+  if(RD.sentenceIdx>=sentences.length) {
+    RD.step = 'questions';
+    RD.questionIdx = 0;
+  }
+  renderLecturaReader();
+}
+
+function playFullText() {
+  var sentences = RD.texto.texto.split(/(?<=[.!?])\s+/);
+  sentences.forEach(function(s,i){
+    setTimeout(function(){
+      speakWord(s);
+    },i*1500);
+  });
+}
+
+function playCurrentSentence() {
+  var sentences = RD.texto.texto.split(/(?<=[.!?])\s+/);
+  speakWord(sentences[RD.sentenceIdx]||'');
+}
+
+function answerQuestion(idx) {
+  var q = RD.texto.preguntas[RD.questionIdx];
+  var isCorrect = idx===q.correcta;
+  playSound(isCorrect?'ok':'err');
+  if(isCorrect) RD.score++;
+  
+  var allOpts = document.querySelectorAll('.rd-opt');
+  allOpts.forEach(function(opt,i){
+    opt.classList.add(i===idx?'sel':'');
+    if(i===q.correcta) opt.classList.add('cor');
+    if(i===idx && !isCorrect) opt.classList.add('wro');
+    opt.disabled = true;
+  });
+  
+  setTimeout(function(){
+    RD.questionIdx++;
+    if(RD.questionIdx>=RD.texto.preguntas.length) {
+      RD.completed[RD.texto.id] = true;
+      localStorage.setItem('lis_lectura',JSON.stringify(RD.completed));
+      stats.textosLeidos = (stats.textosLeidos||0)+1;
+      stats.preguntasCorrectas = (stats.preguntasCorrectas||0)+RD.score;
+      stats.preguntasTotal = (stats.preguntasTotal||0)+RD.texto.preguntas.length;
+      svSt();
+    }
+    RD.step = RD.questionIdx>=RD.texto.preguntas.length?'summary':'questions';
+    renderLecturaReader();
+  },1500);
+}
+
+function closeLectura() {
+  var reader = document.getElementById('rd-reader');
+  var listContainer = document.getElementById('s-lectura');
+  reader.classList.remove('on');
+  listContainer.style.display = 'block';
+  renderLecturaList();
+}
+
+function renderLectura() {
+  var container = document.getElementById('s-lectura');
+  if(!container)return;
+  container.innerHTML = '<div class="rd-header"><h2>📖 Lectura y Comprensión</h2>'+
+    '<p style="font-size:12px;color:var(--dim);margin-top:4px;">Textos adaptados para 1er-2do grado</p></div>'+
+    '<div class="rd-filters" style="margin-bottom:14px;display:flex;gap:6px;flex-wrap:wrap;">'+
+    '<button class="bf on" onclick="filterByLevel(0)" data-level="0" style="background:var(--acc);color:#1a1040;">📚 Todos</button>'+
+    '<button class="bf" onclick="filterByLevel(1)" data-level="1">⭐ Fácil</button>'+
+    '<button class="bf" onclick="filterByLevel(2)" data-level="2">⭐⭐ Medio</button>'+
+    '<button class="bf" onclick="filterByLevel(3)" data-level="3">⭐⭐⭐ Difícil</button>'+
+    '</div>'+
+    '<div class="rd-list" id="rd-list"></div>';
+  rdLevelFilter = 0;
+  renderLecturaList();
+}
+
 /* INIT */
-loadStickerData();ldCfg();ldProg();ldSt();ldFraseProg();rTU();rMap();updateLastBackupInfo();
+loadStickerData();ldCfg();ldProg();ldSt();ldFraseProg();initLectura();rTU();rMap();updateLastBackupInfo();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
 </script>
 </body>
