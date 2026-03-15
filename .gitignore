@@ -1,3 +1,4 @@
 # Netlify deploy artifacts
 .netlify/
 deploy-*.zip
+.vercel
