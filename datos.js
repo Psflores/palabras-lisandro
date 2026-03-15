@@ -477,3 +477,22 @@ var STICKERS=[
   {id:'e7',cat:'especiales',name:'Persistente',icon:'🎖️',desc:'100 palabras dominadas',check:function(){var mastered=Object.keys(prog).filter(function(w){return prog[w]&&prog[w].hl>=7&&prog[w].sessions>=4}).length;return mastered>=100}},
   {id:'e8',cat:'especiales',name:'Campeón Total',icon:'🏅',desc:'Todas las colecciones completas',check:function(){var unlocked=0;for(var i=0;i<STICKERS.length-1;i++){try{if(STICKERS[i].check())unlocked++}catch(e){}}return unlocked>=39}}
 ];
+
+// ═══════════ DICTADO PROGRESSIVE LEVELS ═══════════
+var DICTADO_NIVELES = [
+  {id:1, nombre:"Vocales", emoji:"🔤", desc:"A E I O U", color:"#4ade80"},
+  {id:2, nombre:"Consonantes", emoji:"🅱️", desc:"M P S L T N D R C G", color:"#60a5fa"},
+  {id:3, nombre:"Sílabas", emoji:"🗣️", desc:"ma pa sa la me pe...", color:"#facc15"},
+  {id:4, nombre:"Palabras cortitas", emoji:"⭐", desc:"2-3 letras", color:"#fb923c"},
+  {id:5, nombre:"Palabras medianas", emoji:"⭐⭐", desc:"4 letras", color:"#f472b6"},
+  {id:6, nombre:"Palabras largas", emoji:"⭐⭐⭐", desc:"5+ letras", color:"#a78bfa"}
+];
+
+var SILABAS_DICTADO = [
+  "ma","me","mi","mo","mu","pa","pe","pi","po","pu",
+  "sa","se","si","so","su","la","le","li","lo","lu",
+  "ta","te","ti","to","tu","na","ne","ni","no","nu",
+  "da","de","di","do","du","ra","re","ri","ro","ru",
+  "ca","co","cu","ga","go","gu","ba","be","bi","bo","bu",
+  "fa","fe","fi","fo","fu","ja","je","ji","jo","ju"
+];

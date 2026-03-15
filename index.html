@@ -276,6 +276,14 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .dictado-diff-select{display:flex;gap:6px;justify-content:center;margin-bottom:10px}
 .dictado-diff-btn{border:2px solid var(--s2);background:var(--s1);color:var(--dim);font-family:inherit;font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
 .dictado-diff-btn.active{border-color:var(--acc);color:var(--acc);background:var(--accg)}
+.dict-levels{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
+.dict-level-btn{background:var(--s1);border:2px solid var(--s2);border-radius:12px;padding:8px 12px;text-align:center;cursor:pointer;font-family:inherit;color:var(--tx);min-width:90px;transition:all .15s}
+.dict-level-btn.active{background:var(--s2);border-width:3px}
+.dict-level-btn:active{transform:scale(.95)}
+.dict-lv-emoji{font-size:20px}
+.dict-lv-name{font-size:11px;font-weight:800}
+.dict-lv-desc{font-size:9px;color:var(--dim)}
+.dict-streak{font-size:14px;font-weight:800;color:var(--acc);margin-bottom:6px}
 /* ALBUM STYLES */
 .album-cat-tab{border:2px solid var(--s2);background:var(--s1);color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
 .album-cat-tab.active{border-color:var(--acc);color:var(--acc);background:var(--accg)}
@@ -454,7 +462,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 // - word is "due" when strength < 0.5
 // - mastery requires: 4+ correct sessions on different days AND halfLife >= 7
 
-var cfg={known:2,newW:1,reps:3,guide:true,ipadMin:25,autoLock:true,pin:'1234',sound:true,sessDur:7,miniGames:true,letterMode:'normal',fontRotate:true,music:false,dictadoDiff:'medium'};
+var cfg={known:2,newW:1,reps:3,guide:true,ipadMin:25,autoLock:true,pin:'1234',sound:true,sessDur:7,miniGames:true,letterMode:'normal',fontRotate:true,music:false,dictadoLevel:1};
 var prog={}; // word -> {hl:1, lastP:null, streak:0, sessions:0, correct:0, seen:0}
 var stats={totalWords:0,totalLetters:0,sessions:0,streak:0,lastDate:null,weeklyWords:0,weekStart:null,minutesToday:0,dictadoCorrect:0,dictadoTotal:0};
 var tInt=null,tSec=0,tTot=0,tPh='idle',locked=false,pinBuf='',curScr='mapa';
@@ -520,14 +528,87 @@ function wordSessionDone(w){
   svSt();
 }
 
-// ═══════════ PERSISTENCE ═══════════
+// ═══════════ VERSIONED STATE MANAGEMENT ═══════════
+var STATE_VERSION = 2;
+
+function loadAllState(){
+  try {
+    var raw = localStorage.getItem('lis_state_v2');
+    if(raw){
+      var state = JSON.parse(raw);
+      if(state.cfg) cfg = Object.assign({}, cfg, state.cfg);
+      if(state.prog) prog = state.prog;
+      if(state.stats) stats = Object.assign(stats, state.stats);
+      if(state.stickers) unlockedStickers = state.stickers;
+      if(state.frases) FR.completed = state.frases;
+      if(state.lectura) RD.completed = state.lectura;
+      console.log('Estado cargado (v'+state.version+')');
+      return true;
+    }
+  } catch(e){ console.error('Error loading state:', e); }
+  
+  console.log('Migrando estado antiguo...');
+  try { var s = localStorage.getItem('lis_cfg'); if(s) cfg = Object.assign({}, cfg, JSON.parse(s)); } catch(e){}
+  try { var s = localStorage.getItem('lis_progress'); if(s) prog = JSON.parse(s); } catch(e){}
+  try { var s = localStorage.getItem('lis_stats'); if(s) stats = Object.assign(stats, JSON.parse(s)); } catch(e){}
+  try { var s = localStorage.getItem('lis_stickers'); if(s) unlockedStickers = JSON.parse(s); } catch(e){}
+  try { var s = localStorage.getItem('lis_frases'); if(s) FR.completed = JSON.parse(s); } catch(e){}
+  try { var s = localStorage.getItem('lis_lectura'); if(s) RD.completed = JSON.parse(s); } catch(e){}
+  
+  saveAllState();
+  console.log('Migración completada');
+  return false;
+}
+
+function saveAllState(){
+  try {
+    var state = {
+      version: STATE_VERSION,
+      lastSaved: new Date().toISOString(),
+      cfg: cfg,
+      prog: prog,
+      stats: stats,
+      stickers: unlockedStickers,
+      frases: FR.completed,
+      lectura: RD.completed
+    };
+    localStorage.setItem('lis_state_v2', JSON.stringify(state));
+    localStorage.setItem('lis_cfg', JSON.stringify(cfg));
+    localStorage.setItem('lis_progress', JSON.stringify(prog));
+    localStorage.setItem('lis_stats', JSON.stringify(stats));
+    localStorage.setItem('lis_stickers', JSON.stringify(unlockedStickers));
+    localStorage.setItem('lis_frases', JSON.stringify(FR.completed));
+    localStorage.setItem('lis_lectura', JSON.stringify(RD.completed));
+    saveSnapshot(state);
+  } catch(e){ console.error('Error saving state:', e); }
+}
+
+function saveSnapshot(state){
+  try {
+    var history = JSON.parse(localStorage.getItem('lis_snapshots') || '[]');
+    if(history.length > 0){
+      var last = new Date(history[history.length-1].date);
+      if(Date.now() - last.getTime() < 300000) return;
+    }
+    history.push({
+      date: new Date().toISOString(),
+      wordsLearned: Object.keys(prog).length,
+      sessions: stats.sessions || 0,
+      data: JSON.stringify(state)
+    });
+    if(history.length > 10) history = history.slice(-10);
+    localStorage.setItem('lis_snapshots', JSON.stringify(history));
+  } catch(e){}
+}
+
+// ═══════════ PERSISTENCE (Legacy) ═══════════
 function ldCfg(){try{var s=localStorage.getItem('lis_cfg');if(s)cfg=Object.assign({},cfg,JSON.parse(s))}catch(e){}aCfg()}
-function svCfg(){cfg.known=+$('cKn').value;cfg.newW=+$('cNw').value;cfg.reps=+$('cRp').value;cfg.guide=$('cGu').value==='1';cfg.ipadMin=Math.max(1,+$('cIp').value);cfg.autoLock=$('cAL').value==='1';cfg.pin=$('cPn').value||'1234';cfg.sound=$('cSn').value==='1';cfg.sessDur=+$('cSd').value;cfg.miniGames=$('cMg').value==='1';cfg.letterMode=$('cLm').value;cfg.fontRotate=$('cFr').value==='1';cfg.music=$('cMu').value==='1';localStorage.setItem('lis_cfg',JSON.stringify(cfg));if(cfg.music)startAmbientMusic();else stopAmbientMusic();toast('Guardado ✓')}
+function svCfg(){cfg.known=+$('cKn').value;cfg.newW=+$('cNw').value;cfg.reps=+$('cRp').value;cfg.guide=$('cGu').value==='1';cfg.ipadMin=Math.max(1,+$('cIp').value);cfg.autoLock=$('cAL').value==='1';cfg.pin=$('cPn').value||'1234';cfg.sound=$('cSn').value==='1';cfg.sessDur=+$('cSd').value;cfg.miniGames=$('cMg').value==='1';cfg.letterMode=$('cLm').value;cfg.fontRotate=$('cFr').value==='1';cfg.music=$('cMu').value==='1';localStorage.setItem('lis_cfg',JSON.stringify(cfg));if(cfg.music)startAmbientMusic();else stopAmbientMusic();saveAllState();toast('Guardado ✓')}
 function aCfg(){$('cKn').value=cfg.known;$('cNw').value=cfg.newW;$('cRp').value=cfg.reps;$('cGu').value=cfg.guide?'1':'0';$('cIp').value=cfg.ipadMin;$('cAL').value=cfg.autoLock?'1':'0';$('cPn').value=cfg.pin;$('cSn').value=cfg.sound?'1':'0';$('cSd').value=cfg.sessDur;$('cMg').value=cfg.miniGames?'1':'0';$('cLm').value=cfg.letterMode||'normal';$('cFr').value=cfg.fontRotate?'1':'0';$('cMu').value=cfg.music?'1':'0'}
 function ldProg(){try{var s=localStorage.getItem('lis_progress');if(s)prog=JSON.parse(s)}catch(e){}}
-function svProg(){localStorage.setItem('lis_progress',JSON.stringify(prog))}
+function svProg(){ saveAllState(); }
 function ldSt(){try{var s=localStorage.getItem('lis_stats');if(s)stats=Object.assign(stats,JSON.parse(s))}catch(e){}uStr()}
-function svSt(){localStorage.setItem('lis_stats',JSON.stringify(stats));uStr()}
+function svSt(){ saveAllState(); uStr(); }
 function uStr(){$('nst').textContent=stats.streak>0?'\uD83D\uDD25'+stats.streak:''}
 
 // ═══════════ AUDIO ═══════════
@@ -1145,7 +1226,7 @@ function renderFamilyPanel(){
 var FR={active:false,frase:null,wi:0,ch:[],wrongInWord:false,cat:'todas',completed:{}};
 
 function ldFraseProg(){try{var s=localStorage.getItem('lis_frases');if(s)FR.completed=JSON.parse(s)}catch(e){}}
-function svFraseProg(){localStorage.setItem('lis_frases',JSON.stringify(FR.completed))}
+function svFraseProg(){ saveAllState(); }
 
 function renderFrasesList(){
   FR.active=false;
@@ -1470,20 +1551,149 @@ function updateLastBackupInfo(){
 function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
 
 // ═══════════ GLOBALS ═══════════
-window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;
 
 /* DICTADO FEATURE */
-var DIC={word:null,correct:[],wrong:[],hint:null,difficulty:'medium'};
-function startDictado(){DIC.difficulty=cfg.dictadoDiff;renderDictadoWord()}
-function setDictadoDiff(d){cfg.dictadoDiff=d;DIC.difficulty=d;renderDictadoWord()}
-function renderDictadoWord(){var idx=Math.floor(Math.random()*PALABRAS.length);var w=PALABRAS[idx];DIC.word=w.t;DIC.correct=[];DIC.wrong=[];var hint=DIC.difficulty==='easy'?w.e+' '+DIC.word.length+' letras':DIC.difficulty==='medium'?w.e:'🎧';var boxes=Array.from(DIC.word).map(function(){return'<div class="dictado-box"></div>'}).join('');var keys='';'abcdefghijklmnñopqrstuvwxyz'.split('').forEach(function(k){keys+='<button class="kk" onclick="typeDictadoLetter(\''+k+'\')">'+k+'</button>'});var h=$('dictadoArea');h.innerHTML='<div class="dictado-card"><div class="dictado-diff-select"><button class="dictado-diff-btn'+(DIC.difficulty==='easy'?' active':'')+'" onclick="setDictadoDiff(\'easy\')">Fácil 😊</button><button class="dictado-diff-btn'+(DIC.difficulty==='medium'?' active':'')+'" onclick="setDictadoDiff(\'medium\')">Normal 😐</button><button class="dictado-diff-btn'+(DIC.difficulty==='hard'?' active':'')+'" onclick="setDictadoDiff(\'hard\')">Difícil 😤</button></div><div class="dictado-hint">'+hint+'</div><button class="speak-btn" onclick="speakWord(DIC.word)">🔊</button><div class="dictado-boxes" id="dicBoxes">'+boxes+'</div><div id="dicInput" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">'+keys+'</div><div style="margin-top:10px"><button class="bt ba" onclick="playDictadoAgain()">Escuchar de nuevo ↺</button></div></div>';setTimeout(function(){speakWord(DIC.word)},500)}
-function typeDictadoLetter(k){if(!DIC.word)return;var cur=DIC.correct.length;if(cur<DIC.word.length&&DIC.word[cur].toLowerCase()===k.toLowerCase()){DIC.correct.push(k);var boxes=document.querySelectorAll('#dicBoxes .dictado-box');boxes[cur].textContent=DIC.word[cur];boxes[cur].classList.add('filled');sndCorrect();if(cur+1===DIC.word.length){completeDictadoWord()}}else{sndWrong();if(DIC.word){speakWord(DIC.word)}}}
-function completeDictadoWord(){var w=PALABRAS.find(function(p){return p.t===DIC.word});stats.dictadoTotal++;stats.dictadoCorrect++;svSt();sndWordComplete();var art=getArt(DIC.word)||'';var h=$('dictadoArea');h.innerHTML='<div class="dictado-card"><div style="font-size:40px;margin-bottom:10px">'+(w?w.e:'✅')+'</div><div style="font-size:28px;font-weight:900;margin-bottom:4px">'+esc(DIC.word)+'</div><div style="font-size:13px;color:var(--dim);margin-bottom:12px">'+(art?esc(art)+' '+esc(DIC.word):'')+'</div><button class="bt ba bb2" onclick="startDictado()">➜ Otra palabra</button></div>';setTimeout(function(){speakWord(DIC.word)},400)}
-function playDictadoAgain(){if(DIC.word){speakWord(DIC.word)}}
+/* DICTADO FEATURE — Progressive Levels */
+var DIC={word:null,correct:[],level:1,streak:0};
+
+function startDictado(){
+  DIC.level = cfg.dictadoLevel || 1;
+  var h = $('dictadoArea');
+  var levelsHtml = '';
+  DICTADO_NIVELES.forEach(function(nv){
+    var active = nv.id === DIC.level ? ' active' : '';
+    levelsHtml += '<button class="dict-level-btn'+active+'" style="border-color:'+nv.color+'" onclick="setDictadoLevel('+nv.id+')">'+
+      '<div class="dict-lv-emoji">'+nv.emoji+'</div>'+
+      '<div class="dict-lv-name">'+nv.nombre+'</div>'+
+      '<div class="dict-lv-desc">'+nv.desc+'</div></button>';
+  });
+  h.innerHTML = '<div class="dict-levels">'+levelsHtml+'</div>';
+  renderDictadoWord();
+}
+
+function setDictadoLevel(lv){
+  DIC.level = lv;
+  cfg.dictadoLevel = lv;
+  saveAllState();
+  startDictado();
+}
+
+function getDictadoItem(){
+  var lv = DIC.level;
+  if(lv === 1){
+    var vowels = ['a','e','i','o','u'];
+    var v = vowels[Math.floor(Math.random()*vowels.length)];
+    return {word: v, display: v.toUpperCase(), emoji: '🔤', hint: 'Letra: '+v.toUpperCase()};
+  }
+  if(lv === 2){
+    var cons = ['m','p','s','l','t','n','d','r','c','g'];
+    var c = cons[Math.floor(Math.random()*cons.length)];
+    return {word: c, display: c.toUpperCase(), emoji: '🅱️', hint: 'Letra: '+c.toUpperCase()};
+  }
+  if(lv === 3){
+    var syl = SILABAS_DICTADO[Math.floor(Math.random()*SILABAS_DICTADO.length)];
+    return {word: syl, display: syl, emoji: '🗣️', hint: 'Sílaba: '+syl};
+  }
+  var minLen, maxLen;
+  if(lv === 4){ minLen=2; maxLen=3; }
+  else if(lv === 5){ minLen=4; maxLen=4; }
+  else { minLen=5; maxLen=99; }
+  var pool = PALABRAS.filter(function(w){ return w.t.length >= minLen && w.t.length <= maxLen; });
+  if(pool.length === 0) pool = PALABRAS.filter(function(w){ return w.t.length >= minLen; });
+  if(pool.length === 0) pool = PALABRAS;
+  var w = pool[Math.floor(Math.random()*pool.length)];
+  return {word: w.t, display: w.t, emoji: w.e, hint: w.e + ' ' + w.t.length + ' letras'};
+}
+
+function renderDictadoWord(){
+  var item = getDictadoItem();
+  DIC.word = item.word;
+  DIC.correct = [];
+  
+  var boxes = Array.from(DIC.word).map(function(){ return '<div class="dictado-box"></div>'; }).join('');
+  var keys = '';
+  var alphabet = DIC.level <= 2 ? 
+    (DIC.level === 1 ? 'aeiou' : 'mpsltndr cg') :
+    'abcdefghijklmnñopqrstuvwxyz';
+  alphabet = alphabet.replace(/ /g,'');
+  alphabet.split('').forEach(function(k){
+    keys += '<button class="kk" onclick="typeDictadoLetter(\''+k+'\')">'+k+'</button>';
+  });
+  
+  var levelInfo = DICTADO_NIVELES.find(function(n){return n.id===DIC.level});
+  var streakHtml = DIC.streak > 0 ? '<div class="dict-streak">🔥 '+DIC.streak+' seguidas</div>' : '';
+  
+  var h = $('dictadoArea');
+  var levelsDiv = h.querySelector('.dict-levels');
+  var levelsHtml = levelsDiv ? levelsDiv.outerHTML : '';
+  
+  h.innerHTML = levelsHtml +
+    '<div class="dictado-card">' +
+    streakHtml +
+    '<div class="dictado-hint">' + item.hint + '</div>' +
+    '<div style="font-size:48px;margin:8px 0">' + item.emoji + '</div>' +
+    '<button class="speak-btn" onclick="speakWord(DIC.word)">🔊</button>' +
+    '<div class="dictado-boxes" id="dicBoxes">' + boxes + '</div>' +
+    '<div id="dicInput" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">' + keys + '</div>' +
+    '<div style="margin-top:10px"><button class="bt ba" onclick="playDictadoAgain()">Escuchar de nuevo ↺</button></div>' +
+    '</div>';
+  
+  setTimeout(function(){ speakWord(DIC.word); }, 500);
+}
+
+function typeDictadoLetter(k){
+  if(!DIC.word) return;
+  var cur = DIC.correct.length;
+  if(cur < DIC.word.length && DIC.word[cur].toLowerCase() === k.toLowerCase()){
+    DIC.correct.push(k);
+    var boxes = document.querySelectorAll('#dicBoxes .dictado-box');
+    if(boxes[cur]){
+      boxes[cur].textContent = DIC.word[cur].toUpperCase();
+      boxes[cur].classList.add('filled');
+    }
+    sndCorrect();
+    if(cur + 1 === DIC.word.length){ completeDictadoWord(); }
+  } else {
+    sndWrong();
+    DIC.streak = 0;
+    speakWord(DIC.word);
+  }
+}
+
+function completeDictadoWord(){
+  DIC.streak++;
+  stats.dictadoTotal = (stats.dictadoTotal||0) + 1;
+  stats.dictadoCorrect = (stats.dictadoCorrect||0) + 1;
+  svSt();
+  sndWordComplete();
+  
+  var item = getDictadoItem();
+  var w = PALABRAS.find(function(p){ return p.t === DIC.word; });
+  var emoji = w ? w.e : '✅';
+  var art = DIC.level >= 4 ? (getArt(DIC.word) || '') : '';
+  
+  var h = $('dictadoArea');
+  var levelsDiv = h.querySelector('.dict-levels');
+  var levelsHtml = levelsDiv ? levelsDiv.outerHTML : '';
+  
+  h.innerHTML = levelsHtml +
+    '<div class="dictado-card">' +
+    '<div style="font-size:48px;margin-bottom:10px">' + emoji + '</div>' +
+    '<div style="font-size:32px;font-weight:900;margin-bottom:4px">' + esc(DIC.word.toUpperCase()) + '</div>' +
+    (art ? '<div style="font-size:13px;color:var(--dim);margin-bottom:8px">' + esc(art) + ' ' + esc(DIC.word) + '</div>' : '') +
+    '<div style="font-size:16px;color:var(--grn);font-weight:800;margin-bottom:12px">¡Correcto! 🔥 ' + DIC.streak + '</div>' +
+    '<button class="bt ba bb2" onclick="renderDictadoWord()">➜ Siguiente</button>' +
+    '</div>';
+  
+  setTimeout(function(){ speakWord(DIC.word); }, 400);
+}
+
+function playDictadoAgain(){ if(DIC.word) speakWord(DIC.word); }
 /* ALBUM FEATURE */
 var unlockedStickers=[];
 function loadStickerData(){try{var s=localStorage.getItem('lis_stickers');if(s)unlockedStickers=JSON.parse(s)}catch(e){}}
-function saveStickerData(){localStorage.setItem('lis_stickers',JSON.stringify(unlockedStickers))}
+function saveStickerData(){ saveAllState(); }
 function checkStickerEarnings(){STICKERS.forEach(function(st){if(unlockedStickers.indexOf(st.id)<0&&st.check&&st.check()){unlockedStickers.push(st.id);sndLevelUp();showStickerReveal(st)}})}
 function showStickerReveal(st){var reveal=document.createElement('div');reveal.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:500;flex-direction:column;text-align:center';var content=document.createElement('div');content.style.cssText='animation:stickerReveal .5s ease-out';content.innerHTML='<div style="font-size:80px;margin-bottom:20px">'+st.icon+'</div><div style="font-size:28px;font-weight:900;color:var(--acc);margin-bottom:10px">¡'+st.name+'!</div><div style="font-size:14px;color:var(--dim)">'+st.desc+'</div>';reveal.appendChild(content);document.body.appendChild(reveal);setTimeout(function(){reveal.style.opacity='0';reveal.style.transition='opacity 1s';setTimeout(function(){document.body.removeChild(reveal)},1000)},2000)}
 function renderAlbum(){var catIcons={planetas:'🌍',animales:'🦁',logros:'⭐',letras:'🔤',especiales:'🎯'};var activeCat='planetas';var tabsHtml='<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px">';Object.keys(catIcons).forEach(function(c){tabsHtml+='<button class="album-cat-tab'+(c===activeCat?' active':'')+'" onclick="filterAlbumCat(\''+c+'\')">'+catIcons[c]+'</button>'});tabsHtml+='</div>';$('albumTabs').innerHTML=tabsHtml;var grid=$('albumGrid');grid.innerHTML='';STICKERS.filter(function(s){return s.cat===activeCat}).forEach(function(st){var slot=document.createElement('div');var unlocked=unlockedStickers.indexOf(st.id)>=0;slot.className='sticker-slot '+(unlocked?'unlocked':'locked');if(unlocked){slot.classList.add('sticker-reveal');slot.innerHTML='<div class="sticker-icon">'+st.icon+'</div><div class="sticker-name">'+st.name+'</div>'}else{slot.innerHTML='<div class="sticker-icon">?</div><div class="sticker-name">???</div>'}grid.appendChild(slot)});$('stickerCount').textContent=unlockedStickers.length+'/40'}
@@ -1740,7 +1950,7 @@ function renderLectura() {
 }
 
 /* INIT */
-loadStickerData();ldCfg();ldProg();ldSt();ldFraseProg();initLectura();rTU();rMap();updateLastBackupInfo();
+loadAllState();aCfg();uStr();initLectura();rTU();rMap();updateLastBackupInfo();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
 </script>
 </body>
