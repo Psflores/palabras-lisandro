@@ -1277,6 +1277,8 @@ function showTab(tab) {
     var btn=document.getElementById('nt-'+t);
     if(btn) btn.className='nt'+(t===tab?' on':'');
   });
+  if(tab==='stats') renderStats();
+  if(tab==='mapa') renderMap();
 }
 
 function renderMap() {
@@ -1344,11 +1346,7 @@ function renderStats() {
 }
 
 // Tab click handlers (expose for inline nav)
-window.showTab=function(tab){
-  showTab(tab);
-  if(tab==='stats') renderStats();
-  if(tab==='mapa') renderMap();
-};
+window.showTab=showTab;
 window.startMundo=startMundo;
 window.backToMap=backToMap;
 window.checkChoice=checkChoice;
