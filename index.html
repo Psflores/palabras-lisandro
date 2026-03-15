@@ -131,7 +131,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 .kb{background:var(--s1);border-top:1px solid rgba(255,255,255,.05);padding:6px 3px 10px;flex-shrink:0}
 .kb.hid{display:none}
 .kr{display:flex;justify-content:center;gap:3px;margin-bottom:3px}
-.kk{min-width:28px;height:42px;border:0;border-radius:7px;background:var(--s2);color:var(--tx);font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:1;max-width:40px;transition:all .08s}
+.kk{min-width:28px;height:42px;border:0;border-radius:7px;background:var(--s2);color:var(--tx);font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:1;max-width:40px;transition:all .08s;touch-action:manipulation;-webkit-user-select:none;user-select:none}
 .kk:active,.kk.pr{background:var(--acc);color:#1a1040;transform:scale(.9)}
 .kk.wi{min-width:48px;max-width:64px;font-size:18px}
 .kk.ek{min-width:48px;max-width:72px;font-size:12px;background:var(--acc);color:#1a1040;font-weight:800}
@@ -1900,7 +1900,7 @@ function dictStartWrite(){
     'abcdefghijklmnñopqrstuvwxyz';
   alphabet = alphabet.replace(/ /g,'');
   alphabet.split('').forEach(function(k){
-    keys += '<button class="kk" onclick="typeDictadoLetter(\''+k+'\')">'+applyLetterMode(k)+'</button>';
+    keys += '<button class="kk" data-k="'+k+'">'+applyLetterMode(k)+'</button>';
   });
 
   var h = $('dictadoArea');
@@ -1918,6 +1918,20 @@ function dictStartWrite(){
     '<div class="dictado-boxes" id="dicBoxes">' + boxes + '</div>' +
     '<div id="dicInput" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">' + keys + '</div>' +
     '</div>';
+
+  // Attach touchstart + click just like the static keyboard (iOS Safari compatible)
+  h.querySelectorAll('#dicInput .kk').forEach(function(b){
+    b.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      b.classList.add('pr');
+      setTimeout(function(){b.classList.remove('pr');}, 120);
+      typeDictadoLetter(b.dataset.k);
+    }, {passive:false});
+    b.addEventListener('click', function(e){
+      e.preventDefault();
+      typeDictadoLetter(b.dataset.k);
+    });
+  });
 
   setTimeout(function(){ speakWord(DIC.word); }, 300);
 }
