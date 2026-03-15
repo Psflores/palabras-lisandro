@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#1a1040"/>
+<meta name="description" content="App gratuita de matemática para niños de 6-9 años. Números, suma, resta, multiplicación y fracciones. Currículo ANEP 1° a 3° grado."/>
+<meta name="keywords" content="matemática, niños, aprender, números, suma, resta, multiplicación, fracciones, ANEP, primaria, Uruguay"/>
+<meta name="author" content="Pablo Flores"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://palabras-de-lisandro.netlify.app/numeros.html"/>
+<meta property="og:title" content="Los Números de Lisandro — Matemática para niños"/>
+<meta property="og:description" content="App educativa gratuita de matemática para niños de 6-9 años. Currículo ANEP 1° a 3° grado de Uruguay."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://palabras-de-lisandro.netlify.app/numeros.html"/>
+<meta property="og:locale" content="es_AR"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>Los Números de Lisandro — Matemática para niños</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;600;700&family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ===== DESIGN SYSTEM (mismo que Palabras) ===== */
+:root{
+  --bg:#120d2e;--s1:#1a1444;--s2:#2a2560;--card:#312e70;
+  --tx:#eae8f5;--dim:#9b97c4;
+  --acc:#06b6d4;--accg:rgba(6,182,212,.2);
+  --grn:#4ade80;--grng:rgba(74,222,128,.15);
+  --red:#f87171;--redg:rgba(248,113,113,.15);
+  --yel:#facc15;--yelg:rgba(250,204,21,.2);
+  --r:16px;--rs:10px
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);height:100%;overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.app{display:flex;flex-direction:column;height:100%}
+
+/* ===== NAV ===== */
+.nav{display:flex;align-items:center;padding:8px 12px;background:var(--s1);border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0;gap:8px}
+.nav-back{font-size:13px;font-weight:700;color:var(--dim);text-decoration:none;padding:6px 10px;border-radius:8px;background:var(--s2);white-space:nowrap;flex-shrink:0}
+.nav-back:active{background:var(--card)}
+.nav-brand{font-size:15px;font-weight:900;display:flex;align-items:center;gap:4px;white-space:nowrap;margin-right:auto;color:var(--acc)}
+.nav-tabs{display:flex;gap:2px;background:var(--bg);padding:2px;border-radius:8px;flex-shrink:0}
+.nt{border:0;background:0;color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:6px 9px;border-radius:7px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+.nt.on{background:var(--acc);color:#1a1040}
+
+/* ===== MAIN SCROLL AREA ===== */
+.mn{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sc{display:none;padding:14px;max-width:740px;margin:0 auto}
+.sc.on{display:block}
+
+/* ===== BUTTONS ===== */
+.bt{border:0;font-family:inherit;font-weight:800;font-size:14px;padding:10px 16px;border-radius:11px;cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:5px;touch-action:manipulation}
+.bt:active{transform:scale(.95)}
+.ba{background:var(--acc);color:#1a1040}
+.bg2{background:var(--s2);color:var(--tx)}
+.bb2{font-size:17px;padding:14px 28px;border-radius:14px}
+.byel{background:var(--yel);color:#1a1040}
+
+/* ===== ABOUT SECTION ===== */
+.app-about{background:linear-gradient(135deg,#0c1a3a,#0d2040);border-radius:16px;padding:16px;margin-bottom:16px;text-align:center;border:1px solid rgba(6,182,212,.2)}
+.app-about .ab-icons{font-size:36px;margin-bottom:6px}
+.app-about .ab-title{font-size:18px;font-weight:900;color:var(--acc);margin-bottom:4px}
+.app-about .ab-desc{font-size:12px;color:var(--dim);line-height:1.5}
+.ab-link{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;padding:4px 10px;border-radius:7px;background:var(--s2)}
+
+/* ===== MUNDO CARDS (Map) ===== */
+.mundo-card{background:var(--s1);border-radius:18px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;border:2px solid transparent;position:relative;touch-action:manipulation}
+.mundo-card:active{transform:scale(.98)}
+.mundo-card.active-mundo{border-color:var(--acc)}
+.mc-icon{font-size:36px;flex-shrink:0;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.05)}
+.mc-info{flex:1;min-width:0}
+.mc-title{font-size:15px;font-weight:900;margin-bottom:1px}
+.mc-grado{font-size:10px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.mc-desc{font-size:12px;color:var(--dim);margin-bottom:4px}
+.mc-bar{height:5px;background:var(--s2);border-radius:3px;overflow:hidden}
+.mc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--acc),var(--grn));transition:width .5s}
+.mc-stars{position:absolute;top:8px;right:12px;font-size:12px;font-weight:800;color:var(--yel)}
+
+/* ===== SESSION HEADER ===== */
+.sess-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sess-mundo{font-size:14px;font-weight:900;flex:1}
+.sess-progress{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.sp-dot{width:10px;height:10px;border-radius:50%;background:var(--s2);transition:all .3s;flex-shrink:0}
+.sp-dot.done{background:var(--grn);box-shadow:0 0 5px var(--grng)}
+.sp-dot.cur{background:var(--acc);box-shadow:0 0 5px var(--accg);transform:scale(1.3)}
+
+/* ===== EXERCISE CARD ===== */
+.ex-card{background:var(--s1);border-radius:20px;padding:16px;margin-bottom:10px}
+.ex-tipo{font-size:10px;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.ex-question{font-size:17px;font-weight:800;margin-bottom:12px;line-height:1.3}
+.ex-visual{text-align:center;margin-bottom:14px;min-height:60px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+
+/* ===== VISUAL ELEMENTS ===== */
+/* Objects (counting, addition, subtraction) */
+.obj-wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;max-width:300px;margin:0 auto;padding:6px 0}
+.obj{font-size:26px;line-height:1;cursor:default}
+/* Big number display */
+.big-num{font-size:72px;font-weight:900;color:var(--tx);line-height:1;text-align:center;font-family:'Fredoka',sans-serif}
+.big-num-word{font-size:20px;font-weight:700;color:var(--dim);margin-top:4px;text-align:center}
+/* Equation */
+.equation{font-size:36px;font-weight:900;text-align:center;padding:8px 0;letter-spacing:2px;font-family:'Fredoka',sans-serif}
+.eq-a{color:var(--acc)}
+.eq-op{color:var(--dim);margin:0 6px}
+.eq-b{color:var(--grn)}
+.eq-q{color:var(--yel)}
+/* Sequence */
+.seq-display{font-size:26px;font-weight:900;text-align:center;letter-spacing:3px;color:var(--tx)}
+.seq-miss{color:var(--acc)}
+/* Place value blocks */
+.pv-wrap{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:4px 0}
+.pv-section{text-align:center}
+.pv-blocks{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;max-width:140px}
+.pv-ten{width:14px;height:44px;background:var(--acc);border-radius:3px;display:inline-block}
+.pv-unit{width:14px;height:14px;background:var(--yel);border-radius:3px;display:inline-block}
+.pv-lab{font-size:10px;color:var(--dim);font-weight:700;margin-top:4px;text-transform:uppercase}
+/* Fraction bar */
+.frac-wrap{margin:4px auto;text-align:center}
+.frac-bar{display:flex;gap:4px;height:48px;width:100%;max-width:220px;margin:0 auto}
+.fb-part{flex:1;background:var(--s2);border:2px solid rgba(155,151,196,.3);border-radius:6px;transition:background .2s}
+.fb-fill{background:var(--acc);border-color:var(--acc)}
+.frac-name{font-size:14px;font-weight:800;color:var(--dim);margin-top:6px}
+/* Array (multiplication) */
+.num-array{display:inline-block;text-align:center;padding:4px}
+.na-row{display:flex;gap:4px;justify-content:center;margin-bottom:4px}
+.na-item{font-size:22px;line-height:1}
+/* Comparison */
+.comp-nums{display:flex;align-items:center;justify-content:center;gap:16px;font-size:52px;font-weight:900;font-family:'Fredoka',sans-serif}
+.comp-circle{width:40px;height:40px;border-radius:50%;border:3px dashed var(--dim);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--dim);flex-shrink:0}
+/* Problem emoji */
+.prob-emoji{font-size:52px;text-align:center}
+/* Two fracs comparison */
+.two-fracs{display:flex;gap:20px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.frac-box{text-align:center}
+.frac-box .frac-title{font-size:11px;font-weight:700;color:var(--dim);margin-bottom:4px;text-transform:uppercase}
+
+/* ===== AUDIO BUTTON ===== */
+.audio-btn{border:0;background:transparent;font-size:22px;cursor:pointer;padding:0 4px;opacity:.7;vertical-align:middle;touch-action:manipulation}
+.audio-btn:active{transform:scale(.8);opacity:1}
+
+/* ===== CHOICE BUTTONS ===== */
+.choices{display:grid;gap:8px;margin-top:4px}
+.choices.c2{grid-template-columns:1fr 1fr}
+.choices.c3{grid-template-columns:repeat(3,1fr)}
+.choices.c4{grid-template-columns:1fr 1fr}
+.choice-btn{border:2px solid transparent;border-radius:14px;background:var(--s2);color:var(--tx);font-family:inherit;font-size:20px;font-weight:800;padding:16px 8px;cursor:pointer;text-align:center;transition:all .12s;touch-action:manipulation;width:100%}
+.choice-btn:active:not(.disabled){transform:scale(.95)}
+.choice-btn.correct{background:rgba(74,222,128,.2);color:var(--grn);border-color:var(--grn)}
+.choice-btn.wrong{background:rgba(248,113,113,.15);color:var(--red);border-color:var(--red)}
+.choice-btn.disabled{cursor:default}
+/* Smaller text for word options */
+.choice-btn.sm{font-size:14px;padding:12px 8px}
+
+/* ===== FEEDBACK ===== */
+.ex-feedback{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:700;margin-top:8px;animation:fi .3s ease-out;display:none}
+.ex-feedback.show{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fb-correct{background:rgba(74,222,128,.15);color:var(--grn);border:1px solid rgba(74,222,128,.3)}
+.fb-wrong{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+
+/* ===== NUMBER KEYBOARD ===== */
+.num-kb{background:var(--s1);border-top:1px solid rgba(255,255,255,.05);padding:6px 8px 10px;flex-shrink:0}
+.num-kb.hid{display:none}
+.nk-display{text-align:center;font-size:40px;font-weight:900;color:var(--acc);padding:6px 0;min-height:58px;font-family:'Fredoka',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px}
+.nk-cursor{color:var(--dim);animation:blink 1s infinite;font-size:32px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.nk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-width:280px;margin:0 auto}
+.nkk{height:48px;border:0;border-radius:10px;background:var(--s2);color:var(--tx);font-family:inherit;font-size:24px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .08s;touch-action:manipulation;width:100%}
+.nkk:active{background:var(--acc);color:#1a1040;transform:scale(.9)}
+.nkk.nk-del{font-size:18px}
+.nkk.nk-ok{background:var(--acc);color:#1a1040;font-size:20px}
+.nkk.nk-ok:active{background:var(--grn)}
+
+/* ===== CELEBRATION OVERLAY ===== */
+.ce{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,10,42,.88);z-index:400}
+.ce.on{display:flex}
+.ccc{text-align:center;animation:si .4s ease-out;padding:20px}
+@keyframes si{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.cem{font-size:72px;margin-bottom:12px}
+.cet{font-size:26px;font-weight:900;margin-bottom:4px;color:var(--tx)}
+.ces{font-size:14px;color:var(--dim);margin-bottom:10px}
+.ce-stars{font-size:36px;margin-bottom:20px;letter-spacing:4px}
+.ce-score{font-size:14px;color:var(--dim);margin-bottom:16px}
+
+/* ===== STATS SCREEN ===== */
+.stats-header{text-align:center;padding:12px 0 16px;margin-bottom:8px}
+.stats-header .st-emoji{font-size:40px;margin-bottom:6px}
+.stats-header .st-title{font-size:18px;font-weight:900}
+.stats-header .st-sub{font-size:13px;color:var(--dim);margin-top:2px}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.stat-cell{background:var(--s1);border-radius:14px;padding:14px;text-align:center}
+.stat-cell .sc-em{font-size:24px;margin-bottom:4px}
+.stat-cell .sc-val{font-size:28px;font-weight:900;color:var(--acc)}
+.stat-cell .sc-lab{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.mundo-stats{background:var(--s1);border-radius:14px;padding:14px}
+.mundo-stats h3{font-size:14px;font-weight:800;margin-bottom:10px}
+.ms-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--s2);font-size:13px}
+.ms-row:last-child{border-bottom:0}
+.ms-icon{font-size:20px;flex-shrink:0}
+.ms-name{flex:1;font-weight:700}
+.ms-stars{color:var(--yel);font-size:13px;font-weight:800}
+.ms-sessions{color:var(--dim);font-size:11px;font-weight:700}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  .big-num{font-size:56px}
+  .equation{font-size:28px}
+  .choice-btn{font-size:17px;padding:14px 6px}
+  .nkk{height:44px;font-size:22px}
+  .comp-nums{font-size:42px}
+}
+@media(min-width:768px){
+  .choice-btn{padding:20px 12px}
+  .choices.c4{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="index.html" class="nav-back">← Palabras</a>
+  <div class="nav-brand">🔢 Los Números</div>
+  <div class="nav-tabs">
+    <button class="nt on" id="nt-mapa" onclick="showTab('mapa')">Mapa</button>
+    <button class="nt" id="nt-stats" onclick="showTab('stats')">Logros</button>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div class="mn" id="main-scroll">
+
+  <!-- MAP SCREEN -->
+  <div id="sc-mapa" class="sc on">
+    <div class="app-about">
+      <div class="ab-icons">🔢✨🧮</div>
+      <div class="ab-title">Los Números de Lisandro</div>
+      <div class="ab-desc">App de <strong style="color:var(--tx)">matemática en español</strong> para niños de 6 a 9 años. Cubre el currículo ANEP de 1° a 3° grado: conteo, valor posicional, sumas, restas, multiplicación y fracciones.</div>
+    </div>
+    <div id="map-list"><!-- rendered by JS --></div>
+  </div>
+
+  <!-- SESSION SCREEN -->
+  <div id="sc-sess" class="sc">
+    <div class="sess-hd">
+      <button class="bt bg2" onclick="backToMap()" style="font-size:12px;padding:7px 12px">← Mapa</button>
+      <div class="sess-mundo" id="sess-mundo-name">Los Números</div>
+    </div>
+    <div class="sess-progress" id="sess-progress"></div>
+    <div class="ex-card" id="ex-card">
+      <div class="ex-tipo" id="ex-tipo">CONTAR</div>
+      <div class="ex-question" id="ex-question"></div>
+      <div class="ex-visual" id="ex-visual"></div>
+      <div id="ex-input"></div>
+      <div class="ex-feedback" id="ex-feedback"></div>
+    </div>
+  </div>
+
+  <!-- STATS SCREEN -->
+  <div id="sc-stats" class="sc">
+    <div class="stats-header">
+      <div class="st-emoji">🏆</div>
+      <div class="st-title" id="st-title">Mis Logros</div>
+      <div class="st-sub" id="st-sub">0 estrellas ganadas</div>
+    </div>
+    <div class="stats-grid" id="stats-grid"></div>
+    <div class="mundo-stats" id="mundo-stats-list"></div>
+  </div>
+
+</div><!-- end .mn -->
+
+<!-- NUMBER KEYBOARD (fixed bottom) -->
+<div id="num-kb" class="num-kb hid">
+  <div class="nk-display">
+    <span id="nk-val">?</span>
+    <span class="nk-cursor">|</span>
+  </div>
+  <div class="nk-grid">
+    <button class="nkk" onclick="numKey('7')">7</button>
+    <button class="nkk" onclick="numKey('8')">8</button>
+    <button class="nkk" onclick="numKey('9')">9</button>
+    <button class="nkk" onclick="numKey('4')">4</button>
+    <button class="nkk" onclick="numKey('5')">5</button>
+    <button class="nkk" onclick="numKey('6')">6</button>
+    <button class="nkk" onclick="numKey('1')">1</button>
+    <button class="nkk" onclick="numKey('2')">2</button>
+    <button class="nkk" onclick="numKey('3')">3</button>
+    <button class="nkk nk-del" onclick="numKey('del')">⌫</button>
+    <button class="nkk" onclick="numKey('0')">0</button>
+    <button class="nkk nk-ok" onclick="numKey('ok')">✓</button>
+  </div>
+</div>
+
+</div><!-- end .app -->
+
+<!-- CELEBRATION OVERLAY -->
+<div id="ce" class="ce">
+  <div class="ccc">
+    <div class="cem" id="ce-em">🎉</div>
+    <div class="cet" id="ce-title">¡Excelente!</div>
+    <div class="ces" id="ce-sub">Completaste la sesión</div>
+    <div class="ce-stars" id="ce-stars">⭐⭐⭐</div>
+    <div class="ce-score" id="ce-score"></div>
+    <button class="bt byel bb2" onclick="closeCelebration()">¡Seguir! →</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ============================================================
+// DATA
+// ============================================================
+
+var MUNDOS = [
+  {id:1, nombre:"Los Números",    emoji:"🔢", color:"#4ade80", grado:"1° grado",  desc:"Conteo, lectura y escritura de números 0–100"},
+  {id:2, nombre:"Comparar",       emoji:"⚖️", color:"#60a5fa", grado:"1° grado",  desc:"Mayor que, menor que e igual a"},
+  {id:3, nombre:"Decenas",        emoji:"🏗️", color:"#facc15", grado:"1°–2° grado",desc:"Valor posicional: decenas y unidades"},
+  {id:4, nombre:"Sumar",          emoji:"➕", color:"#fb923c", grado:"1°–2° grado",desc:"Sumas hasta 20 con objetos y números"},
+  {id:5, nombre:"Restar",         emoji:"➖", color:"#f472b6", grado:"1°–2° grado",desc:"Restas hasta 20 con objetos y números"},
+  {id:6, nombre:"Cuentas Grandes",emoji:"🧮", color:"#a78bfa", grado:"2° grado",  desc:"Suma y resta de dos dígitos hasta 100"},
+  {id:7, nombre:"Multiplicar",    emoji:"✖️", color:"#34d399", grado:"2°–3° grado",desc:"Tablas del 2, 5 y 10 como suma repetida"},
+  {id:8, nombre:"Fracciones",     emoji:"🍕", color:"#f87171", grado:"2°–3° grado",desc:"Mitad, tercio y cuarto en forma visual"}
+];
+
+var NUM_WORDS = {
+  0:'cero',1:'uno',2:'dos',3:'tres',4:'cuatro',5:'cinco',
+  6:'seis',7:'siete',8:'ocho',9:'nueve',10:'diez',
+  11:'once',12:'doce',13:'trece',14:'catorce',15:'quince',
+  16:'dieciséis',17:'diecisiete',18:'dieciocho',19:'diecinueve',
+  20:'veinte',21:'veintiuno',22:'veintidós',23:'veintitrés',
+  24:'veinticuatro',25:'veinticinco',26:'veintiséis',27:'veintisiete',
+  28:'veintiocho',29:'veintinueve',
+  30:'treinta',40:'cuarenta',50:'cincuenta',
+  60:'sesenta',70:'setenta',80:'ochenta',90:'noventa',100:'cien'
+};
+
+var EMOJI_SETS = [
+  ['🍎','🍊','🍋','🍇','🍓','🍑','🍒','🍍','🥝','🫐'],
+  ['⭐','🌟','💫','✨','🌙','🔵','🔴','🟡','🟢','🟠'],
+  ['🐱','🐶','🐸','🐰','🐻','🦊','🐼','🐨','🐯','🦁'],
+  ['🎯','🎈','🎀','🎁','🔮','🧲','🎲','🎸','🎺','🏀']
+];
+
+var PROBLEMAS = [
+  {t:"Lisandro tiene {a} manzanas y le dan {b} más. ¿Cuántas tiene?",op:'+',e:'🍎'},
+  {t:"Hay {a} niños en clase. Se van {b}. ¿Cuántos quedan?",op:'-',e:'👦'},
+  {t:"Mamá compra {a} panes y papá compra {b} más. ¿Cuántos hay?",op:'+',e:'🍞'},
+  {t:"Tengo {a} figuritas y pierdo {b}. ¿Cuántas me quedan?",op:'-',e:'🃏'},
+  {t:"En el árbol hay {a} pájaros. Llegan {b} más. ¿Cuántos hay?",op:'+',e:'🐦'},
+  {t:"La tienda tiene {a} chocolates y vende {b}. ¿Cuántos quedan?",op:'-',e:'🍫'},
+  {t:"Juan tiene {a} canicas. Pedro tiene {b}. ¿Cuántas tienen juntos?",op:'+',e:'⚪'},
+  {t:"Hay {a} globos y estallan {b}. ¿Cuántos quedan?",op:'-',e:'🎈'},
+  {t:"En la pecera hay {a} peces. Nacen {b} más. ¿Cuántos peces hay?",op:'+',e:'🐟'},
+  {t:"La canasta tiene {a} manzanas. Se comen {b}. ¿Cuántas quedan?",op:'-',e:'🧺'}
+];
+
+var FRAC_NAMES = {
+  '1/2':'un medio','2/2':'dos medios (entero)',
+  '1/3':'un tercio','2/3':'dos tercios','3/3':'tres tercios (entero)',
+  '1/4':'un cuarto','2/4':'dos cuartos (mitad)','3/4':'tres cuartos','4/4':'cuatro cuartos (entero)'
+};
+
+var FRAC_ITEMS = [
+  {n:1,d:2},{n:1,d:3},{n:2,d:3},{n:1,d:4},{n:2,d:4},{n:3,d:4}
+];
+
+// ============================================================
+// STATE
+// ============================================================
+
+var NS_KEY = 'lis_num_v1';
+var NS; // numState
+
+function defaultNS() {
+  var ms = {};
+  MUNDOS.forEach(function(m){ ms[m.id]={sessions:0,stars:0,correct:0,attempts:0}; });
+  return {v:1, mundos:ms, totalSessions:0, totalStars:0, streak:0, lastDate:null};
+}
+
+function loadNS() {
+  try {
+    var s = localStorage.getItem(NS_KEY);
+    NS = s ? JSON.parse(s) : defaultNS();
+    if(!NS.mundos) NS = defaultNS();
+    MUNDOS.forEach(function(m){
+      if(!NS.mundos[m.id]) NS.mundos[m.id]={sessions:0,stars:0,correct:0,attempts:0};
+    });
+  } catch(e) { NS = defaultNS(); }
+}
+
+function saveNS() {
+  try { localStorage.setItem(NS_KEY, JSON.stringify(NS)); } catch(e){}
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function pickRandom(arr){return arr[rnd(0,arr.length-1)];}
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=rnd(0,i);var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+
+function numToWord(n) {
+  n = Number(n);
+  if(NUM_WORDS[n]!==undefined) return NUM_WORDS[n];
+  if(n>=31&&n<=99){
+    var t=Math.floor(n/10)*10, u=n%10;
+    return NUM_WORDS[t]+' y '+NUM_WORDS[u];
+  }
+  return String(n);
+}
+
+function genOptions(correct, min, max, count) {
+  correct = Number(correct);
+  var opts = new Set([correct]);
+  var tries=0;
+  while(opts.size<count && tries<200) {
+    var off = rnd(1, Math.max(4, Math.round(Math.abs(correct)*0.2)+2));
+    var v = correct + (Math.random()<0.5 ? off : -off);
+    if(v>=min && v<=max && v!==correct) opts.add(v);
+    tries++;
+  }
+  // fallback: sequential
+  var v2=correct+1;
+  while(opts.size<count){
+    if(v2>=min&&v2<=max&&v2!==correct) opts.add(v2);
+    v2++;
+    if(v2>max) v2=min;
+    if(opts.size>=count+10) break;
+  }
+  return shuffle(Array.from(opts).slice(0,count)).map(String);
+}
+
+function genWordOptions(correctNum, count) {
+  var correct = numToWord(correctNum);
+  var opts = new Set([correctNum]);
+  var tries=0;
+  while(opts.size<count && tries<100) {
+    var off = rnd(1,8)*(Math.random()<0.5?1:-1);
+    var v = correctNum+off;
+    if(v>0&&v<=30&&v!==correctNum) opts.add(v);
+    tries++;
+  }
+  // fallback
+  var v2=1;
+  while(opts.size<count){
+    if(v2!==correctNum) opts.add(v2);
+    v2++;
+    if(v2>30) break;
+  }
+  return shuffle(Array.from(opts).slice(0,count)).map(function(x){return numToWord(x);});
+}
+
+function makeObjects(n, emoji) {
+  var html='<div class="obj-wrap">';
+  for(var i=0;i<n;i++){
+    if(i>0&&i%5===0) html+='<div style="width:100%;height:0;flex-basis:100%"></div>';
+    html+='<span class="obj">'+emoji+'</span>';
+  }
+  html+='</div>';
+  return html;
+}
+
+function makeCrossedObjects(total, crossed, emoji) {
+  var html='<div class="obj-wrap">';
+  for(var i=0;i<total;i++){
+    if(i>0&&i%5===0) html+='<div style="width:100%;height:0;flex-basis:100%"></div>';
+    if(i>=total-crossed) {
+      html+='<span class="obj" style="opacity:.25;text-decoration:line-through">'+emoji+'</span>';
+    } else {
+      html+='<span class="obj">'+emoji+'</span>';
+    }
+  }
+  html+='</div>';
+  return html;
+}
+
+function fracBar(num, den) {
+  var html='<div class="frac-wrap">';
+  html+='<div class="frac-bar">';
+  for(var i=0;i<den;i++){
+    html+='<div class="fb-part'+(i<num?' fb-fill':'')+'"></div>';
+  }
+  html+='</div>';
+  var key=num+'/'+den;
+  if(FRAC_NAMES[key]) html+='<div class="frac-name">'+FRAC_NAMES[key]+'</div>';
+  html+='</div>';
+  return html;
+}
+
+function makeArray(rows, cols, emoji) {
+  var html='<div class="num-array">';
+  for(var r=0;r<rows;r++){
+    html+='<div class="na-row">';
+    for(var c=0;c<cols;c++) html+='<span class="na-item">'+emoji+'</span>';
+    html+='</div>';
+  }
+  html+='</div>';
+  return html;
+}
+
+function makePVDisplay(n) {
+  var tens=Math.floor(n/10), units=n%10;
+  var html='<div class="pv-wrap">';
+  if(tens>0){
+    html+='<div class="pv-section"><div class="pv-blocks">';
+    for(var i=0;i<tens;i++) html+='<div class="pv-ten"></div>';
+    html+='</div><div class="pv-lab">'+tens+' decena'+(tens!==1?'s':'')+'</div></div>';
+  }
+  if(units>0){
+    html+='<div class="pv-section"><div class="pv-blocks">';
+    for(var j=0;j<units;j++) html+='<div class="pv-unit"></div>';
+    html+='</div><div class="pv-lab">'+units+' unidad'+(units!==1?'es':'')+'</div></div>';
+  }
+  if(n===0){
+    html+='<div class="pv-section"><div style="font-size:32px;font-weight:900;color:var(--dim)">0</div></div>';
+  }
+  html+='</div>';
+  return html;
+}
+
+function speak(text) {
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var utt=new SpeechSynthesisUtterance(String(text));
+  utt.lang='es-UY'; utt.rate=0.85; utt.pitch=1.1;
+  window.speechSynthesis.speak(utt);
+}
+
+function audioBtn(text) {
+  return '<button class="audio-btn" onclick="speak(\''+String(text).replace(/'/g,'\\\'')+'\')" title="Escuchar">🔊</button>';
+}
+
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============================================================
+// EXERCISE GENERATORS
+// ============================================================
+
+// ── MUNDO 1: Los Números ────────────────────────────────────
+
+function genContarObjetos() {
+  var n=rnd(1,15);
+  var emoji=pickRandom(pickRandom(EMOJI_SETS));
+  return {
+    tipo:'CONTAR',
+    q:'¿Cuántos '+emoji+' hay?',
+    vis:makeObjects(n, emoji),
+    itype:'choice', opts:genOptions(n,1,20,4), correct:String(n),
+    expl:'Hay <strong>'+n+'</strong> '+emoji+'. Contamos de a uno.'
+  };
+}
+
+function genLeerNumero() {
+  var n=rnd(1,100);
+  return {
+    tipo:'LEER',
+    q:'¿Cómo se lee este número? '+audioBtn(numToWord(n)),
+    vis:'<div class="big-num">'+n+'</div>',
+    itype:'choice', opts:genWordOptions(n,4), correct:numToWord(n),
+    wstyle:'sm', expl:'El '+n+' se lee <strong>"'+numToWord(n)+'"</strong>'
+  };
+}
+
+function genEscribirNumero() {
+  var n=rnd(1,30);
+  return {
+    tipo:'ESCRIBIR',
+    q:'Escribe el número: '+audioBtn(numToWord(n)),
+    vis:'<div class="big-num-word">'+numToWord(n)+'</div>',
+    itype:'number', correct:String(n), maxdigits:2,
+    expl:'"'+numToWord(n)+'" se escribe <strong>'+n+'</strong>'
+  };
+}
+
+function genAntesODespues() {
+  var n=rnd(2,99);
+  var antes=Math.random()<0.5;
+  var correct=antes ? n-1 : n+1;
+  return {
+    tipo:'SECUENCIA',
+    q:'¿Qué número '+(antes?'va ANTES':'viene DESPUÉS')+' de...',
+    vis:'<div class="big-num">'+n+'</div>'+audioBtn(numToWord(n)),
+    itype:'choice', opts:genOptions(correct,0,100,4), correct:String(correct),
+    expl:(antes?'Antes del '+n+' va el ':'Después del '+n+' viene el ')+'<strong>'+correct+'</strong>'
+  };
+}
+
+function genContarSalteado() {
+  var steps=[{n:2,nm:'2 en 2'},{n:5,nm:'5 en 5'},{n:10,nm:'10 en 10'}];
+  var step=pickRandom(steps);
+  var start=rnd(0,5)*step.n;
+  var seq=[];
+  for(var i=0;i<5;i++) seq.push(start+i*step.n);
+  var mi=rnd(1,3);
+  var correct=seq[mi];
+  var disp=seq.map(function(v,i){
+    return i===mi?'<span class="seq-miss">?</span>':v;
+  }).join(', ');
+  return {
+    tipo:'CONTAR',
+    q:'Contando de '+step.nm+', ¿qué número falta?',
+    vis:'<div class="seq-display">'+disp+'</div>',
+    itype:'choice', opts:genOptions(correct,0,100,4), correct:String(correct),
+    expl:'La secuencia suma <strong>'+step.n+'</strong> cada vez'
+  };
+}
+
+function genNumerosOrden() {
+  var nums=[];
+  while(nums.length<4){
+    var v=rnd(1,99);
+    if(!nums.includes(v)) nums.push(v);
+  }
+  var mayor=Math.max.apply(null,nums);
+  var menor=Math.min.apply(null,nums);
+  var ask=Math.random()<0.5;
+  var correct=String(ask?mayor:menor);
+  var sorted=[...nums].sort(function(a,b){return a-b;});
+  return {
+    tipo:'ORDENAR',
+    q:'¿Cuál es el número '+(ask?'más grande':'más chico')+'?',
+    vis:'<div class="seq-display">'+nums.join('  ')+'</div>',
+    itype:'choice', opts:shuffle(nums).map(String), correct:correct,
+    expl:'El número '+(ask?'más grande':'más chico')+' es <strong>'+correct+'</strong>. En orden: '+sorted.join(' < ')
+  };
+}
+
+// ── MUNDO 2: Comparar ───────────────────────────────────────
+
+function genMayorMenor() {
+  var a=rnd(1,99), b=rnd(1,99);
+  while(a===b) b=rnd(1,99);
+  var correct=a>b?'>':'<';
+  return {
+    tipo:'COMPARAR',
+    q:'¿Qué símbolo va en el círculo?',
+    vis:'<div class="comp-nums"><span>'+a+'</span><div class="comp-circle">○</div><span>'+b+'</span></div>',
+    itype:'choice3', opts:['>','<','='], correct:correct,
+    expl:a+' <strong>'+correct+'</strong> '+b+(a>b?' porque '+a+' es mayor':' porque '+a+' es menor')
+  };
+}
+
+function genComparacionIgual() {
+  var v=rnd(5,50);
+  var tipo=rnd(0,2);
+  var a,b,correct;
+  if(tipo===0){a=v;b=v;correct='=';}
+  else if(tipo===1){a=v;b=v+rnd(1,15);correct='<';}
+  else{a=v+rnd(1,15);b=v;correct='>';}
+  return {
+    tipo:'COMPARAR',
+    q:'¿Cuál es el símbolo correcto?',
+    vis:'<div class="comp-nums"><span>'+a+'</span><div class="comp-circle">○</div><span>'+b+'</span></div>',
+    itype:'choice3', opts:['>','<','='], correct:correct,
+    expl:a+' <strong>'+correct+'</strong> '+b
+  };
+}
+
+function genMasObjetos() {
+  var emoji=pickRandom(pickRandom(EMOJI_SETS));
+  var a=rnd(2,10), b=rnd(2,10);
+  while(a===b) b=rnd(2,10);
+  var correct=a>b?'Grupo A':'Grupo B';
+  return {
+    tipo:'COMPARAR',
+    q:'¿Qué grupo tiene MÁS '+emoji+'?',
+    vis:'<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">'
+       +'<div style="text-align:center"><div style="font-size:11px;font-weight:700;color:var(--dim);margin-bottom:4px">Grupo A</div>'+makeObjects(a,emoji)+'</div>'
+       +'<div style="text-align:center"><div style="font-size:11px;font-weight:700;color:var(--dim);margin-bottom:4px">Grupo B</div>'+makeObjects(b,emoji)+'</div>'
+       +'</div>',
+    itype:'choice2', opts:['Grupo A','Grupo B'], correct:correct,
+    expl:'El '+correct+' tiene <strong>'+(a>b?a:b)+'</strong> '+emoji+' y el otro tiene '+(a>b?b:a)
+  };
+}
+
+// ── MUNDO 3: Decenas ────────────────────────────────────────
+
+function genDescomponer() {
+  var n=rnd(11,99);
+  var tens=Math.floor(n/10), units=n%10;
+  var ask=Math.random()<0.5?'decenas':'unidades';
+  var correct=String(ask==='decenas'?tens:units);
+  return {
+    tipo:'VALOR POSICIONAL',
+    q:'¿Cuántas '+ask+' tiene el '+n+'?',
+    vis:makePVDisplay(n)+'<div style="text-align:center;margin-top:6px">'+audioBtn(numToWord(n))+'</div>',
+    itype:'choice', opts:genOptions(Number(correct),0,9,4), correct:correct,
+    expl:n+' = <strong>'+tens+'</strong> decena'+(tens!==1?'s':'')
+        +' + <strong>'+units+'</strong> unidad'+(units!==1?'es':'')
+  };
+}
+
+function genComponer() {
+  var tens=rnd(1,9), units=rnd(0,9);
+  var n=tens*10+units;
+  return {
+    tipo:'VALOR POSICIONAL',
+    q:tens+' decena'+(tens!==1?'s':'')+' y '+units+' unidad'+(units!==1?'es':'')+' ¿qué número forman?',
+    vis:makePVDisplay(n),
+    itype:'choice', opts:genOptions(n,10,99,4), correct:String(n),
+    expl:tens+' × 10 + '+units+' = <strong>'+n+'</strong>'
+  };
+}
+
+function genValorCifra() {
+  var n=rnd(11,99);
+  var tens=Math.floor(n/10)*10, units=n%10;
+  var ask=Math.random()<0.5;
+  var correct=String(ask?tens:units);
+  var cifra=ask?String(Math.floor(n/10)):String(units);
+  return {
+    tipo:'VALOR POSICIONAL',
+    q:'En el número <span style="color:var(--acc);font-weight:900">'+n+'</span>, ¿cuánto vale el <span style="color:var(--yel)">'+cifra+'</span>'+(ask?' de las decenas':' de las unidades')+'?',
+    vis:'<div class="big-num" style="font-size:56px"><span style="color:var(--yel)">'+cifra+'</span><span style="color:var(--dim)">'+(ask?units:Math.floor(n/10))+'</span></div>',
+    itype:'choice', opts:genOptions(Number(correct),0,90,4), correct:correct,
+    expl:'La cifra '+cifra+' vale <strong>'+correct+'</strong> '+(ask?'(decenas)':'(unidades)')
+  };
+}
+
+// ── MUNDO 4: Sumar ──────────────────────────────────────────
+
+function genSumaObjetos() {
+  var a=rnd(1,8), b=rnd(1,8);
+  var emoji=pickRandom(pickRandom(EMOJI_SETS));
+  var correct=a+b;
+  return {
+    tipo:'SUMAR',
+    q:'¿Cuántos '+emoji+' hay en total?',
+    vis:'<div style="display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap">'
+       +makeObjects(a,emoji)
+       +'<div style="font-size:28px;font-weight:900;color:var(--dim)">+</div>'
+       +makeObjects(b,emoji)+'</div>',
+    itype:'choice', opts:genOptions(correct,1,20,4), correct:String(correct),
+    expl:a+' + '+b+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genSumaAbstracta() {
+  var a=rnd(2,15), b=rnd(1,10);
+  var correct=a+b;
+  return {
+    tipo:'SUMAR',
+    q:'¿Cuánto es?',
+    vis:'<div class="equation"><span class="eq-a">'+a+'</span><span class="eq-op">+</span><span class="eq-b">'+b+'</span><span class="eq-op">=</span><span class="eq-q">?</span></div>',
+    itype:'number', correct:String(correct), maxdigits:2,
+    expl:a+' + '+b+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genSumandoPerdido() {
+  var total=rnd(5,20), a=rnd(1,total-1);
+  var b=total-a;
+  return {
+    tipo:'SUMAR',
+    q:'¿Qué número falta?',
+    vis:'<div class="equation"><span class="eq-a">'+a+'</span><span class="eq-op">+</span><span class="eq-q">?</span><span class="eq-op">=</span><span style="color:var(--grn);font-weight:900">'+total+'</span></div>',
+    itype:'choice', opts:genOptions(b,1,20,4), correct:String(b),
+    expl:a+' + <strong>'+b+'</strong> = '+total
+  };
+}
+
+function genSumandoObjetos3() {
+  var a=rnd(1,6), b=rnd(1,5), c=rnd(1,4);
+  var emojis=[pickRandom(EMOJI_SETS[0]),pickRandom(EMOJI_SETS[1]),pickRandom(EMOJI_SETS[2])];
+  var correct=a+b+c;
+  return {
+    tipo:'SUMAR',
+    q:'¿Cuántos hay en total?',
+    vis:'<div style="display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap">'
+       +makeObjects(a,emojis[0])+'<span style="font-size:20px;color:var(--dim)">+</span>'
+       +makeObjects(b,emojis[1])+'<span style="font-size:20px;color:var(--dim)">+</span>'
+       +makeObjects(c,emojis[2])+'</div>',
+    itype:'choice', opts:genOptions(correct,1,20,4), correct:String(correct),
+    expl:a+' + '+b+' + '+c+' = <strong>'+correct+'</strong>'
+  };
+}
+
+// ── MUNDO 5: Restar ─────────────────────────────────────────
+
+function genRestaObjetos() {
+  var a=rnd(4,12), b=rnd(1,a);
+  var emoji=pickRandom(pickRandom(EMOJI_SETS));
+  var correct=a-b;
+  return {
+    tipo:'RESTAR',
+    q:'Se sacan '+b+' '+emoji+'. ¿Cuántos quedan?',
+    vis:makeCrossedObjects(a, b, emoji),
+    itype:'choice', opts:genOptions(correct,0,15,4), correct:String(correct),
+    expl:a+' − '+b+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genRestaAbstracta() {
+  var a=rnd(6,20), b=rnd(1,a);
+  var correct=a-b;
+  return {
+    tipo:'RESTAR',
+    q:'¿Cuánto es?',
+    vis:'<div class="equation"><span class="eq-a">'+a+'</span><span class="eq-op">−</span><span class="eq-b">'+b+'</span><span class="eq-op">=</span><span class="eq-q">?</span></div>',
+    itype:'number', correct:String(correct), maxdigits:2,
+    expl:a+' − '+b+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genRestaSumandoFalta() {
+  var a=rnd(6,20), b=rnd(1,a-1);
+  var correct=a-b;
+  return {
+    tipo:'RESTAR',
+    q:'¿Cuánto falta?',
+    vis:'<div class="equation"><span class="eq-a">'+a+'</span><span class="eq-op">−</span><span class="eq-q">?</span><span class="eq-op">=</span><span style="color:var(--grn);font-weight:900">'+correct+'</span></div>',
+    itype:'choice', opts:genOptions(b,1,20,4), correct:String(b),
+    expl:a+' − <strong>'+b+'</strong> = '+correct
+  };
+}
+
+// ── MUNDO 6: Cuentas Grandes ────────────────────────────────
+
+function genSuma2Dig() {
+  var a=rnd(10,50), b=rnd(10,40);
+  var correct=a+b;
+  return {
+    tipo:'SUMAR',
+    q:'¿Cuánto es?',
+    vis:'<div class="equation"><span class="eq-a">'+a+'</span><span class="eq-op">+</span><span class="eq-b">'+b+'</span><span class="eq-op">=</span><span class="eq-q">?</span></div>',
+    itype:'number', correct:String(correct), maxdigits:3,
+    expl:a+' + '+b+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genResta2Dig() {
+  var a=rnd(20,90), b=rnd(10,Math.min(a-5,40));
+  var correct=a-b;
+  return {
+    tipo:'RESTAR',
+    q:'¿Cuánto es?',
+    vis:'<div class="equation"><span class="eq-a">'+a+'</span><span class="eq-op">−</span><span class="eq-b">'+b+'</span><span class="eq-op">=</span><span class="eq-q">?</span></div>',
+    itype:'number', correct:String(correct), maxdigits:2,
+    expl:a+' − '+b+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genProblema() {
+  var p=pickRandom(PROBLEMAS);
+  var a,b;
+  if(p.op==='+'){a=rnd(10,45);b=rnd(10,35);}
+  else{a=rnd(30,85);b=rnd(10,Math.min(a-5,35));}
+  var correct=p.op==='+'? a+b : a-b;
+  var text=p.t.replace('{a}',a).replace('{b}',b);
+  return {
+    tipo:'PROBLEMA',
+    q:text,
+    vis:'<div class="prob-emoji">'+p.e+'</div>',
+    itype:'number', correct:String(correct), maxdigits:3,
+    expl:'<strong>'+(p.op==='+'?a+' + '+b:a+' − '+b)+'</strong> = '+correct
+  };
+}
+
+function genSumaLlevando() {
+  // Force a carry: units sum ≥ 10
+  var aU=rnd(5,9), bU=rnd(10-aU,9);
+  var aT=rnd(1,4), bT=rnd(1,4);
+  var a=aT*10+aU, b=bT*10+bU;
+  var correct=a+b;
+  return {
+    tipo:'SUMAR',
+    q:'¿Cuánto es? (¡hay que llevar!)',
+    vis:'<div class="equation"><span class="eq-a">'+a+'</span><span class="eq-op">+</span><span class="eq-b">'+b+'</span><span class="eq-op">=</span><span class="eq-q">?</span></div>',
+    itype:'number', correct:String(correct), maxdigits:3,
+    expl:a+' + '+b+' = <strong>'+correct+'</strong>. Las unidades '+(aU)+' + '+bU+' = '+(aU+bU)+' (se lleva 1 a las decenas)'
+  };
+}
+
+// ── MUNDO 7: Multiplicar ────────────────────────────────────
+
+function genSumaReiterada() {
+  var factor=rnd(2,9), times=rnd(2,5);
+  var correct=factor*times;
+  var sumStr=[];
+  for(var i=0;i<times;i++) sumStr.push(factor);
+  return {
+    tipo:'MULTIPLICAR',
+    q:'¿Cuánto es '+factor+' sumado '+times+' veces?',
+    vis:'<div class="equation" style="font-size:22px">'
+       +'<span style="color:var(--acc)">'+sumStr.join('</span><span class="eq-op">+</span><span style="color:var(--acc)">')+'</span>'
+       +'</div>'
+       +'<div style="text-align:center;font-size:14px;color:var(--dim);margin-top:6px">= '+factor+' × '+times+' = ?</div>',
+    itype:'choice', opts:genOptions(correct,1,50,4), correct:String(correct),
+    expl:sumStr.join(' + ')+' = '+factor+' × '+times+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genArreglo() {
+  var rows=rnd(2,5), cols=rnd(2,6);
+  var emoji=pickRandom(pickRandom(EMOJI_SETS));
+  var correct=rows*cols;
+  return {
+    tipo:'MULTIPLICAR',
+    q:'¿Cuántos '+emoji+' hay en total?\n'+rows+' filas × '+cols+' columnas',
+    vis:makeArray(rows,cols,emoji),
+    itype:'choice', opts:genOptions(correct,2,40,4), correct:String(correct),
+    expl:rows+' filas × '+cols+' en cada fila = <strong>'+correct+'</strong>'
+  };
+}
+
+function genTabla() {
+  var tabla=pickRandom([2,5,10]);
+  var n=rnd(1,10);
+  var correct=tabla*n;
+  return {
+    tipo:'TABLA',
+    q:'¿Cuánto es '+tabla+' × '+n+'?',
+    vis:'<div class="equation"><span class="eq-a">'+tabla+'</span><span class="eq-op">×</span><span class="eq-b">'+n+'</span><span class="eq-op">=</span><span class="eq-q">?</span></div>',
+    itype:'number', correct:String(correct), maxdigits:3,
+    expl:'Tabla del '+tabla+': '+tabla+' × '+n+' = <strong>'+correct+'</strong>'
+  };
+}
+
+function genTablaFalta() {
+  var tabla=pickRandom([2,5,10]);
+  var n=rnd(1,10);
+  var correct=tabla*n;
+  return {
+    tipo:'TABLA',
+    q:'¿Qué número hace verdadera la cuenta?',
+    vis:'<div class="equation"><span class="eq-a">'+tabla+'</span><span class="eq-op">×</span><span class="eq-q">?</span><span class="eq-op">=</span><span style="color:var(--grn);font-weight:900">'+correct+'</span></div>',
+    itype:'choice', opts:genOptions(n,1,10,4), correct:String(n),
+    expl:''+tabla+' × <strong>'+n+'</strong> = '+correct
+  };
+}
+
+// ── MUNDO 8: Fracciones ─────────────────────────────────────
+
+function genFraccionVisual() {
+  var fr=pickRandom(FRAC_ITEMS);
+  var key=fr.n+'/'+fr.d;
+  var correct=FRAC_NAMES[key]||key;
+  // Build 4 options from FRAC_NAMES
+  var allKeys=Object.keys(FRAC_NAMES);
+  var opts=[correct];
+  var tries=0;
+  while(opts.length<4&&tries<50){
+    var k=pickRandom(allKeys);
+    var v=FRAC_NAMES[k];
+    if(!opts.includes(v)) opts.push(v);
+    tries++;
+  }
+  opts=shuffle(opts).slice(0,4);
+  if(!opts.includes(correct)){opts[0]=correct; opts=shuffle(opts);}
+  return {
+    tipo:'FRACCIONES',
+    q:'¿Qué fracción muestra la imagen?',
+    vis:fracBar(fr.n,fr.d),
+    itype:'choice', opts:opts, correct:correct,
+    wstyle:'sm',
+    expl:'La parte amarilla representa <strong>'+correct+'</strong>'
+  };
+}
+
+function genMitad() {
+  var bases=[4,6,8,10,12,14,16,18,20];
+  var base=pickRandom(bases);
+  var correct=base/2;
+  return {
+    tipo:'FRACCIONES',
+    q:'¿Cuánto es la mitad de '+base+'?',
+    vis:fracBar(1,2)+'<div style="margin-top:6px;text-align:center;font-size:32px;font-weight:900">'+base+'</div>',
+    itype:'choice', opts:genOptions(correct,1,15,4), correct:String(correct),
+    expl:'La mitad de '+base+' es <strong>'+correct+'</strong> ('+base+' ÷ 2)'
+  };
+}
+
+function genCuarto() {
+  var bases=[4,8,12,16,20];
+  var base=pickRandom(bases);
+  var correct=base/4;
+  return {
+    tipo:'FRACCIONES',
+    q:'¿Cuánto es un cuarto de '+base+'?',
+    vis:fracBar(1,4)+'<div style="margin-top:6px;text-align:center;font-size:32px;font-weight:900">'+base+'</div>',
+    itype:'choice', opts:genOptions(correct,1,10,4), correct:String(correct),
+    expl:'Un cuarto de '+base+' es <strong>'+correct+'</strong> ('+base+' ÷ 4)'
+  };
+}
+
+function genCompararFracciones() {
+  var pares=[
+    [{n:1,d:2,nm:'un medio'},{n:1,d:4,nm:'un cuarto'},'un medio'],
+    [{n:1,d:2,nm:'un medio'},{n:1,d:3,nm:'un tercio'},'un medio'],
+    [{n:1,d:3,nm:'un tercio'},{n:1,d:4,nm:'un cuarto'},'un tercio'],
+    [{n:3,d:4,nm:'tres cuartos'},{n:1,d:2,nm:'un medio'},'tres cuartos'],
+    [{n:2,d:3,nm:'dos tercios'},{n:1,d:2,nm:'un medio'},'dos tercios']
+  ];
+  var par=pickRandom(pares);
+  var fa=par[0], fb=par[1], correct=par[2];
+  return {
+    tipo:'FRACCIONES',
+    q:'¿Cuál fracción es MÁS GRANDE?',
+    vis:'<div class="two-fracs">'
+       +'<div class="frac-box"><div class="frac-title">Fracción A</div>'+fracBar(fa.n,fa.d)+'</div>'
+       +'<div class="frac-box"><div class="frac-title">Fracción B</div>'+fracBar(fb.n,fb.d)+'</div>'
+       +'</div>',
+    itype:'choice2', opts:[fa.nm,fb.nm], correct:correct,
+    expl:'<strong>'+correct+'</strong> es la fracción más grande'
+  };
+}
+
+function genFraccionDeNumero() {
+  var items=[
+    {frac:'1/2',fn:1,fd:2,bases:[4,6,8,10,12]},
+    {frac:'1/3',fn:1,fd:3,bases:[3,6,9,12,15]},
+    {frac:'2/3',fn:2,fd:3,bases:[3,6,9,12]},
+    {frac:'3/4',fn:3,fd:4,bases:[4,8,12,16]}
+  ];
+  var item=pickRandom(items);
+  var base=pickRandom(item.bases);
+  var correct=base*item.fn/item.fd;
+  var name=FRAC_NAMES[item.frac]||item.frac;
+  return {
+    tipo:'FRACCIONES',
+    q:'¿Cuánto es <strong>'+name+'</strong> de '+base+'?',
+    vis:fracBar(item.fn,item.fd)+'<div style="text-align:center;font-size:28px;font-weight:900;margin-top:4px">de '+base+'</div>',
+    itype:'choice', opts:genOptions(correct,1,15,4), correct:String(correct),
+    expl:name+' de '+base+' = '+base+' ÷ '+item.fd+' × '+item.fn+' = <strong>'+correct+'</strong>'
+  };
+}
+
+// ============================================================
+// MUNDO GENERATORS MAP
+// ============================================================
+
+var MUNDO_GENS = {
+  1:[genContarObjetos,genLeerNumero,genEscribirNumero,genAntesODespues,genContarSalteado,genNumerosOrden],
+  2:[genMayorMenor,genComparacionIgual,genMasObjetos],
+  3:[genDescomponer,genComponer,genValorCifra],
+  4:[genSumaObjetos,genSumaAbstracta,genSumandoPerdido,genSumandoObjetos3],
+  5:[genRestaObjetos,genRestaAbstracta,genRestaSumandoFalta],
+  6:[genSuma2Dig,genResta2Dig,genProblema,genSumaLlevando],
+  7:[genSumaReiterada,genArreglo,genTabla,genTablaFalta],
+  8:[genFraccionVisual,genMitad,genCuarto,genCompararFracciones,genFraccionDeNumero]
+};
+
+// ============================================================
+// SESSION ENGINE
+// ============================================================
+
+var CUR_MUNDO = null;
+var SESSION_EXES = [];
+var SES_IDX = 0;
+var SES_CORRECT = 0;
+var SES_ANSWERED = false;
+var NUM_INPUT = '';
+var EXES_PER_SESSION = 8;
+
+function startMundo(id) {
+  CUR_MUNDO = id;
+  SESSION_EXES = [];
+  SES_IDX = 0;
+  SES_CORRECT = 0;
+  SES_ANSWERED = false;
+  NUM_INPUT = '';
+
+  var gens = MUNDO_GENS[id];
+  for(var i=0;i<EXES_PER_SESSION;i++){
+    SESSION_EXES.push(pickRandom(gens)());
+  }
+
+  document.getElementById('sess-mundo-name').textContent = MUNDOS[id-1].nombre;
+  showTab('sess');
+  renderProgressDots();
+  renderExercise();
+}
+
+function renderProgressDots() {
+  var html='';
+  for(var i=0;i<EXES_PER_SESSION;i++){
+    var cls='sp-dot'+(i<SES_IDX?' done':i===SES_IDX?' cur':'');
+    html+='<div class="'+cls+'"></div>';
+  }
+  document.getElementById('sess-progress').innerHTML=html;
+}
+
+function renderExercise() {
+  if(SES_IDX>=EXES_PER_SESSION){endSession();return;}
+  SES_ANSWERED=false;
+  NUM_INPUT='';
+
+  var ex=SESSION_EXES[SES_IDX];
+  document.getElementById('ex-tipo').textContent=ex.tipo;
+  document.getElementById('ex-question').innerHTML=ex.q;
+  document.getElementById('ex-visual').innerHTML=ex.vis;
+  document.getElementById('ex-feedback').className='ex-feedback';
+  document.getElementById('ex-feedback').innerHTML='';
+
+  var inputDiv=document.getElementById('ex-input');
+  var kb=document.getElementById('num-kb');
+
+  if(ex.itype==='choice'||ex.itype==='choice2'||ex.itype==='choice3'){
+    kb.className='num-kb hid';
+    var count=ex.opts.length;
+    var cls='choices c'+count;
+    var html='<div class="'+cls+'">';
+    ex.opts.forEach(function(opt){
+      var sm=(ex.wstyle==='sm')||String(opt).length>6?'choice-btn sm':'choice-btn';
+      html+='<button class="'+sm+'" onclick="checkChoice(this,\''+esc(opt)+'\')" data-val="'+esc(opt)+'">'+esc(opt)+'</button>';
+    });
+    html+='</div>';
+    inputDiv.innerHTML=html;
+  } else if(ex.itype==='number'){
+    inputDiv.innerHTML='';
+    kb.className='num-kb';
+    document.getElementById('nk-val').textContent='?';
+    document.querySelector('.nk-cursor').style.display='inline';
+  }
+
+  renderProgressDots();
+  // Scroll to top of session
+  document.getElementById('main-scroll').scrollTop=0;
+}
+
+function checkChoice(btn, val) {
+  if(SES_ANSWERED) return;
+  SES_ANSWERED=true;
+  var ex=SESSION_EXES[SES_IDX];
+  var correct=(val===ex.correct);
+  // Disable all buttons
+  var btns=btn.parentElement.querySelectorAll('button');
+  btns.forEach(function(b){
+    b.classList.add('disabled');
+    if(b.getAttribute('data-val')===ex.correct) b.classList.add('correct');
+    else if(b.getAttribute('data-val')===val&&!correct) b.classList.add('wrong');
+  });
+  showFeedback(correct, ex.expl, ex.correct);
+}
+
+function numKey(key) {
+  if(SES_ANSWERED) return;
+  var ex=SESSION_EXES[SES_IDX];
+  if(ex.itype!=='number') return;
+  var maxd=ex.maxdigits||2;
+  if(key==='del'){
+    NUM_INPUT=NUM_INPUT.slice(0,-1);
+  } else if(key==='ok'){
+    if(NUM_INPUT==='') return;
+    checkNumber();
+    return;
+  } else {
+    if(NUM_INPUT.length>=maxd) return;
+    if(NUM_INPUT==='' && key==='0') {NUM_INPUT='0'; updateNumDisplay(); return;}
+    NUM_INPUT+=key;
+  }
+  updateNumDisplay();
+}
+
+function updateNumDisplay() {
+  var val=document.getElementById('nk-val');
+  var cur=document.querySelector('.nk-cursor');
+  if(NUM_INPUT===''){
+    val.textContent='?';
+    cur.style.display='inline';
+  } else {
+    val.textContent=NUM_INPUT;
+    cur.style.display='inline';
+  }
+}
+
+function checkNumber() {
+  if(SES_ANSWERED||NUM_INPUT==='') return;
+  SES_ANSWERED=true;
+  var ex=SESSION_EXES[SES_IDX];
+  var correct=(NUM_INPUT===ex.correct);
+  document.querySelector('.nk-cursor').style.display='none';
+  document.getElementById('nk-val').style.color=correct?'var(--grn)':'var(--red)';
+  showFeedback(correct, ex.expl, ex.correct);
+}
+
+function showFeedback(correct, expl, correctVal) {
+  if(correct) SES_CORRECT++;
+  var fb=document.getElementById('ex-feedback');
+  if(correct){
+    fb.className='ex-feedback fb-correct show';
+    fb.innerHTML='✅ ¡Muy bien! '+expl;
+    setTimeout(nextExercise, 1300);
+  } else {
+    fb.className='ex-feedback fb-wrong show';
+    fb.innerHTML='❌ La respuesta era <strong>'+esc(correctVal)+'</strong>. '+expl;
+    setTimeout(nextExercise, 2200);
+  }
+}
+
+function nextExercise() {
+  SES_IDX++;
+  NUM_INPUT='';
+  document.getElementById('num-kb').className='num-kb hid';
+  document.getElementById('nk-val').textContent='?';
+  document.getElementById('nk-val').style.color='';
+  renderExercise();
+}
+
+function endSession() {
+  document.getElementById('num-kb').className='num-kb hid';
+  var accuracy=SES_CORRECT/EXES_PER_SESSION;
+  var stars=accuracy>=0.875?3:accuracy>=0.625?2:1;
+
+  // Save progress
+  var ms=NS.mundos[CUR_MUNDO];
+  ms.sessions++;
+  ms.stars+=stars;
+  ms.correct+=SES_CORRECT;
+  ms.attempts+=EXES_PER_SESSION;
+  NS.totalSessions++;
+  NS.totalStars+=stars;
+
+  // Update streak
+  var today=new Date().toISOString().slice(0,10);
+  if(NS.lastDate===today){/* same day, no streak update */}
+  else if(NS.lastDate===getYesterday()){NS.streak++;}
+  else{NS.streak=1;}
+  NS.lastDate=today;
+
+  saveNS();
+  showCelebration(stars, SES_CORRECT);
+}
+
+function getYesterday(){
+  var d=new Date(); d.setDate(d.getDate()-1);
+  return d.toISOString().slice(0,10);
+}
+
+function showCelebration(stars, correct) {
+  var msgs=[
+    ['🤔','¡Casi!','Sigue practicando, vas a mejorar'],
+    ['👏','¡Bien!','¡Estás aprendiendo mucho!'],
+    ['🎉','¡Excelente!','¡Sos un crack de los números!']
+  ];
+  var m=msgs[stars-1]||msgs[2];
+  document.getElementById('ce-em').textContent=m[0];
+  document.getElementById('ce-title').textContent=m[1];
+  document.getElementById('ce-sub').textContent=m[2];
+  document.getElementById('ce-stars').textContent='⭐'.repeat(stars);
+  document.getElementById('ce-score').textContent=correct+' de '+EXES_PER_SESSION+' respuestas correctas';
+  document.getElementById('ce').className='ce on';
+}
+
+function closeCelebration() {
+  document.getElementById('ce').className='ce';
+  backToMap();
+}
+
+function backToMap() {
+  document.getElementById('num-kb').className='num-kb hid';
+  showTab('mapa');
+  renderMap();
+}
+
+// ============================================================
+// UI / RENDERING
+// ============================================================
+
+function showTab(tab) {
+  ['mapa','sess','stats'].forEach(function(t){
+    document.getElementById('sc-'+t).className='sc'+(t===tab?' on':'');
+    var btn=document.getElementById('nt-'+t);
+    if(btn) btn.className='nt'+(t===tab?' on':'');
+  });
+}
+
+function renderMap() {
+  var html='';
+  MUNDOS.forEach(function(m){
+    var ms=NS.mundos[m.id]||{sessions:0,stars:0};
+    var maxStars=30; // 3 stars × 10 sessions = 30 max
+    var pct=Math.min(ms.stars/maxStars,1)*100;
+    var starsDisp=ms.stars>0?'⭐ '+ms.stars:'';
+    html+='<div class="mundo-card" onclick="startMundo('+m.id+')">'
+      +'<div class="mc-icon" style="background:rgba('+hexToRgb(m.color)+',.15)">'+m.emoji+'</div>'
+      +'<div class="mc-info">'
+        +'<div class="mc-grado">'+m.grado+'</div>'
+        +'<div class="mc-title">'+m.nombre+'</div>'
+        +'<div class="mc-desc">'+m.desc+'</div>'
+        +'<div class="mc-bar"><div class="mc-fill" style="width:'+pct+'%;background:'+m.color+'"></div></div>'
+      +'</div>'
+      +'<div class="mc-stars">'+starsDisp+'</div>'
+      +'</div>';
+  });
+  document.getElementById('map-list').innerHTML=html;
+}
+
+function hexToRgb(hex) {
+  var r=parseInt(hex.slice(1,3),16);
+  var g=parseInt(hex.slice(3,5),16);
+  var b=parseInt(hex.slice(5,7),16);
+  return r+','+g+','+b;
+}
+
+function renderStats() {
+  var totalStars=NS.totalStars||0;
+  var totalSessions=NS.totalSessions||0;
+  var totalCorrect=0, totalAttempts=0;
+  MUNDOS.forEach(function(m){
+    var ms=NS.mundos[m.id]||{};
+    totalCorrect+=(ms.correct||0);
+    totalAttempts+=(ms.attempts||0);
+  });
+  var pct=totalAttempts>0?Math.round(totalCorrect/totalAttempts*100):0;
+
+  document.getElementById('st-title').textContent='Mis Logros';
+  document.getElementById('st-sub').textContent=totalStars+' estrella'+(totalStars!==1?'s':'')+' ganada'+(totalStars!==1?'s':'');
+
+  document.getElementById('stats-grid').innerHTML=
+    '<div class="stat-cell"><div class="sc-em">⭐</div><div class="sc-val">'+totalStars+'</div><div class="sc-lab">Estrellas</div></div>'
+   +'<div class="stat-cell"><div class="sc-em">🎯</div><div class="sc-val">'+pct+'%</div><div class="sc-lab">Precisión</div></div>'
+   +'<div class="stat-cell"><div class="sc-em">🔥</div><div class="sc-val">'+(NS.streak||0)+'</div><div class="sc-lab">Días seguidos</div></div>'
+   +'<div class="stat-cell"><div class="sc-em">🧮</div><div class="sc-val">'+totalSessions+'</div><div class="sc-lab">Sesiones</div></div>';
+
+  var rowsHtml='';
+  MUNDOS.forEach(function(m){
+    var ms=NS.mundos[m.id]||{sessions:0,stars:0};
+    rowsHtml+='<div class="ms-row">'
+      +'<div class="ms-icon">'+m.emoji+'</div>'
+      +'<div class="ms-name">'+m.nombre+'</div>'
+      +'<div>'
+        +'<div class="ms-stars">'+('⭐'.repeat(Math.min(3,ms.stars>0?Math.ceil(ms.stars/Math.max(ms.sessions,1)):0)))+'</div>'
+        +'<div class="ms-sessions">'+(ms.sessions||0)+' sesión'+(ms.sessions!==1?'es':'')+'</div>'
+      +'</div>'
+      +'</div>';
+  });
+  document.getElementById('mundo-stats-list').innerHTML=
+    '<h3>🌎 Progreso por Mundo</h3>'+rowsHtml;
+}
+
+// Tab click handlers (expose for inline nav)
+window.showTab=function(tab){
+  showTab(tab);
+  if(tab==='stats') renderStats();
+  if(tab==='mapa') renderMap();
+};
+window.startMundo=startMundo;
+window.backToMap=backToMap;
+window.checkChoice=checkChoice;
+window.numKey=numKey;
+window.closeCelebration=closeCelebration;
+window.speak=speak;
+
+// ============================================================
+// INIT
+// ============================================================
+
+loadNS();
+renderMap();
+
+// Service worker registration
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>
