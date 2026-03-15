@@ -1286,7 +1286,7 @@ function renderMap() {
     var maxStars=30;
     var pct=Math.min(ms.stars/maxStars,1)*100;
     var starsDisp=ms.stars>0?'⭐ '+ms.stars:'';
-    html+='<button class="mundo-card" data-id="'+m.id+'" type="button">'
+    html+='<button class="mundo-card" type="button" onclick="startMundo('+m.id+')">'
       +'<div class="mc-icon" style="background:rgba('+hexToRgb(m.color)+',.15)">'+m.emoji+'</div>'
       +'<div class="mc-info">'
         +'<div class="mc-grado">'+m.grado+'</div>'
@@ -1297,18 +1297,7 @@ function renderMap() {
       +'<div class="mc-stars">'+starsDisp+'</div>'
       +'</button>';
   });
-  var el=document.getElementById('map-list');
-  el.innerHTML=html;
-  // Use addEventListener for reliable mobile (iOS Safari) support
-  var cards=el.querySelectorAll('.mundo-card');
-  for(var i=0;i<cards.length;i++){
-    (function(card){
-      card.addEventListener('click',function(){
-        var id=parseInt(card.getAttribute('data-id'),10);
-        startMundo(id);
-      });
-    })(cards[i]);
-  }
+  document.getElementById('map-list').innerHTML=html;
 }
 
 function hexToRgb(hex) {
