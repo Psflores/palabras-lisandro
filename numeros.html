@@ -66,7 +66,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 .ab-link{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:var(--dim);text-decoration:none;padding:4px 10px;border-radius:7px;background:var(--s2)}
 
 /* ===== MUNDO CARDS (Map) ===== */
-.mundo-card{background:var(--s1);border-radius:18px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;border:2px solid transparent;position:relative;touch-action:manipulation}
+.mundo-card{background:var(--s1);border-radius:18px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;border:2px solid transparent;position:relative;touch-action:manipulation;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;-webkit-appearance:none;appearance:none;outline:none}
 .mundo-card:active{transform:scale(.98)}
 .mundo-card.active-mundo{border-color:var(--acc)}
 .mc-icon{font-size:36px;flex-shrink:0;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.05)}
@@ -1072,7 +1072,11 @@ function startMundo(id) {
 
   var gens = MUNDO_GENS[id];
   for(var i=0;i<EXES_PER_SESSION;i++){
-    SESSION_EXES.push(pickRandom(gens)());
+    try {
+      SESSION_EXES.push(pickRandom(gens)());
+    } catch(e) {
+      SESSION_EXES.push(genContarObjetos()); // fallback seguro
+    }
   }
 
   document.getElementById('sess-mundo-name').textContent = MUNDOS[id-1].nombre;
@@ -1279,10 +1283,10 @@ function renderMap() {
   var html='';
   MUNDOS.forEach(function(m){
     var ms=NS.mundos[m.id]||{sessions:0,stars:0};
-    var maxStars=30; // 3 stars × 10 sessions = 30 max
+    var maxStars=30;
     var pct=Math.min(ms.stars/maxStars,1)*100;
     var starsDisp=ms.stars>0?'⭐ '+ms.stars:'';
-    html+='<div class="mundo-card" onclick="startMundo('+m.id+')">'
+    html+='<button class="mundo-card" data-id="'+m.id+'" type="button">'
       +'<div class="mc-icon" style="background:rgba('+hexToRgb(m.color)+',.15)">'+m.emoji+'</div>'
       +'<div class="mc-info">'
         +'<div class="mc-grado">'+m.grado+'</div>'
@@ -1291,9 +1295,20 @@ function renderMap() {
         +'<div class="mc-bar"><div class="mc-fill" style="width:'+pct+'%;background:'+m.color+'"></div></div>'
       +'</div>'
       +'<div class="mc-stars">'+starsDisp+'</div>'
-      +'</div>';
+      +'</button>';
   });
-  document.getElementById('map-list').innerHTML=html;
+  var el=document.getElementById('map-list');
+  el.innerHTML=html;
+  // Use addEventListener for reliable mobile (iOS Safari) support
+  var cards=el.querySelectorAll('.mundo-card');
+  for(var i=0;i<cards.length;i++){
+    (function(card){
+      card.addEventListener('click',function(){
+        var id=parseInt(card.getAttribute('data-id'),10);
+        startMundo(id);
+      });
+    })(cards[i]);
+  }
 }
 
 function hexToRgb(hex) {
