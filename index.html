@@ -391,7 +391,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 <!-- SESION -->
 <div class="sc" id="s-sesion"><div class="sess-header"><h2 id="sT">¡A escribir!</h2><div class="sess-progress" id="sP"></div></div><div id="sA"></div></div>
 <!-- JUEGOS (Mini-games) -->
-<div class="sc" id="s-juegos"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🎮 Juegos de sonidos</h2><div id="mgArea"></div></div>
+<div class="sc" id="s-juegos"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🎮 Juegos</h2><div id="mgArea"></div></div>
 <!-- FRASES -->
 <div class="sc" id="s-frases"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">📝 Frases</h2><div id="frasesCat" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px"></div><div id="frasesArea"></div></div>
 <!-- DICTADO -->
@@ -1107,14 +1107,16 @@ var mgType=0; // 0=syllables, 1=rhyme, 2=initial letter
 var mgWord=null,mgAnswer=null;
 
 function startMiniGame(){
-  mgType=Math.floor(Math.random()*3);
+  mgType=Math.floor(Math.random()*5);
   var pool=PALABRAS.filter(function(w){return w.n<=Math.max(currentLevel,3)&&w.s.length>=2});
   if(pool.length<4){pool=PALABRAS.filter(function(w){return w.s.length>=2})}
   shuffle(pool);
   mgWord=pool[0];
   if(mgType===0)renderSyllableGame();
   else if(mgType===1)renderRhymeGame();
-  else renderInitialGame();
+  else if(mgType===2)renderInitialGame();
+  else if(mgType===3)renderPunctuationGame();
+  else renderConcordanciaGame();
 }
 function renderSyllableGame(){
   var area=$('mgArea');
@@ -1229,6 +1231,136 @@ function checkInitial(picked,correct,btn){
   }
 }
 
+// ═══════════ PUNCTUATION GAME ═══════════
+var PUNCT_ITEMS=[
+  {text:"Hola, me llamo Lisandro",correct:"¡Hola, me llamo Lisandro!",type:"excl",hint:"Es una exclamación"},
+  {text:"Qué lindo día",correct:"¡Qué lindo día!",type:"excl",hint:"Es una exclamación"},
+  {text:"Vamos a jugar",correct:"¡Vamos a jugar!",type:"excl",hint:"Es una exclamación"},
+  {text:"Bien hecho",correct:"¡Bien hecho!",type:"excl",hint:"Es una exclamación"},
+  {text:"Qué rico el helado",correct:"¡Qué rico el helado!",type:"excl",hint:"Es una exclamación"},
+  {text:"Feliz cumpleaños",correct:"¡Feliz cumpleaños!",type:"excl",hint:"Es una exclamación"},
+  {text:"Cómo te llamás",correct:"¿Cómo te llamás?",type:"preg",hint:"Es una pregunta"},
+  {text:"Dónde está el gato",correct:"¿Dónde está el gato?",type:"preg",hint:"Es una pregunta"},
+  {text:"Qué hora es",correct:"¿Qué hora es?",type:"preg",hint:"Es una pregunta"},
+  {text:"Vamos al parque hoy",correct:"¿Vamos al parque hoy?",type:"preg",hint:"Es una pregunta"},
+  {text:"Tenés hambre",correct:"¿Tenés hambre?",type:"preg",hint:"Es una pregunta"},
+  {text:"Puedo tomar un jugo",correct:"¿Puedo tomar un jugo?",type:"preg",hint:"Es una pregunta"},
+  {text:"el gato duerme",correct:"El gato duerme.",type:"may",hint:"Mayúscula al inicio, punto al final"},
+  {text:"la luna sale",correct:"La luna sale.",type:"may",hint:"Mayúscula al inicio, punto al final"},
+  {text:"mamá me quiere",correct:"Mamá me quiere.",type:"may",hint:"Mayúscula al inicio, punto al final"},
+  {text:"hoy hace mucho calor",correct:"Hoy hace mucho calor.",type:"may",hint:"Mayúscula al inicio, punto al final"},
+  {text:"el perro corre rápido",correct:"El perro corre rápido.",type:"may",hint:"Mayúscula al inicio, punto al final"},
+  {text:"la casa es grande",correct:"La casa es grande.",type:"may",hint:"Mayúscula al inicio, punto al final"}
+];
+function renderPunctuationGame(){
+  var area=$('mgArea');
+  var item=PUNCT_ITEMS[Math.floor(Math.random()*PUNCT_ITEMS.length)];
+  var options=[];
+  if(item.type==='excl'){
+    options=['¡'+item.text+'!','¿'+item.text+'?',item.text+'.'];
+  } else if(item.type==='preg'){
+    options=['¿'+item.text+'?','¡'+item.text+'!',item.text+'.'];
+  } else {
+    // mayúscula + punto
+    var cap=item.text.charAt(0).toUpperCase()+item.text.slice(1);
+    options=[cap+'.',item.text+'.',cap];
+  }
+  shuffle(options);
+  var h='<div class="mg-card">';
+  h+='<div class="mg-title">✏️ ¿Cómo se escribe bien?</div>';
+  h+='<div style="font-size:20px;margin:12px 0;padding:10px;background:var(--c2);border-radius:10px;font-style:italic;color:var(--dim)">'+esc(item.text)+'</div>';
+  h+='<div style="font-size:12px;color:var(--acc);margin-bottom:10px">'+item.hint+'</div>';
+  h+='<div class="mg-options" style="flex-direction:column;gap:8px">';
+  options.forEach(function(o){
+    h+='<button class="mg-opt" style="font-size:16px;padding:10px 16px;text-align:left;width:100%" onclick="checkPunctuation(this,\''+esc(item.correct).replace(/'/g,"\\'")+'\')">'+esc(o)+'</button>';
+  });
+  h+='</div></div>';
+  area.innerHTML=h;
+}
+function checkPunctuation(btn,correct){
+  var btns=document.querySelectorAll('.mg-opt');
+  btns.forEach(function(b){b.style.pointerEvents='none'});
+  if(btn.textContent.trim()===correct){
+    btn.classList.add('correct');soundCorrectKey();
+    setTimeout(function(){startMiniGame()},1200);
+  } else {
+    btn.classList.add('wrong');soundWrongKey();
+    btns.forEach(function(b){if(b.textContent.trim()===correct)b.classList.add('correct')});
+    setTimeout(function(){startMiniGame()},2500);
+  }
+}
+// ═══════════ CONCORDANCIA GAME ═══════════
+var CONC_ITEMS=[
+  {sust:"gato",art:"El",adj:"negro",e:"🐱",gen:"m",num:"s"},
+  {sust:"casa",art:"La",adj:"blanca",e:"🏠",gen:"f",num:"s"},
+  {sust:"perro",art:"El",adj:"grande",e:"🐕",gen:"m",num:"s"},
+  {sust:"flor",art:"La",adj:"roja",e:"🌹",gen:"f",num:"s"},
+  {sust:"sol",art:"El",adj:"brillante",e:"☀️",gen:"m",num:"s"},
+  {sust:"luna",art:"La",adj:"llena",e:"🌕",gen:"f",num:"s"},
+  {sust:"mesa",art:"La",adj:"redonda",e:"🪑",gen:"f",num:"s"},
+  {sust:"libro",art:"El",adj:"nuevo",e:"📖",gen:"m",num:"s"},
+  {sust:"pelota",art:"La",adj:"roja",e:"⚽",gen:"f",num:"s"},
+  {sust:"árbol",art:"El",adj:"alto",e:"🌳",gen:"m",num:"s"},
+  {sust:"estrella",art:"La",adj:"brillante",e:"⭐",gen:"f",num:"s"},
+  {sust:"gatos",art:"Los",adj:"negros",e:"🐱",gen:"m",num:"p"},
+  {sust:"casas",art:"Las",adj:"blancas",e:"🏠",gen:"f",num:"p"},
+  {sust:"perros",art:"Los",adj:"grandes",e:"🐕",gen:"m",num:"p"},
+  {sust:"flores",art:"Las",adj:"rojas",e:"🌹",gen:"f",num:"p"},
+  {sust:"libros",art:"Los",adj:"nuevos",e:"📖",gen:"m",num:"p"},
+  {sust:"nubes",art:"Las",adj:"blancas",e:"☁️",gen:"f",num:"p"},
+  {sust:"zapatos",art:"Los",adj:"negros",e:"👟",gen:"m",num:"p"},
+  {sust:"manzanas",art:"Las",adj:"rojas",e:"🍎",gen:"f",num:"p"}
+];
+function renderConcordanciaGame(){
+  var area=$('mgArea');
+  var item=CONC_ITEMS[Math.floor(Math.random()*CONC_ITEMS.length)];
+  // Randomly choose what to ask: article or adjective
+  var askArt=Math.random()<0.5;
+  var h='<div class="mg-card">';
+  if(askArt){
+    h+='<div class="mg-title">📝 ¿Qué artículo va?</div>';
+    h+='<div class="mg-emoji">'+item.e+'</div>';
+    h+='<div class="mg-word" style="font-size:22px"><span style="color:var(--acc);font-weight:900">___</span> '+esc(item.sust)+' '+esc(item.adj)+'</div>';
+    var arts=['El','La','Los','Las'];
+    h+='<div class="mg-options">';
+    arts.forEach(function(a){
+      h+='<button class="mg-opt" style="font-size:18px;min-width:60px" onclick="checkConc(this,\''+item.art+'\')">'+a+'</button>';
+    });
+    h+='</div>';
+  } else {
+    // Ask adjective - give 3 wrong + 1 correct
+    h+='<div class="mg-title">📝 ¿Qué adjetivo va?</div>';
+    h+='<div class="mg-emoji">'+item.e+'</div>';
+    h+='<div class="mg-word" style="font-size:22px">'+esc(item.art)+' '+esc(item.sust)+' <span style="color:var(--acc);font-weight:900">___</span></div>';
+    // Build wrong adjectives with mismatched gender/number
+    var wrongs=[];
+    CONC_ITEMS.forEach(function(c){
+      if(c.adj!==item.adj&&wrongs.indexOf(c.adj)===-1)wrongs.push(c.adj);
+    });
+    shuffle(wrongs);
+    var options=[item.adj,wrongs[0],wrongs[1]];
+    shuffle(options);
+    h+='<div class="mg-options">';
+    options.forEach(function(a){
+      h+='<button class="mg-opt" style="font-size:16px" onclick="checkConc(this,\''+esc(item.adj)+'\')">'+esc(a)+'</button>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
+  area.innerHTML=h;
+}
+function checkConc(btn,correct){
+  var btns=document.querySelectorAll('.mg-opt');
+  btns.forEach(function(b){b.style.pointerEvents='none'});
+  if(btn.textContent.trim()===correct){
+    btn.classList.add('correct');soundCorrectKey();
+    setTimeout(function(){startMiniGame()},1200);
+  } else {
+    btn.classList.add('wrong');soundWrongKey();
+    btns.forEach(function(b){if(b.textContent.trim()===correct)b.classList.add('correct')});
+    setTimeout(function(){startMiniGame()},2500);
+  }
+}
 // ═══════════ FAMILY PANEL ═══════════
 function renderFamilyPanel(){
   var container=document.getElementById('familyP');
@@ -1604,7 +1736,7 @@ function updateLastBackupInfo(){
 function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
 
 // ═══════════ GLOBALS ═══════════
-window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;window.dictStartWrite=dictStartWrite;window.dictPeek=dictPeek;window.showLevelUpCelebration=showLevelUpCelebration;
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.checkPunctuation=checkPunctuation;window.checkConc=checkConc;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;window.dictStartWrite=dictStartWrite;window.dictPeek=dictPeek;window.showLevelUpCelebration=showLevelUpCelebration;
 
 /* DICTADO FEATURE */
 /* DICTADO FEATURE — Progressive Levels */
