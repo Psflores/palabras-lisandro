@@ -8,8 +8,10 @@
 <meta name="theme-color" content="#1a1040"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
 <title>Palabras de Lisandro</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Comic+Neue:wght@700&family=Courier+Prime:wght@700&family=Indie+Flower&family=Patrick+Hand:wght@400&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#120d2e;--s1:#1a1444;--s2:#2a2560;--card:#312e70;--tx:#eae8f5;--dim:#9b97c4;--acc:#facc15;--accg:rgba(250,204,21,.2);--grn:#4ade80;--grng:rgba(74,222,128,.15);--red:#f87171;--r:16px;--rs:10px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -141,6 +143,10 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 @media(max-width:600px){.w-target{font-size:28px}.lbi{width:36px;height:44px;font-size:20px}.td{font-size:52px}.kk{height:38px;font-size:15px}}
 @media(min-width:768px){.kk{height:48px;font-size:19px;max-width:48px}.kb{padding:8px 6px 12px}}
 @media print{.nav,.kb,.lo,.pm,.ce,.us{display:none!important}.mn{overflow:visible}}
+/* TOUCH & ZOOM PREVENTION */
+button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-action:manipulation}
+/* WORD IMAGE */
+.w-img{width:100px;height:100px;border-radius:14px;object-fit:cover;margin-bottom:8px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 /* STRENGTH BAR */
 .str-wrap{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px}
 .str-bar{width:100px;height:8px;background:var(--s2);border-radius:4px;overflow:hidden}
@@ -153,6 +159,102 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 .w-status.reviewing{background:rgba(74,222,128,.15);color:#4ade80}
 .w-status.mastered{background:rgba(168,85,247,.15);color:#a855f7}
 .due-badge{font-size:10px;font-weight:700;color:var(--red);margin-left:4px}
+/* SESSION TIMER BAR */
+.session-timer-bar{height:4px;background:var(--s2);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.session-timer-fill{height:100%;background:linear-gradient(90deg,var(--grn),var(--acc));border-radius:2px;transition:width 1s linear}
+.session-timer-label{font-size:10px;font-weight:700;color:var(--dim);text-align:center;margin-bottom:4px}
+.session-time-up{background:var(--card);border-radius:20px;padding:32px 16px;text-align:center}
+.session-time-up .big-emoji{font-size:64px;margin-bottom:10px}
+/* MINI GAMES */
+.mg-card{background:var(--card);border-radius:20px;padding:24px 16px;text-align:center}
+.mg-title{font-size:14px;font-weight:800;color:var(--acc);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.mg-emoji{font-size:48px;margin-bottom:8px}
+.mg-word{font-size:32px;font-weight:900;margin-bottom:16px}
+.mg-options{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.mg-opt{border:3px solid var(--s2);background:var(--s1);color:var(--tx);font-family:inherit;font-size:16px;font-weight:800;padding:12px 20px;border-radius:14px;cursor:pointer;transition:all .15s;min-width:80px}
+.mg-opt:active{transform:scale(.95)}
+.mg-opt.correct{border-color:var(--grn);background:rgba(74,222,128,.15);color:var(--grn)}
+.mg-opt.wrong{border-color:var(--red);background:rgba(248,113,113,.15);color:var(--red)}
+.mg-clap-btns{display:flex;gap:10px;justify-content:center}
+.mg-clap{border:3px solid var(--s2);background:var(--s1);color:var(--tx);font-family:inherit;font-size:22px;font-weight:900;width:56px;height:56px;border-radius:50%;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.mg-clap:active{transform:scale(.9)}
+.mg-clap.correct{border-color:var(--grn);background:rgba(74,222,128,.15);color:var(--grn)}
+.mg-clap.wrong{border-color:var(--red);background:rgba(248,113,113,.15);color:var(--red)}
+/* ROCKET WEEKLY */
+.rocket-wrap{display:flex;align-items:center;gap:6px;justify-content:center;margin:8px 0}
+.rocket-bar{width:120px;height:10px;background:var(--s2);border-radius:5px;overflow:hidden}
+.rocket-fill{height:100%;background:linear-gradient(90deg,#facc15,#f87171);border-radius:5px;transition:width .5s}
+.rocket-label{font-size:11px;font-weight:800;color:var(--dim)}
+/* FAMILY PANEL */
+.family-panel{background:var(--s1);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.family-panel h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.family-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.family-word{background:var(--s2);padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.family-tip{font-size:12px;color:var(--dim);line-height:1.5;margin-top:8px;padding:10px;background:var(--bg);border-radius:10px}
+/* ARTICLE & VERB */
+.w-article{font-size:14px;font-weight:700;color:var(--dim);margin-bottom:2px;letter-spacing:1px}
+.w-article span{color:var(--acc);font-weight:800}
+.w-verb-ctx{font-size:13px;font-weight:700;color:#60a5fa;margin-bottom:4px;font-style:italic}
+.w-type-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;margin-bottom:6px;letter-spacing:.3px}
+/* COMBO */
+.combo-wrap{position:fixed;top:60px;right:12px;z-index:200;text-align:right;pointer-events:none;transition:all .3s}
+.combo-count{font-size:28px;font-weight:900;color:var(--acc);text-shadow:0 0 12px var(--accg);line-height:1;transition:all .15s}
+.combo-count.fire{color:#f87171;text-shadow:0 0 20px rgba(248,113,113,.5)}
+.combo-count.mega{color:#a855f7;text-shadow:0 0 24px rgba(168,85,247,.5);font-size:34px}
+.combo-label{font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.combo-wrap.hidden{opacity:0;transform:translateX(20px)}
+.combo-wrap.pulse{animation:comboPulse .2s ease-out}
+@keyframes comboPulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+/* PERFECT */
+.perfect-banner{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:350;text-align:center;animation:perfectIn .5s ease-out forwards;pointer-events:none}
+.perfect-banner .pf-emoji{font-size:64px}
+.perfect-banner .pf-text{font-size:24px;font-weight:900;color:var(--acc);text-shadow:0 0 20px var(--accg)}
+@keyframes perfectIn{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}60%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes perfectOut{0%{opacity:1}100%{opacity:0;transform:translate(-50%,-60%) scale(.8)}}
+/* FRASES */
+.fr-card{background:var(--card);border-radius:20px;padding:20px 16px;text-align:center;margin-bottom:10px}
+.fr-phrase{font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.6;letter-spacing:.3px}
+.fr-phrase .fr-word{display:inline-block;padding:2px 6px;border-radius:6px;margin:1px;transition:all .2s}
+.fr-phrase .fr-word.done{background:rgba(74,222,128,.15);color:var(--grn)}
+.fr-phrase .fr-word.current{background:rgba(250,204,21,.2);color:var(--acc);font-weight:800}
+.fr-phrase .fr-word.pending{color:var(--dim)}
+.fr-current-word{font-size:32px;font-weight:900;margin:10px 0 6px;letter-spacing:2px}
+.fr-hint{font-size:11px;color:var(--dim);margin-bottom:8px}
+.fr-cat-btn{border:2px solid var(--s2);background:var(--s1);color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
+.fr-cat-btn:active{transform:scale(.95)}
+.fr-cat-btn.active{border-color:var(--acc);color:var(--acc);background:var(--accg)}
+.fr-list-item{background:var(--s1);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;border:2px solid transparent}
+.fr-list-item:active{transform:scale(.98)}
+.fr-list-item.completed{border-color:var(--grn);opacity:.8}
+.fr-list-item .fr-li-emoji{font-size:24px;flex-shrink:0}
+.fr-list-item .fr-li-text{flex:1;font-size:14px;font-weight:700}
+.fr-list-item .fr-li-diff{font-size:10px;font-weight:700;color:var(--dim)}
+.fr-list-item .fr-li-check{font-size:16px}
+.fr-word-count{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+/* CONFETTI */
+.confetti-piece{position:fixed;z-index:360;pointer-events:none;width:8px;height:8px;border-radius:2px}
+/* BACKUP */
+.backup-section{display:flex;flex-direction:column;gap:10px}
+.backup-btn{display:flex;align-items:center;gap:8px;width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--s2);background:var(--bg);color:var(--tx);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;text-align:left}
+.backup-btn:active{transform:scale(.98);border-color:var(--acc)}
+.backup-btn .b-icon{font-size:22px;flex-shrink:0}
+.backup-btn .b-info{flex:1}
+.backup-btn .b-title{font-weight:800;margin-bottom:1px}
+.backup-btn .b-desc{font-size:11px;color:var(--dim)}
+.backup-status{font-size:11px;font-weight:700;padding:8px 12px;border-radius:8px;text-align:center;display:none}
+.backup-status.show{display:block}
+.backup-status.ok{background:rgba(74,222,128,.15);color:var(--grn)}
+.backup-status.err{background:rgba(248,113,113,.15);color:var(--red)}
+.backup-info{font-size:11px;color:var(--dim);line-height:1.5;margin-top:6px;padding:8px;background:var(--bg);border-radius:8px}
+/* SPEAK BUTTON */
+.speak-btn{border:0;background:rgba(250,204,21,.15);color:var(--acc);font-size:22px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;margin-bottom:6px}
+.speak-btn:active{transform:scale(.9);background:rgba(250,204,21,.3)}
+/* ERROR HINT */
+.error-hint{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:var(--red);white-space:nowrap;animation:hintFade 1.5s ease-out forwards}
+@keyframes hintFade{0%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(-8px)}}
+.lbi.hint-correct{border-color:var(--acc);background:rgba(250,204,21,.1)}
+.lbi .hint-letter{position:absolute;font-size:20px;color:var(--acc);font-weight:900;animation:hintPulse .8s ease-out forwards}
+@keyframes hintPulse{0%{opacity:1;transform:scale(1.3)}100%{opacity:0;transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -163,6 +265,8 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 <button class="nt on" data-s="mapa">🗺️</button>
 <button class="nt" data-s="timer">⏱</button>
 <button class="nt" data-s="sesion">✏️</button>
+<button class="nt" data-s="juegos">🎮</button>
+<button class="nt" data-s="frases">📝</button>
 <button class="nt" data-s="stats">📊</button>
 <button class="nt" data-s="config">⚙️</button>
 </div>
@@ -170,22 +274,38 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 </nav>
 <div class="mn">
 <!-- MAPA -->
-<div class="sc on" id="s-mapa"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🗺️ Mapa de niveles</h2><div id="mapaC"></div></div>
+<div class="sc on" id="s-mapa"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🚀 Viaje espacial</h2><div class="rocket-wrap" id="rocketW"></div><div id="mapaC"></div></div>
 <!-- TIMER -->
 <div class="sc" id="s-timer"><div class="tw"><div class="te" id="tE">🎮</div><div class="tl" id="tL">Tiempo de iPad</div><div class="td" id="tD">25:00</div><div class="tbw"><div class="tb" id="tB" style="width:100%"></div></div><div class="ta" id="tA"><button class="bt ba bb2" onclick="startIpad()">▶ Empezar iPad</button><button class="bt bg2" onclick="sw('sesion')">Practicar →</button></div></div></div>
 <!-- SESION -->
 <div class="sc" id="s-sesion"><div class="sess-header"><h2 id="sT">¡A escribir!</h2><div class="sess-progress" id="sP"></div></div><div id="sA"></div></div>
+<!-- JUEGOS (Mini-games) -->
+<div class="sc" id="s-juegos"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🎮 Juegos de sonidos</h2><div id="mgArea"></div></div>
+<!-- FRASES -->
+<div class="sc" id="s-frases"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">📝 Frases</h2><div id="frasesCat" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px"></div><div id="frasesArea"></div></div>
 <!-- STATS -->
 <div class="sc" id="s-stats"><h2 style="font-size:18px;font-weight:900;margin-bottom:14px">📊 Progreso</h2><div class="sgg" id="sG"></div><div class="whh" id="wH"></div><div style="margin-top:12px;text-align:center"><button class="bt bd2" onclick="if(confirm('¿Borrar todo el progreso?')){localStorage.removeItem('lis_progress');localStorage.removeItem('lis_stats');ldProg();ldSt();rSt()}">Reiniciar</button></div></div>
 <!-- CONFIG -->
 <div class="sc" id="s-config"><h2 style="font-size:18px;font-weight:900;margin-bottom:14px">⚙️ Configuración</h2>
-<div class="cfs"><h3>✏️ Sesiones</h3><p>Cada sesión mezcla palabras conocidas + nuevas. 2 conocidas + 1 nueva es lo recomendado.</p>
+<div class="cfs"><h3>✏️ Sesiones</h3><p>Cada sesión mezcla palabras conocidas + nuevas. 2 conocidas + 1 nueva es lo recomendado. La investigación indica que 5-7 min por sesión es óptimo para niños.</p>
 <div class="fr0"><div class="fld"><label>Conocidas por sesión</label><select id="cKn"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div><div class="fld"><label>Nuevas por sesión</label><select id="cNw"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></div></div>
-<div class="fr0"><div class="fld"><label>Repeticiones</label><select id="cRp"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option></select></div><div class="fld"><label>Letra guía</label><select id="cGu"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div></div>
+<div class="fr0"><div class="fld"><label>Repeticiones</label><select id="cRp"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option></select></div><div class="fld"><label>Letra guía</label><select id="cGu"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div>
+<div class="fr0"><div class="fld"><label>Duración sesión (min)</label><select id="cSd"><option value="3">3</option><option value="5">5</option><option value="7" selected>7</option><option value="10">10</option><option value="0">Sin límite</option></select></div><div class="fld"><label>Mini-juegos</label><select id="cMg"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div>
+<div class="fr0"><div class="fld"><label>Modo de letra</label><select id="cLm"><option value="normal" selected>Normal</option><option value="upper">MAYÚSCULAS</option><option value="lower">minúsculas</option><option value="random">Aleatorio</option></select></div><div class="fld"><label>Variar tipografía</label><select id="cFr"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div></div>
 <div class="cfs"><h3>⏱ Timer</h3><div class="fr0"><div class="fld"><label>Min. iPad</label><input id="cIp" type="number" value="25" min="1" max="120"/></div><div class="fld"><label>Auto-bloquear</label><select id="cAL"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div></div>
 <div class="cfs"><h3>🔒 PIN</h3><div class="fld"><label>PIN (4 dígitos)</label><input id="cPn" type="password" inputmode="numeric" maxlength="4" value="1234"/></div></div>
 <div class="cfs"><h3>🔊 Sonido</h3><div class="fld"><label>Activado</label><select id="cSn"><option value="1" selected>Sí</option><option value="0">No</option></select></div></div>
 <div style="text-align:center;margin-top:10px"><button class="bt ba" onclick="svCfg()">💾 Guardar</button></div>
+<div class="cfs"><h3>💾 Progreso</h3><p>Exportá el progreso para guardarlo o pasarlo a otro dispositivo. Importá un archivo guardado para restaurar.</p>
+<div class="backup-section">
+<button class="backup-btn" onclick="exportProgress()"><span class="b-icon">📤</span><span class="b-info"><span class="b-title">Exportar progreso</span><span class="b-desc">Descarga un archivo con todo el progreso</span></span></button>
+<button class="backup-btn" onclick="document.getElementById('importFile').click()"><span class="b-icon">📥</span><span class="b-info"><span class="b-title">Importar progreso</span><span class="b-desc">Restaurar desde un archivo guardado</span></span></button>
+<input type="file" id="importFile" accept=".json" style="display:none" onchange="importProgress(this)"/>
+</div>
+<div class="backup-status" id="backupStatus"></div>
+<div id="lastBackupInfo"></div>
+<div class="backup-info">💡 Tip: Exportá el progreso regularmente para no perderlo si se borran los datos del navegador.</div>
+</div>
 </div>
 </div>
 <!-- KEYBOARD -->
@@ -195,6 +315,8 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 <div class="kr"><button class="kk wi" data-k="Backspace">⌫</button><button class="kk" data-k="z">Z</button><button class="kk" data-k="x">X</button><button class="kk" data-k="c">C</button><button class="kk" data-k="v">V</button><button class="kk" data-k="b">B</button><button class="kk" data-k="n">N</button><button class="kk" data-k="m">M</button><button class="kk wi ek" data-k="Enter">→</button></div>
 </div>
 </div>
+<!-- COMBO -->
+<div class="combo-wrap hidden" id="comboW"><div class="combo-count" id="comboC">x3</div><div class="combo-label" id="comboL">combo</div></div>
 <!-- LOCK -->
 <div class="lo" id="lockO">
 <div class="lhd"><div class="ltd">🔒 Hora de practicar</div><button class="lud" onclick="showPin()">🔑 PIN</button></div>
@@ -221,12 +343,16 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 // - word is "due" when strength < 0.5
 // - mastery requires: 4+ correct sessions on different days AND halfLife >= 7
 
-var cfg={known:2,newW:1,reps:3,guide:true,ipadMin:25,autoLock:true,pin:'1234',sound:true};
+var cfg={known:2,newW:1,reps:3,guide:true,ipadMin:25,autoLock:true,pin:'1234',sound:true,sessDur:7,miniGames:true,letterMode:'normal',fontRotate:true};
 var prog={}; // word -> {hl:1, lastP:null, streak:0, sessions:0, correct:0, seen:0}
-var stats={totalWords:0,totalLetters:0,sessions:0,streak:0,lastDate:null};
+var stats={totalWords:0,totalLetters:0,sessions:0,streak:0,lastDate:null,weeklyWords:0,weekStart:null,minutesToday:0};
 var tInt=null,tSec=0,tTot=0,tPh='idle',locked=false,pinBuf='',curScr='mapa';
 var SS={words:[],ci:0,cr:0,ch:[],sessionDone:{}};
 var currentLevel=1;
+// Session timer
+var sessTimer=null,sessStart=0,sessPaused=false;
+// Combo system
+var comboCount=0,perfectWords=0;
 
 function $(id){return document.getElementById(id)}
 function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
@@ -257,16 +383,18 @@ function wordCorrect(w){
   var p=getP(w);
   var today=new Date().toISOString().slice(0,10);
   p.correct++;p.seen++;
-  // Only count as new session if different day than last
   if(p.lastDate!==today){p.sessions++;p.streak++}
-  p.hl=Math.min(30,p.hl*2); // double half-life, cap at 30 days
+  // Optimized for children: 1.5x growth (more conservative than 2x)
+  // Expanding intervals: 1d → 1.5d → 2.25d → 3.4d → 5d → 7.5d → 11d → 17d → 25d → 30d
+  p.hl=Math.min(30,p.hl*1.5);
   p.lastP=now();p.lastDate=today;
   svProg();
 }
 function wordWrong(w){
   var p=getP(w);
   p.seen++;
-  p.hl=Math.max(0.5,p.hl*0.5); // halve half-life, min 0.5 days
+  // Gentler penalty for children: 0.6x instead of 0.5x
+  p.hl=Math.max(0.5,p.hl*0.6);
   p.streak=0;
   svProg();
 }
@@ -275,15 +403,16 @@ function wordSessionDone(w){
   var p=getP(w);
   var today=new Date().toISOString().slice(0,10);
   p.lastP=now();p.lastDate=today;
-  // hl already updated per-keystroke via wordCorrect
   svProg();
-  stats.totalWords++;stats.totalLetters+=Array.from(w).length;svSt();
+  stats.totalWords++;stats.totalLetters+=Array.from(w).length;
+  stats.weeklyWords=(stats.weeklyWords||0)+1;
+  svSt();
 }
 
 // ═══════════ PERSISTENCE ═══════════
 function ldCfg(){try{var s=localStorage.getItem('lis_cfg');if(s)cfg=Object.assign({},cfg,JSON.parse(s))}catch(e){}aCfg()}
-function svCfg(){cfg.known=+$('cKn').value;cfg.newW=+$('cNw').value;cfg.reps=+$('cRp').value;cfg.guide=$('cGu').value==='1';cfg.ipadMin=Math.max(1,+$('cIp').value);cfg.autoLock=$('cAL').value==='1';cfg.pin=$('cPn').value||'1234';cfg.sound=$('cSn').value==='1';localStorage.setItem('lis_cfg',JSON.stringify(cfg));toast('Guardado ✓')}
-function aCfg(){$('cKn').value=cfg.known;$('cNw').value=cfg.newW;$('cRp').value=cfg.reps;$('cGu').value=cfg.guide?'1':'0';$('cIp').value=cfg.ipadMin;$('cAL').value=cfg.autoLock?'1':'0';$('cPn').value=cfg.pin;$('cSn').value=cfg.sound?'1':'0'}
+function svCfg(){cfg.known=+$('cKn').value;cfg.newW=+$('cNw').value;cfg.reps=+$('cRp').value;cfg.guide=$('cGu').value==='1';cfg.ipadMin=Math.max(1,+$('cIp').value);cfg.autoLock=$('cAL').value==='1';cfg.pin=$('cPn').value||'1234';cfg.sound=$('cSn').value==='1';cfg.sessDur=+$('cSd').value;cfg.miniGames=$('cMg').value==='1';cfg.letterMode=$('cLm').value;cfg.fontRotate=$('cFr').value==='1';localStorage.setItem('lis_cfg',JSON.stringify(cfg));toast('Guardado ✓')}
+function aCfg(){$('cKn').value=cfg.known;$('cNw').value=cfg.newW;$('cRp').value=cfg.reps;$('cGu').value=cfg.guide?'1':'0';$('cIp').value=cfg.ipadMin;$('cAL').value=cfg.autoLock?'1':'0';$('cPn').value=cfg.pin;$('cSn').value=cfg.sound?'1':'0';$('cSd').value=cfg.sessDur;$('cMg').value=cfg.miniGames?'1':'0';$('cLm').value=cfg.letterMode||'normal';$('cFr').value=cfg.fontRotate?'1':'0'}
 function ldProg(){try{var s=localStorage.getItem('lis_progress');if(s)prog=JSON.parse(s)}catch(e){}}
 function svProg(){localStorage.setItem('lis_progress',JSON.stringify(prog))}
 function ldSt(){try{var s=localStorage.getItem('lis_stats');if(s)stats=Object.assign(stats,JSON.parse(s))}catch(e){}uStr()}
@@ -291,21 +420,94 @@ function svSt(){localStorage.setItem('lis_stats',JSON.stringify(stats));uStr()}
 function uStr(){$('nst').textContent=stats.streak>0?'\uD83D\uDD25'+stats.streak:''}
 
 // ═══════════ AUDIO ═══════════
-var ax=null;
-function ga(){if(!ax)ax=new(window.AudioContext||window.webkitAudioContext)();return ax}
-function tn(f,d,tp,v){if(!cfg.sound)return;try{var c=ga(),o=c.createOscillator(),g=c.createGain();o.type=tp||'sine';o.frequency.value=f;g.gain.setValueAtTime(v||.12,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
-function sOk(){tn(880,.1)}function sBd(){tn(200,.15,'square',.08)}
-function sWd(){tn(523,.1);setTimeout(function(){tn(659,.1)},100);setTimeout(function(){tn(784,.15)},200)}
-function sAl(){[523,659,784,1047].forEach(function(f,i){setTimeout(function(){tn(f,.2,'sine',.15)},i*120)})}
-function sTm(){tn(440,.3,'triangle',.2);setTimeout(function(){tn(440,.3,'triangle',.2)},400);setTimeout(function(){tn(660,.5,'triangle',.2)},800)}
-document.addEventListener('touchstart',function r(){try{ga().resume()}catch(e){}document.removeEventListener('touchstart',r)},{once:true});
+var audioContext=null;
+function getAudioCtx(){if(!audioContext)audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();return audioContext}
+function playTone(freq,duration,type,volume){if(!cfg.sound)return;try{var ctx=getAudioCtx(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=type||'sine';osc.frequency.value=freq;gain.gain.setValueAtTime(volume||.12,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+duration)}catch(e){}}
+function soundCorrectKey(){playTone(880,.1)}
+function soundWrongKey(){playTone(200,.15,'square',.08)}
+function soundWordComplete(){playTone(523,.1);setTimeout(function(){playTone(659,.1)},100);setTimeout(function(){playTone(784,.15)},200)}
+function soundSessionComplete(){[523,659,784,1047].forEach(function(f,i){setTimeout(function(){playTone(f,.2,'sine',.15)},i*120)})}
+function soundTimerEnd(){playTone(440,.3,'triangle',.2);setTimeout(function(){playTone(440,.3,'triangle',.2)},400);setTimeout(function(){playTone(660,.5,'triangle',.2)},800)}
+// Resume audio on ANY user interaction (Safari suspends frequently)
+['touchstart','click','keydown'].forEach(function(evt){document.addEventListener(evt,function(){try{if(audioContext&&audioContext.state==='suspended')audioContext.resume()}catch(e){}},{passive:true})});
+
+// ═══════════ SPEECH (Pronunciación) ═══════════
+var cachedSpanishVoice=null;
+var voicesReady=false;
+
+function findBestSpanishVoice(){
+  var voices=window.speechSynthesis.getVoices();
+  if(!voices.length)return null;
+  // Log para debug (se puede quitar después)
+  console.log('Voces disponibles:',voices.map(function(v){return v.name+' ['+v.lang+']'}).join(', '));
+  // Prioridad 1: voces específicas conocidas por buena calidad
+  var preferred=['Mónica','Monica','Paulina','Jorge','Diego','Grandma','Grandpa',
+    'Google español','Elena','Pablo','Microsoft Helena','Microsoft Laura'];
+  for(var i=0;i<preferred.length;i++){
+    var match=voices.find(function(v){return v.name.indexOf(preferred[i])!==-1&&v.lang.startsWith('es')});
+    if(match){console.log('Voz seleccionada (premium):',match.name,match.lang);return match}
+  }
+  // Prioridad 2: voces regionales es-AR, es-MX, es-419, es-ES
+  var langPriority=['es-AR','es-MX','es-419','es-ES','es_AR','es_MX','es_ES'];
+  for(var j=0;j<langPriority.length;j++){
+    var regional=voices.find(function(v){return v.lang===langPriority[j]});
+    if(regional){console.log('Voz seleccionada (regional):',regional.name,regional.lang);return regional}
+  }
+  // Prioridad 3: cualquier voz que contenga 'es' en el lang
+  var anySpanish=voices.find(function(v){return v.lang.startsWith('es')||v.lang.indexOf('es')!==-1});
+  if(anySpanish){console.log('Voz seleccionada (fallback):',anySpanish.name,anySpanish.lang);return anySpanish}
+  console.log('No se encontró ninguna voz en español');
+  return null;
+}
+
+function loadVoices(){
+  var found=findBestSpanishVoice();
+  if(found){cachedSpanishVoice=found;voicesReady=true}
+}
+
+function speakWord(text){
+  if(!cfg.sound)return;
+  if(!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  // Si las voces no se cargaron aún, intentar de nuevo
+  if(!voicesReady)loadVoices();
+  var utterance=new SpeechSynthesisUtterance(text);
+  // IMPORTANTE: Asignar la voz ANTES de setear lang
+  // En muchos navegadores, si no se asigna voice explícitamente,
+  // usa la voz del sistema (que suele ser inglés)
+  if(cachedSpanishVoice){
+    utterance.voice=cachedSpanishVoice;
+    utterance.lang=cachedSpanishVoice.lang;
+  } else {
+    utterance.lang='es-ES'; // es-ES tiene más soporte que es-AR
+  }
+  utterance.rate=0.55;
+  utterance.pitch=1.0;
+  utterance.volume=1.0;
+  window.speechSynthesis.speak(utterance);
+}
+
+// Precargar voces — en Chrome las voces se cargan async
+if('speechSynthesis' in window){
+  // Intentar cargar inmediatamente
+  loadVoices();
+  // Escuchar cuando se carguen (Chrome necesita esto)
+  window.speechSynthesis.onvoiceschanged=function(){
+    loadVoices();
+    console.log('Voces recargadas, voz actual:',cachedSpanishVoice?cachedSpanishVoice.name:'ninguna');
+  };
+  // Fallback: intentar de nuevo después de 1 segundo
+  setTimeout(loadVoices,1000);
+}
 
 // ═══════════ NAV ═══════════
 document.querySelectorAll('.nt').forEach(function(t){t.addEventListener('click',function(){sw(t.dataset.s)})});
-function sw(n){curScr=n;document.querySelectorAll('.nt').forEach(function(t){t.classList.toggle('on',t.dataset.s===n)});document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on')});var s=$('s-'+n);if(s)s.classList.add('on');var k=$('kb');if(n==='sesion'){k.classList.remove('hid');buildSession()}else k.classList.add('hid');if(n==='mapa')rMap();if(n==='stats')rSt()}
+function sw(n){curScr=n;document.querySelectorAll('.nt').forEach(function(t){t.classList.toggle('on',t.dataset.s===n)});document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on')});var s=$('s-'+n);if(s)s.classList.add('on');var k=$('kb');if(n==='sesion'||n==='frases'){k.classList.remove('hid');if(n==='sesion'){startSessionTimer();buildSession()}}else{k.classList.add('hid');stopSessionTimer()}if(n==='mapa')rMap();if(n==='stats')rSt();if(n==='juegos')startMiniGame();if(n==='frases')renderFrasesList()}
 
 // ═══════════ MAPA ═══════════
 function rMap(){
+  // Weekly rocket
+  updateWeeklyRocket();
   var h='';
   NIVELES.forEach(function(nv){
     var ws=PALABRAS.filter(function(w){return w.n===nv.id});
@@ -318,14 +520,25 @@ function rMap(){
     var pct=total>0?Math.round((mastered/total)*100):0;
     var unlocked=true;
     var isCur=isCurrentLevel(nv.id);
+    var planet=nv.planet||nv.emoji;
     h+='<div class="map-card'+(isCur?' current':'')+(unlocked?'':' locked')+'" onclick="'+(unlocked?'startLevel('+nv.id+')':'')+'">';
-    h+='<div class="mc-emoji">'+nv.emoji+'</div>';
-    h+='<div class="mc-info"><div class="mc-title">Nivel '+nv.id+': '+nv.nombre+'</div>';
+    h+='<div class="mc-emoji">'+planet+'</div>';
+    h+='<div class="mc-info"><div class="mc-title">'+nv.nombre+'</div>';
     h+='<div class="mc-sub">'+total+' palabras'+(due>0?' · <span class="due-badge">'+due+' pendientes</span>':'')+'</div>';
     h+='<div class="mc-bar"><div class="mc-fill" style="width:'+pct+'%;background:'+nv.color+'"></div></div></div>';
     h+='<div class="mc-badge'+(pct>=100?' done':'')+'">'+pct+'%</div></div>';
   });
   $('mapaC').innerHTML=h;
+}
+function updateWeeklyRocket(){
+  var today=new Date().toISOString().slice(0,10);
+  var dayOfWeek=new Date().getDay();
+  var weekStart=new Date(Date.now()-dayOfWeek*86400000).toISOString().slice(0,10);
+  if(stats.weekStart!==weekStart){stats.weeklyWords=0;stats.weekStart=weekStart;svSt()}
+  var goal=30; // 30 words per week goal
+  var pct=Math.min(100,Math.round((stats.weeklyWords/goal)*100));
+  var rw=$('rocketW');
+  if(rw)rw.innerHTML='<span style="font-size:18px">🚀</span><div class="rocket-bar"><div class="rocket-fill" style="width:'+pct+'%"></div></div><span class="rocket-label">'+stats.weeklyWords+'/'+goal+' esta semana</span>';
 }
 function isLevelUnlocked(id){
   var prev=PALABRAS.filter(function(w){return w.n===id-1});
@@ -345,43 +558,70 @@ function startLevel(id){currentLevel=id;sw('sesion')}
 // Priority: 1) due words (weakest first), 2) new words from current level
 function buildSession(){
   var lvWords=PALABRAS.filter(function(w){return w.n<=currentLevel});
-  var dueWords=[],newWords=[];
+  var dueWords=[],newWords=[],masteredWords=[];
   lvWords.forEach(function(w){
     var st=getStatus(w.t);
     if(st==='new'){newWords.push(w)}
+    else if(st==='mastered'){masteredWords.push(w)}
     else if(isDue(w.t)){dueWords.push(w)}
   });
-  // Sort due words by strength ascending (weakest first)
   dueWords.sort(function(a,b){return getStrength(a.t)-getStrength(b.t)});
-  // Prioritize current level for new words
   var curNew=newWords.filter(function(w){return w.n===currentLevel});
   var otherNew=newWords.filter(function(w){return w.n!==currentLevel});
   var session=[];
+  // WARM-UP: Start with 1 easy mastered word for confidence
+  if(masteredWords.length>0){
+    shuffle(masteredWords);
+    session.push(masteredWords[0]);
+  }
   // Pick due words (up to cfg.known)
   for(var i=0;i<cfg.known&&dueWords.length>0;i++)session.push(dueWords.shift());
   // Pick new words (up to cfg.newW)
   var nPool=curNew.length>0?curNew:otherNew;
   shuffle(nPool);
   for(var i=0;i<cfg.newW&&nPool.length>0;i++)session.push(nPool.shift());
-  // Fallback: if nothing due and no new, pick random for review
+  // Fallback
   if(session.length===0){
     var all=lvWords.slice();shuffle(all);
     session=all.slice(0,Math.min(3,all.length));
   }
-  SS={words:session,ci:0,cr:0,ch:[],sessionDone:{}};
+  SS={words:session,ci:0,cr:0,ch:[],sessionDone:{},timeUp:false};
   if(locked)rLP();else rSes();
 }
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}}
+
+// ═══════════ FONT ROTATION & LETTER MODE ═══════════
+var FUENTES=["'Nunito',sans-serif","'Comic Neue',cursive","'Courier Prime',monospace","'Indie Flower',cursive","'Patrick Hand',cursive"];
+var currentFont=FUENTES[0];
+function pickFont(){
+  if(!cfg.fontRotate)return"'Nunito',sans-serif";
+  currentFont=FUENTES[Math.floor(Math.random()*FUENTES.length)];
+  return currentFont;
+}
+function applyLetterMode(text){
+  var m=cfg.letterMode||'normal';
+  if(m==='upper')return text.toUpperCase();
+  if(m==='lower')return text.toLowerCase();
+  if(m==='random'){return Math.random()>0.5?text.toUpperCase():text.toLowerCase()}
+  return text;
+}
+// Get visual for word (image if available, else emoji)
+function getWordVisual(w){
+  if(w.img)return'<img class="w-img" src="'+w.img+'" alt="'+esc(w.t)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"/><div class="w-emoji" style="display:none">'+w.e+'</div>';
+  return'<div class="w-emoji">'+w.e+'</div>';
+}
 
 // ═══════════ RENDER ═══════════
 function rSes(){rIn($('sA'),$('sT'),$('sP'))}
 function rLP(){rIn($('lsA'),$('lsT'),$('lsP'))}
 function rIn(area,tEl,dEl){
   var ws=SS.words,ci=SS.ci,cr=SS.cr,ch=SS.ch;
+  // Check if time is up
+  if(SS.timeUp){showTimeUp();return}
   if(ci>=ws.length){
-    tEl.textContent='\u00a1Sesi\u00f3n completa!';dEl.innerHTML='';recSes();sAl();
+    tEl.textContent='\u00a1Sesi\u00f3n completa!';dEl.innerHTML='';recSes();soundSessionComplete();stopSessionTimer();
     if(locked){$('ulT').textContent='\u00a1Muy bien, Lisandro!';$('ulS').textContent='\u00a1Completaste la sesi\u00f3n!';$('unlS').classList.add('on');area.innerHTML=''}
-    else{area.innerHTML='<div class="wcard" style="padding:32px"><div style="font-size:52px;margin-bottom:10px">\uD83C\uDFC6</div><div style="font-size:22px;font-weight:900;margin-bottom:4px">\u00a1Excelente!</div><div style="color:var(--dim);margin-bottom:16px">'+ws.length+' palabras \u00d7 '+cfg.reps+'</div><div class="wcc"><button class="bt bgrn bb2" onclick="buildSession()">\uD83D\uDD04 Otra sesi\u00f3n</button><button class="bt bg2" onclick="sw(\'mapa\')">\uD83D\uDDFA\uFE0F Mapa</button></div></div>'}
+    else{area.innerHTML='<div class="wcard" style="padding:32px"><div style="font-size:52px;margin-bottom:10px">🚀</div><div style="font-size:22px;font-weight:900;margin-bottom:4px">\u00a1Excelente, explorador!</div><div style="color:var(--dim);margin-bottom:16px">'+ws.length+' palabras \u00d7 '+cfg.reps+'</div><div class="wcc"><button class="bt bgrn bb2" onclick="startSessionTimer();buildSession()">\uD83D\uDD04 Otra sesi\u00f3n</button><button class="bt bg2" onclick="sw(\'mapa\')">🚀 Mapa</button></div></div>'}
     return;
   }
   var w=ws[ci],L=Array.from(w.t),p=getP(w.t);
@@ -391,6 +631,20 @@ function rIn(area,tEl,dEl){
   // Status badge
   var statusText={new:'Nueva',learning:'Aprendiendo',reviewing:'Repasando',mastered:'Dominada'};
   var badge='<span class="w-status '+status+'">'+statusText[status]+'</span>';
+  // Type badge (noun/verb)
+  var isVerb=w.v?true:false;
+  // Word type for parents
+  var wType=getWordType(w.t);
+  var typeBadge='<span class="w-type-badge" style="background:'+wType.color+'22;color:'+wType.color+'">'+wType.icon+' '+wType.label+'</span>';
+  // Article or verb context
+  var articleHtml='';
+  if(isVerb){
+    var ctx=w.ctx||('¡A '+w.t+'!');
+    articleHtml='<div class="w-verb-ctx">'+esc(ctx)+'</div>';
+  } else {
+    var art=getArt(w.t);
+    if(art)articleHtml='<div class="w-article"><span>'+esc(art)+'</span> '+esc(w.t)+'</div>';
+  }
   // Strength bar
   var strPct=Math.round(str*100);
   var strClass=strPct>=70?'str-green':strPct>=40?'str-yellow':'str-red';
@@ -406,13 +660,30 @@ function rIn(area,tEl,dEl){
   // Letter boxes
   var boxes=L.map(function(c,i){var tp=ch[i]||'',fl=i<ch.length,ac=i===ch.length;var cl='lbi';if(fl)cl+=' fi';if(ac)cl+=' ac';var g=cfg.guide&&!fl?'<span class="gl">'+esc(c)+'</span>':'';return'<div class="'+cl+'" id="lb-'+i+'">'+esc(tp)+g+'</div>'}).join('');
   var ctrl=locked?'':'<div class="wcc"><button class="bt bg2" onclick="sPrev()">\u2190</button><button class="bt bg2" onclick="sClr()">Borrar</button><button class="bt bg2" onclick="sNxt()">\u2192</button></div>';
-  area.innerHTML='<div class="wcard"><div class="w-rep">Repetici\u00f3n '+(cr+1)+' de '+cfg.reps+'</div>'+badge+strBar+sessInfo+'<div class="w-emoji">'+w.e+'</div><div class="w-target">'+esc(w.t)+'</div>'+syls+'<div class="lbx">'+boxes+'</div>'+ctrl+'</div>';
+  // Speak button
+  var speakBtn='<button class="speak-btn" onclick="speakWord(\''+esc(w.t).replace(/'/g,"\\'")+'\')">🔊</button>';
+  // Session timer bar
+  var timerHtml='';
+  if(cfg.sessDur>0&&sessStart>0){
+    var elapsed=Math.floor((Date.now()-sessStart)/1000);
+    var total=cfg.sessDur*60;
+    var remaining=Math.max(0,total-elapsed);
+    var tPct=((remaining/total)*100);
+    timerHtml='<div class="session-timer-label">'+Math.floor(remaining/60)+':'+String(remaining%60).padStart(2,'0')+'</div><div class="session-timer-bar"><div class="session-timer-fill" style="width:'+tPct+'%"></div></div>';
+  }
+  var fontStyle=cfg.fontRotate&&cr===0&&ch.length===0?pickFont():currentFont;
+  var displayWord=applyLetterMode(w.t);
+  var visual=getWordVisual(w);
+  area.innerHTML=timerHtml+'<div class="wcard"><div class="w-rep">Repetici\u00f3n '+(cr+1)+' de '+cfg.reps+'</div>'+badge+typeBadge+strBar+sessInfo+visual+speakBtn+articleHtml+'<div class="w-target" style="font-family:'+fontStyle+'">'+esc(displayWord)+'</div>'+syls+'<div class="lbx">'+boxes+'</div>'+ctrl+'</div>';
+  // Auto-speak new words on first appearance
+  if(cr===0&&status==='new'&&ch.length===0)setTimeout(function(){speakWord(w.t)},300);
 }
 
 // ═══════════ KEY HANDLING ═══════════
 var wrongInWord=false; // track if any error in current word attempt
 function hL(key){
-  if(!locked&&curScr!=='sesion')return;
+  if(!locked&&curScr!=='sesion'&&curScr!=='frases')return;
+  if(curScr==='frases'){hLFrase(key);return;}
   var ws=SS.words,ci=SS.ci,cr=SS.cr,ch=SS.ch;if(ci>=ws.length)return;
   var w=ws[ci],L=Array.from(w.t);
   if(key==='Backspace'){SS.ch.pop();ren();return}
@@ -420,24 +691,53 @@ function hL(key){
   if(key.length===1&&/[a-zA-Z\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00f1\u00d1\u00fc\u00dc]/i.test(key)){
     if(ch.length>=L.length)return;var exp=L[ch.length];
     if(nc(key)===nc(exp)){
-      SS.ch.push(exp);sOk();ren();
+      SS.ch.push(exp);soundCorrectKey();
+      comboCount++;updateCombo();
+      ren();
       if(SS.ch.length===L.length){
         // Word completed this rep
-        if(!wrongInWord)wordCorrect(w.t); // only count if no errors
+        var wasPerfect=!wrongInWord;
+        if(wasPerfect)wordCorrect(w.t); // only count if no errors
         wrongInWord=false;
         if(cr+1<cfg.reps){
-          setTimeout(function(){SS.cr++;SS.ch=[];sWd();ren()},400);
+          setTimeout(function(){SS.cr++;SS.ch=[];soundWordComplete();speakWord(w.t);ren()},400);
         } else {
           // All reps done for this word
           wordSessionDone(w.t);
-          setTimeout(function(){var was=SS.ci;SS.ci++;SS.cr=0;SS.ch=[];wrongInWord=false;if(was+1<ws.length)showCel(w);ren()},400);
+          speakWord(w.t);
+          if(wasPerfect){perfectWords++;showPerfect()}
+          setTimeout(function(){var was=SS.ci;SS.ci++;SS.cr=0;SS.ch=[];wrongInWord=false;if(was+1<ws.length)showCel(w);ren()},wasPerfect?900:400);
         }
       }
     } else {
-      sBd();wrongInWord=true;
+      soundWrongKey();wrongInWord=true;
+      comboCount=0;updateCombo();
       wordWrong(w.t); // penalty on half-life
-      var b=document.getElementById('lb-'+ch.length);
-      if(b){b.classList.add('wr');setTimeout(function(){b.classList.remove('wr')},300)}
+      var boxIdx=ch.length;
+      var box=document.getElementById('lb-'+boxIdx);
+      if(box){
+        // Shake animation
+        box.classList.add('wr');
+        // Show the correct letter briefly as hint
+        var hint=document.createElement('span');
+        hint.className='hint-letter';
+        hint.textContent=exp;
+        box.appendChild(hint);
+        // Show error message below the boxes
+        var lbxEl=box.parentElement;
+        var existingHint=lbxEl.querySelector('.error-hint');
+        if(existingHint)existingHint.remove();
+        var hintMsg=document.createElement('div');
+        hintMsg.className='error-hint';
+        hintMsg.textContent='La letra es "'+exp.toUpperCase()+'"';
+        lbxEl.style.position='relative';
+        lbxEl.appendChild(hintMsg);
+        setTimeout(function(){
+          box.classList.remove('wr');
+          var h=box.querySelector('.hint-letter');if(h)h.remove();
+          var m=lbxEl.querySelector('.error-hint');if(m)m.remove();
+        },1200);
+      }
     }
   }
 }
@@ -449,15 +749,15 @@ document.addEventListener('keydown',function(e){if($('pinM').classList.contains(
 document.querySelectorAll('.kk').forEach(function(b){b.addEventListener('touchstart',function(e){e.preventDefault();b.classList.add('pr');setTimeout(function(){b.classList.remove('pr')},120);hL(b.dataset.k)},{passive:false});b.addEventListener('click',function(e){e.preventDefault();hL(b.dataset.k)})});
 
 // ═══════════ CELEBRATION ═══════════
-var cels=[{e:'\uD83C\uDF89',t:'\u00a1Genial!'},{e:'\u2B50',t:'\u00a1Muy bien!'},{e:'\uD83D\uDE80',t:'\u00a1Incre\u00edble!'},{e:'\uD83C\uDFC5',t:'\u00a1Campe\u00f3n!'},{e:'\uD83D\uDCAA',t:'\u00a1Crack!'},{e:'\uD83C\uDF1F',t:'\u00a1Espectacular!'}];
-function showCel(w){var c=cels[Math.floor(Math.random()*cels.length)];$('ceE').textContent=c.e;$('ceT').textContent=c.t;$('ceS').textContent=w.e+' '+w.t+' \u2713';$('celeb').classList.add('on');sWd()}
+var cels=[{e:'🎉',t:'¡Genial!'},{e:'⭐',t:'¡Muy bien!'},{e:'🚀',t:'¡Increíble!'},{e:'🏅',t:'¡Campeón!'},{e:'💪',t:'¡Crack!'},{e:'🌟',t:'¡Espectacular!'},{e:'🔥',t:'¡Tremendo!'},{e:'👏',t:'¡Sos un capo!'},{e:'🎯',t:'¡De una!'},{e:'💫',t:'¡Buenísimo!'},{e:'🦸',t:'¡Superhéroe!'}];
+function showCel(w){var c=cels[Math.floor(Math.random()*cels.length)];$('ceE').textContent=c.e;$('ceT').textContent=c.t;$('ceS').textContent=w.e+' '+w.t+' \u2713';$('celeb').classList.add('on');soundWordComplete()}
 function disCel(){$('celeb').classList.remove('on')}
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&$('celeb').classList.contains('on'))disCel()});
 
 // ═══════════ TIMER ═══════════
 function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 function startIpad(){tPh='ipad';tTot=cfg.ipadMin*60;tSec=tTot;$('tE').textContent='\uD83C\uDFAE';$('tL').textContent='Tiempo de iPad';uTU();$('tA').innerHTML='<button class="bt bd2" onclick="stopT()">\u23F9 Parar</button>';clearInterval(tInt);tInt=setInterval(tick,1000)}
-function tick(){tSec--;if(tSec<=0){clearInterval(tInt);if(tPh==='ipad'){sTm();tPh='practice';$('tE').textContent='\u270F\uFE0F';$('tL').textContent='\u00a1Hora de practicar!';$('tD').textContent='\u00a1YA!';$('tB').style.width='0%';$('tA').innerHTML='<button class="bt ba bb2" onclick="goP()">\u270F\uFE0F A practicar</button>';if(cfg.autoLock)setTimeout(goP,2000)}return}uTU()}
+function tick(){tSec--;if(tSec<=0){clearInterval(tInt);if(tPh==='ipad'){soundTimerEnd();tPh='practice';$('tE').textContent='\u270F\uFE0F';$('tL').textContent='\u00a1Hora de practicar!';$('tD').textContent='\u00a1YA!';$('tB').style.width='0%';$('tA').innerHTML='<button class="bt ba bb2" onclick="goP()">\u270F\uFE0F A practicar</button>';if(cfg.autoLock)setTimeout(goP,2000)}return}uTU()}
 function uTU(){$('tD').textContent=fmt(tSec);$('tB').style.width=((tSec/tTot)*100)+'%'}
 function goP(){clearInterval(tInt);tPh='idle';if(cfg.autoLock)actLock();else sw('sesion')}
 function stopT(){clearInterval(tInt);tPh='idle';rTU()}
@@ -497,15 +797,558 @@ function rSt(){
   h+='<div class="hii"><span>\u270F\uFE0F</span><span style="flex:1">Palabras escritas</span><span style="font-weight:800">'+stats.totalWords+'</span></div>';
   h+='<div class="hii"><span>\uD83D\uDD25</span><span style="flex:1">Racha</span><span style="font-weight:800">'+stats.streak+' d\u00edas</span></div>';
   h+='<div class="hii"><span>\uD83D\uDCDA</span><span style="flex:1">Sesiones</span><span style="font-weight:800">'+stats.sessions+'</span></div>';
+  h+='<div class="hii"><span>🚀</span><span style="flex:1">Esta semana</span><span style="font-weight:800">'+(stats.weeklyWords||0)+' palabras</span></div>';
   $('wH').innerHTML=h;
+  // Family panel
+  renderFamilyPanel();
+}
+
+// ═══════════ SESSION TIMER (5-7 min optimal) ═══════════
+function startSessionTimer(){
+  stopSessionTimer();
+  if(!cfg.sessDur||cfg.sessDur<=0)return; // no limit
+  sessStart=Date.now();
+  sessPaused=false;
+  SS.timeUp=false;
+  sessTimer=setInterval(function(){
+    if(sessPaused)return;
+    var elapsed=Math.floor((Date.now()-sessStart)/1000);
+    var total=cfg.sessDur*60;
+    var remaining=total-elapsed;
+    if(remaining<=0){
+      stopSessionTimer();
+      SS.timeUp=true;
+      showTimeUp();
+      return;
+    }
+    // Update timer bar in session view
+    var bar=document.querySelector('.session-timer-fill');
+    var label=document.querySelector('.session-timer-label');
+    if(bar)bar.style.width=((remaining/total)*100)+'%';
+    if(label)label.textContent=Math.floor(remaining/60)+':'+String(remaining%60).padStart(2,'0');
+  },1000);
+}
+function stopSessionTimer(){
+  if(sessTimer){clearInterval(sessTimer);sessTimer=null}
+  // Track minutes
+  if(sessStart>0){
+    var mins=Math.floor((Date.now()-sessStart)/60000);
+    stats.minutesToday=(stats.minutesToday||0)+mins;
+    svSt();
+    sessStart=0;
+  }
+}
+function showTimeUp(){
+  var area=locked?$('lsA'):$('sA');
+  if(!area)return;
+  soundSessionComplete();
+  area.innerHTML='<div class="session-time-up"><div class="big-emoji">🌟</div><div style="font-size:22px;font-weight:900;margin-bottom:6px">¡Gran trabajo!</div><div style="font-size:14px;color:var(--dim);margin-bottom:16px">Practicaste '+cfg.sessDur+' minutos. ¡Hora de descansar!</div><div class="wcc"><button class="bt bgrn bb2" onclick="startSessionTimer();buildSession()">🔄 Otra sesión</button><button class="bt bg2" onclick="sw(\'mapa\')">🗺️ Mapa</button></div></div>';
+  var k=$('kb');if(k)k.classList.add('hid');
+}
+
+// ═══════════ MINI-GAMES (Phonological Awareness) ═══════════
+var mgType=0; // 0=syllables, 1=rhyme, 2=initial letter
+var mgWord=null,mgAnswer=null;
+
+function startMiniGame(){
+  mgType=Math.floor(Math.random()*3);
+  var pool=PALABRAS.filter(function(w){return w.n<=Math.max(currentLevel,3)&&w.s.length>=2});
+  if(pool.length<4){pool=PALABRAS.filter(function(w){return w.s.length>=2})}
+  shuffle(pool);
+  mgWord=pool[0];
+  if(mgType===0)renderSyllableGame();
+  else if(mgType===1)renderRhymeGame();
+  else renderInitialGame();
+}
+function renderSyllableGame(){
+  var area=$('mgArea');
+  var correct=mgWord.s.length;
+  var h='<div class="mg-card">';
+  h+='<div class="mg-title">👏 ¿Cuántas sílabas tiene?</div>';
+  h+='<div class="mg-emoji">'+mgWord.e+'</div>';
+  h+='<div class="mg-word">'+esc(mgWord.t)+'</div>';
+  h+='<button class="speak-btn" onclick="speakWord(\''+esc(mgWord.t).replace(/'/g,"\\'")+'\')">🔊</button>';
+  h+='<div style="font-size:12px;color:var(--dim);margin:8px 0">'+mgWord.s.join(' · ')+'</div>';
+  h+='<div class="mg-clap-btns">';
+  for(var i=1;i<=5;i++){
+    h+='<button class="mg-clap" onclick="checkSyllables('+i+','+correct+',this)">'+i+'</button>';
+  }
+  h+='</div></div>';
+  area.innerHTML=h;
+  setTimeout(function(){speakWord(mgWord.t)},300);
+}
+function checkSyllables(picked,correct,btn){
+  var btns=document.querySelectorAll('.mg-clap');
+  btns.forEach(function(b){b.style.pointerEvents='none'});
+  if(picked===correct){
+    btn.classList.add('correct');
+    soundCorrectKey();
+    setTimeout(function(){startMiniGame()},1200);
+  } else {
+    btn.classList.add('wrong');
+    soundWrongKey();
+    // Highlight correct
+    btns[correct-1].classList.add('correct');
+    setTimeout(function(){startMiniGame()},2000);
+  }
+}
+function renderRhymeGame(){
+  var area=$('mgArea');
+  // Find a rhyme pair
+  var pair=null,pool=RIMAS.slice();shuffle(pool);
+  for(var i=0;i<pool.length;i++){
+    var w1=PALABRAS.find(function(p){return p.t===pool[i][0]});
+    var w2=PALABRAS.find(function(p){return p.t===pool[i][1]});
+    if(w1&&w2){pair=[w1,w2,pool[i]];break}
+  }
+  if(!pair){renderSyllableGame();return}
+  // Get 2 wrong options
+  var wrong=PALABRAS.filter(function(w){return w.t!==pair[0].t&&w.t!==pair[1].t&&w.s.length>=2});
+  shuffle(wrong);
+  var options=[pair[1],wrong[0],wrong[1]];
+  shuffle(options);
+  var correctWord=pair[1].t;
+  var h='<div class="mg-card">';
+  h+='<div class="mg-title">🎵 ¿Qué rima con...?</div>';
+  h+='<div class="mg-emoji">'+pair[0].e+'</div>';
+  h+='<div class="mg-word">'+esc(pair[0].t)+'</div>';
+  h+='<button class="speak-btn" onclick="speakWord(\''+esc(pair[0].t).replace(/'/g,"\\'")+'\')">🔊</button>';
+  h+='<div class="mg-options">';
+  options.forEach(function(o){
+    h+='<button class="mg-opt" onclick="checkRhyme(\''+esc(o.t)+'\',\''+esc(correctWord)+'\',this)">'+o.e+' '+esc(o.t)+'</button>';
+  });
+  h+='</div></div>';
+  area.innerHTML=h;
+  setTimeout(function(){speakWord(pair[0].t)},300);
+}
+function checkRhyme(picked,correct,btn){
+  var btns=document.querySelectorAll('.mg-opt');
+  btns.forEach(function(b){b.style.pointerEvents='none'});
+  if(picked===correct){
+    btn.classList.add('correct');
+    soundCorrectKey();
+    setTimeout(function(){startMiniGame()},1200);
+  } else {
+    btn.classList.add('wrong');
+    soundWrongKey();
+    btns.forEach(function(b){if(b.textContent.indexOf(correct)!==-1)b.classList.add('correct')});
+    setTimeout(function(){startMiniGame()},2000);
+  }
+}
+function renderInitialGame(){
+  var area=$('mgArea');
+  var word=mgWord;
+  var correctLetter=Array.from(word.t)[0].toUpperCase();
+  // Get wrong letters
+  var allLetters='ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
+  var wrongLetters=allLetters.filter(function(l){return l!==correctLetter});
+  shuffle(wrongLetters);
+  var options=[correctLetter,wrongLetters[0],wrongLetters[1],wrongLetters[2]];
+  shuffle(options);
+  var h='<div class="mg-card">';
+  h+='<div class="mg-title">🔤 ¿Con qué letra empieza?</div>';
+  h+='<div class="mg-emoji">'+word.e+'</div>';
+  h+='<button class="speak-btn" onclick="speakWord(\''+esc(word.t).replace(/'/g,"\\'")+'\')">🔊</button>';
+  h+='<div style="font-size:14px;color:var(--dim);margin:8px 0">Escucha la palabra</div>';
+  h+='<div class="mg-options">';
+  options.forEach(function(l){
+    h+='<button class="mg-opt" style="font-size:24px;min-width:60px" onclick="checkInitial(\''+l+'\',\''+correctLetter+'\',this)">'+l+'</button>';
+  });
+  h+='</div></div>';
+  area.innerHTML=h;
+  setTimeout(function(){speakWord(word.t)},300);
+}
+function checkInitial(picked,correct,btn){
+  var btns=document.querySelectorAll('.mg-opt');
+  btns.forEach(function(b){b.style.pointerEvents='none'});
+  if(picked===correct){
+    btn.classList.add('correct');
+    soundCorrectKey();
+    setTimeout(function(){startMiniGame()},1200);
+  } else {
+    btn.classList.add('wrong');
+    soundWrongKey();
+    btns.forEach(function(b){if(b.textContent.trim()===correct)b.classList.add('correct')});
+    setTimeout(function(){startMiniGame()},2000);
+  }
+}
+
+// ═══════════ FAMILY PANEL ═══════════
+function renderFamilyPanel(){
+  var container=document.getElementById('familyP');
+  if(!container){
+    container=document.createElement('div');
+    container.id='familyP';
+    $('wH').parentElement.appendChild(container);
+  }
+  // Find recently learned words (last 7 days)
+  var recentWords=[];
+  var errorWords=[];
+  PALABRAS.forEach(function(w){
+    var p=prog[w.t];
+    if(!p)return;
+    if(p.lastP&&daysBetween(p.lastP,now())<7){
+      recentWords.push({word:w,strength:getStrength(w.t),status:getStatus(w.t)});
+    }
+    if(p.seen>0&&p.correct/p.seen<0.6){
+      errorWords.push(w);
+    }
+  });
+  recentWords.sort(function(a,b){return b.strength-a.strength});
+  var h='<div class="family-panel"><h3>👨‍👩‍👦 Para la familia</h3>';
+  if(recentWords.length>0){
+    h+='<div style="font-size:12px;color:var(--dim);margin-bottom:6px">Palabras practicadas esta semana:</div>';
+    h+='<div class="family-words">';
+    recentWords.slice(0,12).forEach(function(rw){
+      h+='<span class="family-word">'+rw.word.e+' '+esc(rw.word.t)+'</span>';
+    });
+    h+='</div>';
+  }
+  if(errorWords.length>0){
+    h+='<div style="font-size:12px;color:var(--dim);margin-top:10px;margin-bottom:6px">Palabras que necesitan práctica:</div>';
+    h+='<div class="family-words">';
+    errorWords.slice(0,6).forEach(function(ew){
+      h+='<span class="family-word" style="border:1px solid var(--red)">'+ew.e+' '+esc(ew.t)+'</span>';
+    });
+    h+='</div>';
+  }
+  h+='<div class="family-tip">💡 <strong>Tip:</strong> Pueden practicar juntos señalando estas palabras en casa, en carteles o en libros. ¡Así Lisandro conecta lo que aprende con su entorno!</div>';
+  h+='</div>';
+  container.innerHTML=h;
+}
+
+// ═══════════ FRASES MODE ═══════════
+var FR={active:false,frase:null,wi:0,ch:[],wrongInWord:false,cat:'todas',completed:{}};
+
+function ldFraseProg(){try{var s=localStorage.getItem('lis_frases');if(s)FR.completed=JSON.parse(s)}catch(e){}}
+function svFraseProg(){localStorage.setItem('lis_frases',JSON.stringify(FR.completed))}
+
+function renderFrasesList(){
+  FR.active=false;
+  ldFraseProg();
+  // Category buttons
+  var cats=['todas','sobre mí','me gusta','animales','naturaleza','familia','diario','cosas'];
+  var catHtml='';
+  cats.forEach(function(c){
+    catHtml+='<button class="fr-cat-btn'+(FR.cat===c?' active':'')+'" onclick="FR.cat=\''+c+'\';renderFrasesList()">'+c+'</button>';
+  });
+  $('frasesCat').innerHTML=catHtml;
+  // Filter frases
+  var filtered=FRASES;
+  if(FR.cat!=='todas')filtered=FRASES.filter(function(f){return f.cat===FR.cat});
+  // Render list
+  var h='';
+  var completedCount=0;
+  filtered.forEach(function(f,i){
+    var realIdx=FRASES.indexOf(f);
+    var done=FR.completed[f.f]?true:false;
+    if(done)completedCount++;
+    var diffStars='';for(var d=0;d<f.d;d++)diffStars+='⭐';
+    h+='<div class="fr-list-item'+(done?' completed':'')+'" onclick="startFrase('+realIdx+')">';
+    h+='<div class="fr-li-emoji">'+f.e+'</div>';
+    h+='<div class="fr-li-text">'+esc(f.f)+'</div>';
+    h+='<div class="fr-li-diff">'+diffStars+'</div>';
+    if(done)h+='<div class="fr-li-check">✅</div>';
+    h+='</div>';
+  });
+  h+='<div style="text-align:center;margin-top:8px;font-size:11px;color:var(--dim)">'+completedCount+'/'+filtered.length+' completadas</div>';
+  $('frasesArea').innerHTML=h;
+}
+
+function startFrase(idx){
+  FR.active=true;
+  FR.frase=FRASES[idx];
+  FR.wi=0;
+  FR.ch=[];
+  FR.wrongInWord=false;
+  renderFrase();
+}
+
+function renderFrase(){
+  var f=FR.frase;
+  if(!f){renderFrasesList();return}
+  var area=$('frasesArea');
+  // Check if all words done
+  if(FR.wi>=f.w.length){
+    // Phrase complete!
+    FR.completed[f.f]=true;
+    svFraseProg();
+    soundSessionComplete();
+    speakWord(f.f);
+    area.innerHTML='<div class="fr-card"><div style="font-size:52px;margin-bottom:10px">🎉</div>'+
+      '<div style="font-size:20px;font-weight:900;margin-bottom:6px">¡Frase completa!</div>'+
+      '<div style="font-size:16px;color:var(--dim);margin-bottom:14px;font-style:italic">"'+esc(f.f)+'"</div>'+
+      '<div class="wcc"><button class="bt bgrn" onclick="renderFrasesList()">📝 Más frases</button>'+
+      '<button class="bt bg2" onclick="startFrase('+FRASES.indexOf(f)+')">🔄 Repetir</button></div></div>';
+    $('kb').classList.add('hid');
+    return;
+  }
+  var curWord=f.w[FR.wi];
+  var L=Array.from(curWord);
+  // Phrase display with highlighted current word
+  var phraseHtml='<div class="fr-phrase">';
+  f.w.forEach(function(w,i){
+    var cls='fr-word';
+    if(i<FR.wi)cls+=' done';
+    else if(i===FR.wi)cls+=' current';
+    else cls+=' pending';
+    phraseHtml+='<span class="'+cls+'">'+esc(w)+'</span> ';
+  });
+  phraseHtml+='</div>';
+  // Current word to type
+  var boxes=L.map(function(c,i){
+    var tp=FR.ch[i]||'';var fl=i<FR.ch.length;var ac=i===FR.ch.length;
+    var cl='lbi';if(fl)cl+=' fi';if(ac)cl+=' ac';
+    var g=cfg.guide&&!fl?'<span class="gl">'+esc(c)+'</span>':'';
+    return'<div class="'+cl+'" id="flb-'+i+'">'+esc(tp)+g+'</div>';
+  }).join('');
+  // Word type info
+  var wType=getWordType(curWord);
+  var typeBadge='<span class="w-type-badge" style="background:'+wType.color+'22;color:'+wType.color+'">'+wType.icon+' '+wType.label+'</span>';
+  // Article
+  var artHtml='';
+  var art=getArt(curWord);
+  if(art)artHtml='<div class="w-article"><span>'+esc(art)+'</span> '+esc(curWord)+'</div>';
+  var h='<div class="fr-card">';
+  h+='<div class="fr-word-count">Palabra '+(FR.wi+1)+' de '+f.w.length+'</div>';
+  h+='<div style="font-size:28px;margin-bottom:6px">'+f.e+'</div>';
+  h+=phraseHtml;
+  h+=typeBadge;
+  if(artHtml)h+=artHtml;
+  h+='<div class="fr-current-word">'+esc(curWord)+'</div>';
+  h+='<div class="fr-hint">Escribí: <strong>'+esc(curWord)+'</strong></div>';
+  h+='<button class="speak-btn" onclick="speakWord(\''+esc(curWord).replace(/'/g,"\\'")+'\')">🔊</button>';
+  h+='<div class="lbx">'+boxes+'</div>';
+  h+='</div>';
+  area.innerHTML=h;
+  $('kb').classList.remove('hid');
+  // Speak the word
+  if(FR.ch.length===0)setTimeout(function(){speakWord(curWord)},200);
+}
+
+function hLFrase(key){
+  if(!FR.active||!FR.frase)return;
+  var curWord=FR.frase.w[FR.wi];
+  var L=Array.from(curWord);
+  if(key==='Backspace'){FR.ch.pop();renderFrase();return}
+  if(key==='Enter'){return}
+  if(key.length===1&&/[a-zA-Z\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00f1\u00d1\u00fc\u00dc]/i.test(key)){
+    if(FR.ch.length>=L.length)return;
+    var exp=L[FR.ch.length];
+    if(nc(key)===nc(exp)){
+      FR.ch.push(exp);soundCorrectKey();
+      comboCount++;updateCombo();
+      renderFrase();
+      if(FR.ch.length===L.length){
+        // Word in phrase complete
+        var wasPerfect=!FR.wrongInWord;
+        FR.wrongInWord=false;
+        soundWordComplete();
+        if(wasPerfect)showPerfect();
+        setTimeout(function(){
+          FR.wi++;FR.ch=[];
+          renderFrase();
+        },wasPerfect?700:400);
+      }
+    } else {
+      soundWrongKey();FR.wrongInWord=true;
+      comboCount=0;updateCombo();
+      var boxIdx=FR.ch.length;
+      var box=document.getElementById('flb-'+boxIdx);
+      if(box){
+        box.classList.add('wr');
+        var hint=document.createElement('span');
+        hint.className='hint-letter';hint.textContent=exp;
+        box.appendChild(hint);
+        var lbxEl=box.parentElement;
+        var existingHint=lbxEl.querySelector('.error-hint');
+        if(existingHint)existingHint.remove();
+        var hintMsg=document.createElement('div');
+        hintMsg.className='error-hint';
+        hintMsg.textContent='La letra es "'+exp.toUpperCase()+'"';
+        lbxEl.style.position='relative';
+        lbxEl.appendChild(hintMsg);
+        setTimeout(function(){
+          box.classList.remove('wr');
+          var h2=box.querySelector('.hint-letter');if(h2)h2.remove();
+          var m2=lbxEl.querySelector('.error-hint');if(m2)m2.remove();
+        },1200);
+      }
+    }
+  }
+}
+
+// ═══════════ COMBO SYSTEM ═══════════
+function updateCombo(){
+  var cw=$('comboW'),cc=$('comboC'),cl=$('comboL');
+  if(!cw)return;
+  if(comboCount<3){cw.classList.add('hidden');return}
+  cw.classList.remove('hidden');
+  cc.textContent='x'+comboCount;
+  cc.className='combo-count';
+  if(comboCount>=20){cc.classList.add('mega');cl.textContent='MEGA COMBO'}
+  else if(comboCount>=10){cc.classList.add('fire');cl.textContent='COMBO'}
+  else{cl.textContent='combo'}
+  // Pulse animation
+  cw.classList.remove('pulse');
+  void cw.offsetWidth;
+  cw.classList.add('pulse');
+}
+// ═══════════ PERFECT WORD CELEBRATION ═══════════
+var perfectMsgs=['¡Perfecto!','¡Sin errores!','¡Impecable!','¡Sos un genio!','¡Crack total!','¡Espectacular!','¡Tremendo!','¡Sos un capo!'];
+function showPerfect(){
+  var existing=document.querySelector('.perfect-banner');
+  if(existing)existing.remove();
+  var div=document.createElement('div');
+  div.className='perfect-banner';
+  var msg=perfectMsgs[Math.floor(Math.random()*perfectMsgs.length)];
+  div.innerHTML='<div class="pf-emoji">⭐</div><div class="pf-text">'+msg+'</div>';
+  document.body.appendChild(div);
+  spawnConfetti();
+  setTimeout(function(){
+    div.style.animation='perfectOut .4s ease-in forwards';
+    setTimeout(function(){if(div.parentNode)div.parentNode.removeChild(div)},400);
+  },800);
+}
+function spawnConfetti(){
+  var colors=['#facc15','#4ade80','#60a5fa','#f472b6','#a855f7','#f87171'];
+  for(var i=0;i<20;i++){
+    var c=document.createElement('div');
+    c.className='confetti-piece';
+    c.style.left=Math.random()*100+'vw';
+    c.style.top=Math.random()*40+20+'vh';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.transform='rotate('+Math.random()*360+'deg)';
+    c.style.width=(4+Math.random()*8)+'px';
+    c.style.height=(4+Math.random()*8)+'px';
+    c.style.borderRadius=Math.random()>0.5?'50%':'2px';
+    document.body.appendChild(c);
+    animateConfetti(c);
+  }
+}
+function animateConfetti(el){
+  var x=parseFloat(el.style.left);
+  var y=parseFloat(el.style.top);
+  var vx=(Math.random()-0.5)*4;
+  var vy=-2-Math.random()*4;
+  var gravity=0.15;
+  var opacity=1;
+  function step(){
+    vx*=0.99;vy+=gravity;
+    x+=vx;y+=vy;opacity-=0.015;
+    el.style.left=x+'vw';el.style.top=y+'vh';el.style.opacity=opacity;
+    if(opacity>0&&y<120)requestAnimationFrame(step);
+    else if(el.parentNode)el.parentNode.removeChild(el);
+  }
+  requestAnimationFrame(step);
+}
+
+// ═══════════ BACKUP: EXPORT / IMPORT ═══════════
+function exportProgress(){
+  try{
+    var data={
+      version:3,
+      exportDate:new Date().toISOString(),
+      app:'Palabras de Lisandro',
+      progress:prog,
+      stats:stats,
+      config:cfg,
+      frases:FR.completed
+    };
+    var json=JSON.stringify(data,null,2);
+    var blob=new Blob([json],{type:'application/json'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    var dateStr=new Date().toISOString().slice(0,10);
+    a.href=url;
+    a.download='palabras-progreso-'+dateStr+'.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    // Save last backup date
+    localStorage.setItem('lis_lastBackup',new Date().toISOString());
+    showBackupStatus('ok','Progreso exportado correctamente ✓');
+    updateLastBackupInfo();
+  }catch(e){
+    showBackupStatus('err','Error al exportar: '+e.message);
+  }
+}
+
+function importProgress(input){
+  var file=input.files&&input.files[0];
+  if(!file){return}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var data=JSON.parse(e.target.result);
+      // Validate
+      if(!data.progress||!data.stats){
+        showBackupStatus('err','Archivo inválido: no contiene datos de progreso');
+        input.value='';return;
+      }
+      if(data.app!=='Palabras de Lisandro'){
+        showBackupStatus('err','Este archivo no es de Palabras de Lisandro');
+        input.value='';return;
+      }
+      // Count what we're importing
+      var wordCount=Object.keys(data.progress).length;
+      var sessCount=data.stats.sessions||0;
+      // Confirm
+      if(!confirm('¿Importar progreso?\n\n'+wordCount+' palabras con datos\n'+sessCount+' sesiones registradas\nFecha: '+(data.exportDate?new Date(data.exportDate).toLocaleDateString('es-AR'):'desconocida')+'\n\nEsto reemplazará el progreso actual.')){
+        input.value='';return;
+      }
+      // Import
+      prog=data.progress;
+      stats=Object.assign(stats,data.stats);
+      if(data.config){
+        cfg=Object.assign(cfg,data.config);
+        aCfg();
+        localStorage.setItem('lis_cfg',JSON.stringify(cfg));
+      }
+      if(data.frases){FR.completed=data.frases;svFraseProg()}
+      svProg();svSt();
+      showBackupStatus('ok','Progreso importado: '+wordCount+' palabras, '+sessCount+' sesiones ✓');
+      // Refresh views
+      rMap();
+      updateLastBackupInfo();
+    }catch(err){
+      showBackupStatus('err','Error al leer el archivo: '+err.message);
+    }
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+
+function showBackupStatus(type,msg){
+  var el=$('backupStatus');
+  if(!el)return;
+  el.textContent=msg;
+  el.className='backup-status show '+type;
+  setTimeout(function(){el.classList.remove('show')},5000);
+}
+
+function updateLastBackupInfo(){
+  var el=$('lastBackupInfo');
+  if(!el)return;
+  var last=localStorage.getItem('lis_lastBackup');
+  if(last){
+    var d=new Date(last);
+    var days=Math.floor((Date.now()-d.getTime())/(1000*60*60*24));
+    var text='Último respaldo: '+d.toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'});
+    if(days===0)text+=' (hoy)';
+    else if(days===1)text+=' (ayer)';
+    else if(days>7)text+=' ⚠️ hace '+days+' días';
+    el.innerHTML='<div style="font-size:11px;color:var(--dim);margin-top:6px;text-align:center">'+text+'</div>';
+  }
 }
 
 function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
 
 // ═══════════ GLOBALS ═══════════
-window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;
 
-ldCfg();ldProg();ldSt();rTU();rMap();
+ldCfg();ldProg();ldSt();ldFraseProg();rTU();rMap();updateLastBackupInfo();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
 </script>
 </body>
