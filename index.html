@@ -284,6 +284,15 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .dict-lv-name{font-size:11px;font-weight:800}
 .dict-lv-desc{font-size:9px;color:var(--dim)}
 .dict-streak{font-size:14px;font-weight:800;color:var(--acc);margin-bottom:6px}
+.dict-show-phase{text-align:center}
+.dict-show-emoji{font-size:64px;margin:10px 0}
+.dict-show-word{font-size:56px;font-weight:900;letter-spacing:4px;color:var(--acc);margin:10px 0}
+.dict-show-hint{font-size:14px;color:var(--dim);margin-bottom:12px}
+.dict-write-btn{transition:opacity .5s}
+.dict-progress{font-size:11px;color:var(--dim);margin-bottom:8px}
+.dict-peek-btn{border:0;background:var(--s2);color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:4px 10px;border-radius:7px;cursor:pointer;margin-left:8px}
+.pulse{animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 /* ALBUM STYLES */
 .album-cat-tab{border:2px solid var(--s2);background:var(--s1);color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
 .album-cat-tab.active{border-color:var(--acc);color:var(--acc);background:var(--accg)}
@@ -710,6 +719,19 @@ document.querySelectorAll('.nt').forEach(function(t){t.addEventListener('click',
 function sw(n){curScr=n;document.querySelectorAll('.nt').forEach(function(t){t.classList.toggle('on',t.dataset.s===n)});document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on')});var s=$('s-'+n);if(s)s.classList.add('on');var k=$('kb');var mn=$('mn');for(var i=1;i<=8;i++)mn.classList.remove('bg-level-'+i);if(n==='sesion'||n==='frases'){k.classList.remove('hid');if(n==='sesion'){startSessionTimer();buildSession();var lv=currentLevel;if(lv){mn.classList.add('bg-level-'+lv)}}}else{k.classList.add('hid');stopSessionTimer()}if(n==='mapa')rMap();if(n==='stats')rSt();if(n==='juegos')startMiniGame();if(n==='frases')renderFrasesList();if(n==='dictado')startDictado();if(n==='album'){checkStickerEarnings();renderAlbum()}if(n==='lectura')renderLectura()}
 
 // ═══════════ MAPA ═══════════
+function showLevelUpCelebration(nivel,pct){
+  var msg=pct>=100?'¡Planeta '+nivel.nombre+' completado!':'¡Mitad de '+nivel.nombre+'!';
+  var emoji=pct>=100?'🏆':'🚀';
+  var overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);z-index:600;flex-direction:column;text-align:center';
+  overlay.innerHTML='<div style="animation:si .5s ease-out"><div style="font-size:80px;margin-bottom:20px">'+emoji+'</div>'+
+    '<div style="font-size:28px;font-weight:900;color:var(--acc);margin-bottom:10px">'+msg+'</div>'+
+    '<div style="font-size:16px;color:var(--dim);margin-bottom:20px">'+pct+'% dominado · '+nivel.planet+'</div>'+
+    '<button class="bt ba bb2" onclick="this.parentElement.parentElement.remove()">¡Genial! 🎉</button></div>';
+  document.body.appendChild(overlay);
+  if(typeof sndLevelUp==='function')sndLevelUp();
+}
+
 function rMap(){
   // Weekly rocket
   updateWeeklyRocket();
@@ -734,6 +756,24 @@ function rMap(){
     h+='<div class="mc-badge'+(pct>=100?' done':'')+'">'+pct+'%</div></div>';
   });
   $('mapaC').innerHTML=h;
+  // Check for level-up milestones
+  NIVELES.forEach(function(nv){
+    var ws=PALABRAS.filter(function(w){return w.n===nv.id});
+    var mastered=0;
+    ws.forEach(function(w){if(getStatus(w.t)==='mastered')mastered++});
+    var pct=ws.length>0?Math.round((mastered/ws.length)*100):0;
+    var key='level_'+nv.id+'_milestone';
+    var prevMilestone=stats[key]||0;
+    if(pct>=100&&prevMilestone<100){
+      stats[key]=100;
+      svSt();
+      showLevelUpCelebration(nv,100);
+    }else if(pct>=50&&prevMilestone<50){
+      stats[key]=50;
+      svSt();
+      showLevelUpCelebration(nv,50);
+    }
+  });
 }
 function updateWeeklyRocket(){
   var today=new Date().toISOString().slice(0,10);
@@ -1004,6 +1044,16 @@ function rSt(){
   h+='<div class="hii"><span>\uD83D\uDD25</span><span style="flex:1">Racha</span><span style="font-weight:800">'+stats.streak+' d\u00edas</span></div>';
   h+='<div class="hii"><span>\uD83D\uDCDA</span><span style="flex:1">Sesiones</span><span style="font-weight:800">'+stats.sessions+'</span></div>';
   h+='<div class="hii"><span>🚀</span><span style="flex:1">Esta semana</span><span style="font-weight:800">'+(stats.weeklyWords||0)+' palabras</span></div>';
+  h+='<h3 style="margin-top:14px">🎧 Dictado</h3>';
+  h+='<div class="hii"><span>✅</span><span style="flex:1">Aciertos</span><span style="font-weight:800">'+(stats.dictadoCorrect||0)+'/'+(stats.dictadoTotal||0)+'</span></div>';
+  if(stats.dictadoByLevel){
+    DICTADO_NIVELES.forEach(function(dn){
+      var dl=stats.dictadoByLevel[dn.id];
+      if(dl&&dl.total>0){
+        h+='<div class="hii"><span>'+dn.emoji+'</span><span style="flex:1">'+dn.nombre+'</span><span style="font-weight:800">'+dl.correct+'/'+dl.total+'</span></div>';
+      }
+    });
+  }
   $('wH').innerHTML=h;
   // Family panel
   renderFamilyPanel();
@@ -1552,14 +1602,16 @@ function updateLastBackupInfo(){
 function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
 
 // ═══════════ GLOBALS ═══════════
-window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;window.dictStartWrite=dictStartWrite;window.dictPeek=dictPeek;window.showLevelUpCelebration=showLevelUpCelebration;
 
 /* DICTADO FEATURE */
 /* DICTADO FEATURE — Progressive Levels */
-var DIC={word:null,correct:[],level:1,streak:0};
+var DIC={word:null,correct:[],level:1,streak:0,phase:'show',sessionCorrect:0,sessionTotal:0};
 
 function startDictado(){
   DIC.level = cfg.dictadoLevel || 1;
+  DIC.sessionCorrect = 0;
+  DIC.sessionTotal = 0;
   var h = $('dictadoArea');
   var levelsHtml = '';
   DICTADO_NIVELES.forEach(function(nv){
@@ -1576,6 +1628,8 @@ function startDictado(){
 function setDictadoLevel(lv){
   DIC.level = lv;
   cfg.dictadoLevel = lv;
+  DIC.sessionCorrect = 0;
+  DIC.sessionTotal = 0;
   saveAllState();
   startDictado();
 }
@@ -1611,36 +1665,74 @@ function renderDictadoWord(){
   var item = getDictadoItem();
   DIC.word = item.word;
   DIC.correct = [];
-  
+  DIC.phase = 'show';
+  DIC.sessionTotal++;
+
+  var h = $('dictadoArea');
+  var levelsDiv = h.querySelector('.dict-levels');
+  var levelsHtml = levelsDiv ? levelsDiv.outerHTML : '';
+
+  var levelInfo = DICTADO_NIVELES.find(function(n){return n.id===DIC.level});
+  var streakHtml = DIC.streak > 0 ? '<div class="dict-streak">🔥 '+DIC.streak+' seguidas</div>' : '';
+  var progressHtml = '<div class="dict-progress">'+DIC.sessionCorrect+'/'+DIC.sessionTotal+' en esta sesión</div>';
+
+  h.innerHTML = levelsHtml +
+    '<div class="dictado-card dict-show-phase">' +
+    streakHtml + progressHtml +
+    '<div class="dict-show-emoji">' + item.emoji + '</div>' +
+    '<div class="dict-show-word">' + esc(item.display.toUpperCase()) + '</div>' +
+    '<div class="dict-show-hint">' + item.hint + '</div>' +
+    '<button class="speak-btn" onclick="speakWord(DIC.word)">🔊</button>' +
+    '<button class="bt ba bb2 dict-write-btn" id="dictWriteBtn" onclick="dictStartWrite()" style="opacity:0;pointer-events:none">✏️ ¡Escribilo!</button>' +
+    '</div>';
+
+  setTimeout(function(){ speakWord(DIC.word); }, 400);
+  setTimeout(function(){
+    var btn = $('dictWriteBtn');
+    if(btn){ btn.style.opacity='1'; btn.style.pointerEvents='auto'; btn.classList.add('pulse'); }
+  }, 2000);
+}
+
+function dictStartWrite(){
+  DIC.phase = 'write';
+
   var boxes = Array.from(DIC.word).map(function(){ return '<div class="dictado-box"></div>'; }).join('');
   var keys = '';
-  var alphabet = DIC.level <= 2 ? 
+  var alphabet = DIC.level <= 2 ?
     (DIC.level === 1 ? 'aeiou' : 'mpsltndr cg') :
     'abcdefghijklmnñopqrstuvwxyz';
   alphabet = alphabet.replace(/ /g,'');
   alphabet.split('').forEach(function(k){
     keys += '<button class="kk" onclick="typeDictadoLetter(\''+k+'\')">'+k+'</button>';
   });
-  
-  var levelInfo = DICTADO_NIVELES.find(function(n){return n.id===DIC.level});
-  var streakHtml = DIC.streak > 0 ? '<div class="dict-streak">🔥 '+DIC.streak+' seguidas</div>' : '';
-  
+
   var h = $('dictadoArea');
   var levelsDiv = h.querySelector('.dict-levels');
   var levelsHtml = levelsDiv ? levelsDiv.outerHTML : '';
-  
+  var streakHtml = DIC.streak > 0 ? '<div class="dict-streak">🔥 '+DIC.streak+' seguidas</div>' : '';
+  var progressHtml = '<div class="dict-progress">'+DIC.sessionCorrect+'/'+DIC.sessionTotal+' en esta sesión</div>';
+
   h.innerHTML = levelsHtml +
     '<div class="dictado-card">' +
-    streakHtml +
-    '<div class="dictado-hint">' + item.hint + '</div>' +
-    '<div style="font-size:48px;margin:8px 0">' + item.emoji + '</div>' +
+    streakHtml + progressHtml +
     '<button class="speak-btn" onclick="speakWord(DIC.word)">🔊</button>' +
+    '<button class="dict-peek-btn" onclick="dictPeek()">👁️ Ver</button>' +
+    '<div id="dictPeekArea" style="display:none;font-size:40px;font-weight:900;color:var(--acc);margin:6px 0"></div>' +
     '<div class="dictado-boxes" id="dicBoxes">' + boxes + '</div>' +
     '<div id="dicInput" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">' + keys + '</div>' +
-    '<div style="margin-top:10px"><button class="bt ba" onclick="playDictadoAgain()">Escuchar de nuevo ↺</button></div>' +
     '</div>';
-  
-  setTimeout(function(){ speakWord(DIC.word); }, 500);
+
+  setTimeout(function(){ speakWord(DIC.word); }, 300);
+}
+
+function dictPeek(){
+  var peek = $('dictPeekArea');
+  if(peek){
+    peek.textContent = DIC.word.toUpperCase();
+    peek.style.display = 'block';
+    setTimeout(function(){ peek.style.display = 'none'; }, 1200);
+  }
+  speakWord(DIC.word);
 }
 
 function typeDictadoLetter(k){
@@ -1664,20 +1756,25 @@ function typeDictadoLetter(k){
 
 function completeDictadoWord(){
   DIC.streak++;
+  DIC.sessionCorrect++;
   stats.dictadoTotal = (stats.dictadoTotal||0) + 1;
   stats.dictadoCorrect = (stats.dictadoCorrect||0) + 1;
+  if(!stats.dictadoByLevel) stats.dictadoByLevel = {};
+  if(!stats.dictadoByLevel[DIC.level]) stats.dictadoByLevel[DIC.level] = {correct:0, total:0};
+  stats.dictadoByLevel[DIC.level].correct++;
+  stats.dictadoByLevel[DIC.level].total++;
   svSt();
   sndWordComplete();
-  
+
   var item = getDictadoItem();
   var w = PALABRAS.find(function(p){ return p.t === DIC.word; });
   var emoji = w ? w.e : '✅';
   var art = DIC.level >= 4 ? (getArt(DIC.word) || '') : '';
-  
+
   var h = $('dictadoArea');
   var levelsDiv = h.querySelector('.dict-levels');
   var levelsHtml = levelsDiv ? levelsDiv.outerHTML : '';
-  
+
   h.innerHTML = levelsHtml +
     '<div class="dictado-card">' +
     '<div style="font-size:48px;margin-bottom:10px">' + emoji + '</div>' +
@@ -1686,7 +1783,7 @@ function completeDictadoWord(){
     '<div style="font-size:16px;color:var(--grn);font-weight:800;margin-bottom:12px">¡Correcto! 🔥 ' + DIC.streak + '</div>' +
     '<button class="bt ba bb2" onclick="renderDictadoWord()">➜ Siguiente</button>' +
     '</div>';
-  
+
   setTimeout(function(){ speakWord(DIC.word); }, 400);
 }
 
