@@ -6,11 +6,61 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="theme-color" content="#1a1040"/>
+<meta name="description" content="App gratuita de lectoescritura en español para niños de 5-7 años. Escritura de palabras, dictado progresivo, comprensión lectora, puntuación y concordancia. Alineada con ANEP Tramo 2."/>
+<meta name="keywords" content="lectoescritura, español, niños, aprender a leer, aprender a escribir, primaria, ANEP, educación, alfabetización, dictado, sílabas, PWA"/>
+<meta name="author" content="Pablo Flores"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://palabras-de-lisandro.netlify.app/"/>
+<!-- Open Graph -->
+<meta property="og:title" content="Palabras de Lisandro — Lectoescritura en español"/>
+<meta property="og:description" content="App educativa gratuita para niños de 5-7 años. Escritura de palabras, dictado progresivo, comprensión lectora, juegos de puntuación y concordancia."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://palabras-de-lisandro.netlify.app/"/>
+<meta property="og:image" content="https://palabras-de-lisandro.netlify.app/icon-512.png"/>
+<meta property="og:locale" content="es_AR"/>
+<meta property="og:site_name" content="Palabras de Lisandro"/>
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Palabras de Lisandro — Lectoescritura en español"/>
+<meta name="twitter:description" content="App educativa gratuita para niños de 5-7 años. Escritura, dictado, lectura y juegos alineados con ANEP."/>
+<meta name="twitter:image" content="https://palabras-de-lisandro.netlify.app/icon-512.png"/>
+<!-- Schema.org Educational App -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Palabras de Lisandro",
+  "description": "App de lectoescritura en español para niños de 5-7 años. Incluye escritura de palabras con repetición espaciada, dictado progresivo (vocales, consonantes, sílabas, palabras), comprensión lectora, juegos de puntuación, concordancia y rimas. Alineada con el programa ANEP Tramo 2 de Uruguay.",
+  "url": "https://palabras-de-lisandro.netlify.app/",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires a modern browser with JavaScript and Web Speech API",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student",
+    "suggestedMinAge": 5,
+    "suggestedMaxAge": 7
+  },
+  "educationalLevel": "Primary",
+  "inLanguage": "es",
+  "learningResourceType": ["interactive exercise", "game"],
+  "teaches": ["lectura", "escritura", "ortografía", "puntuación", "concordancia gramatical"],
+  "author": {
+    "@type": "Person",
+    "name": "Pablo Flores"
+  }
+}
+</script>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
-<title>Palabras de Lisandro</title>
+<title>Palabras de Lisandro — Lectoescritura en español para niños</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Comic+Neue:wght@700&family=Courier+Prime:wght@700&family=Indie+Flower&family=Patrick+Hand:wght@400&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#120d2e;--s1:#1a1444;--s2:#2a2560;--card:#312e70;--tx:#eae8f5;--dim:#9b97c4;--acc:#facc15;--accg:rgba(250,204,21,.2);--grn:#4ade80;--grng:rgba(74,222,128,.15);--red:#f87171;--r:16px;--rs:10px}
@@ -850,9 +900,8 @@ function applyLetterMode(text){
   if(m==='random'){return Math.random()>0.5?text.toUpperCase():text.toLowerCase()}
   return text;
 }
-// Get visual for word (image if available, else emoji)
+// Get visual for word (emoji only)
 function getWordVisual(w){
-  if(w.img)return'<img class="w-img" src="'+w.img+'" alt="'+esc(w.t)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"/><div class="w-emoji" style="display:none">'+w.e+'</div>';
   return'<div class="w-emoji">'+w.e+'</div>';
 }
 
@@ -900,10 +949,10 @@ function rIn(area,tEl,dEl){
   var syls='<div class="w-syl">'+w.s.map(function(s,i){
     var lettersSoFar=0;for(var j=0;j<i;j++)lettersSoFar+=w.s[j].length;
     var isActive=ch.length>=lettersSoFar&&ch.length<lettersSoFar+s.length;
-    return'<span'+(isActive?' class="hi"':'')+'>'+esc(s)+'</span>'
+    return'<span'+(isActive?' class="hi"':'')+'>'+esc(applyLetterMode(s))+'</span>'
   }).join('')+'</div>';
-  // Letter boxes
-  var boxes=L.map(function(c,i){var tp=ch[i]||'',fl=i<ch.length,ac=i===ch.length;var cl='lbi';if(fl)cl+=' fi';if(ac)cl+=' ac';var g=cfg.guide&&!fl?'<span class="gl">'+esc(c)+'</span>':'';return'<div class="'+cl+'" id="lb-'+i+'">'+esc(tp)+g+'</div>'}).join('');
+  // Letter boxes (apply letterMode for display consistency)
+  var boxes=L.map(function(c,i){var tp=ch[i]||'',fl=i<ch.length,ac=i===ch.length;var cl='lbi';if(fl)cl+=' fi';if(ac)cl+=' ac';var dc=applyLetterMode(c),dtp=tp?applyLetterMode(tp):'';var g=cfg.guide&&!fl?'<span class="gl">'+esc(dc)+'</span>':'';return'<div class="'+cl+'" id="lb-'+i+'" style="font-family:'+currentFont+'">'+esc(dtp)+g+'</div>'}).join('');
   var ctrl=locked?'':'<div class="wcc"><button class="bt bg2" onclick="sPrev()">\u2190</button><button class="bt bg2" onclick="sClr()">Borrar</button><button class="bt bg2" onclick="sNxt()">\u2192</button></div>';
   // Speak button
   var speakBtn='<button class="speak-btn" onclick="speakWord(\''+esc(w.t).replace(/'/g,"\\'")+'\')">🔊</button>';
@@ -1814,7 +1863,7 @@ function renderDictadoWord(){
     '<div class="dictado-card dict-show-phase">' +
     streakHtml + progressHtml +
     '<div class="dict-show-emoji">' + item.emoji + '</div>' +
-    '<div class="dict-show-word">' + esc(item.display.toUpperCase()) + '</div>' +
+    '<div class="dict-show-word" style="font-family:'+pickFont()+'">' + esc(applyLetterMode(item.display)) + '</div>' +
     '<div class="dict-show-hint">' + item.hint + '</div>' +
     '<button class="speak-btn" onclick="speakWord(DIC.word)">🔊</button>' +
     '<button class="bt ba bb2 dict-write-btn" id="dictWriteBtn" onclick="dictStartWrite()" style="opacity:0;pointer-events:none">✏️ ¡Escribilo!</button>' +
@@ -1837,7 +1886,7 @@ function dictStartWrite(){
     'abcdefghijklmnñopqrstuvwxyz';
   alphabet = alphabet.replace(/ /g,'');
   alphabet.split('').forEach(function(k){
-    keys += '<button class="kk" onclick="typeDictadoLetter(\''+k+'\')">'+k+'</button>';
+    keys += '<button class="kk" onclick="typeDictadoLetter(\''+k+'\')">'+applyLetterMode(k)+'</button>';
   });
 
   var h = $('dictadoArea');
@@ -1862,7 +1911,7 @@ function dictStartWrite(){
 function dictPeek(){
   var peek = $('dictPeekArea');
   if(peek){
-    peek.textContent = DIC.word.toUpperCase();
+    peek.textContent = applyLetterMode(DIC.word);
     peek.style.display = 'block';
     setTimeout(function(){ peek.style.display = 'none'; }, 1200);
   }
@@ -1876,7 +1925,7 @@ function typeDictadoLetter(k){
     DIC.correct.push(k);
     var boxes = document.querySelectorAll('#dicBoxes .dictado-box');
     if(boxes[cur]){
-      boxes[cur].textContent = DIC.word[cur].toUpperCase();
+      boxes[cur].textContent = applyLetterMode(DIC.word[cur]);
       boxes[cur].classList.add('filled');
     }
     sndCorrect();

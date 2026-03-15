@@ -169,60 +169,7 @@ function getTypeInfo(tipo){
   return m[tipo]||{tipo:'sustantivo',label:'Sustantivo — objeto',color:'#94a3b8',icon:'📦'};
 }
 
-// === IMÁGENES REALES (Wikimedia Commons) ===
-// Fotos reales para las palabras más visuales — fallback a emoji si no carga
-var IMG_MAP = {
-  // Animales
-  "gato":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cat_November_2010-1a.jpg/200px-Cat_November_2010-1a.jpg",
-  "perro":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/YellowLabradorLooking_new.jpg/200px-YellowLabradorLooking_new.jpg",
-  "pato":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Anas_platyrhynchos_male_female_quadrat.jpg/200px-Anas_platyrhynchos_male_female_quadrat.jpg",
-  "vaca":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_female_black_white.jpg/200px-Cow_female_black_white.jpg",
-  "oso":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/2010-kodiak-bear-1.jpg/200px-2010-kodiak-bear-1.jpg",
-  "caballo":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Nokota_Horses_croance.jpg/200px-Nokota_Horses_croance.jpg",
-  "mariposa":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Papilio_machaon_-_Swallowtail_-_02.jpg/200px-Papilio_machaon_-_Swallowtail_-_02.jpg",
-  "elefante":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/200px-African_Bush_Elephant.jpg",
-  "tortuga":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Florida_Box_Turtle_Digon3_re-edited.jpg/200px-Florida_Box_Turtle_Digon3_re-edited.jpg",
-  "conejo":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Oryctolagus_cuniculus_Rcdo.jpg/200px-Oryctolagus_cuniculus_Rcdo.jpg",
-  "delfín":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Tursiops_truncatus_01.jpg/200px-Tursiops_truncatus_01.jpg",
-  "jirafa":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Giraffe_Mikumi_National_Park.jpg/200px-Giraffe_Mikumi_National_Park.jpg",
-  "pingüino":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Emperor_Penguin_Manchot_empereur.jpg/200px-Emperor_Penguin_Manchot_empereur.jpg",
-  "loro":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Amazona_aestiva_-_Painted_Parrot.jpg/200px-Amazona_aestiva_-_Painted_Parrot.jpg",
-  "sapo":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bufo_bufo_03_by-dpc.jpg/200px-Bufo_bufo_03_by-dpc.jpg",
-  "mono":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg/200px-Bonnet_macaque_%28Macaca_radiata%29_Photograph_By_Shantanu_Kuveskar.jpg",
-  "pájaro":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Eopsaltria_australis_-_Mogo_Campground.jpg/200px-Eopsaltria_australis_-_Mogo_Campground.jpg",
-  "abeja":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Apis_mellifera_Western_honey_bee.jpg/200px-Apis_mellifera_Western_honey_bee.jpg",
-  // Alimentos
-  "manzana":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/200px-Red_Apple.jpg",
-  "banana":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/200px-Banana-Single.jpg",
-  "naranja":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Orange-Fruit-Pieces.jpg/200px-Orange-Fruit-Pieces.jpg",
-  "tomate":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/200px-Tomato_je.jpg",
-  "pizza":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/200px-Eq_it-na_pizza-margherita_sep2005_sml.jpg",
-  "helado":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Ice_cream_with_whipped_cream%2C_nut_topping_and_chocolate_sauce.jpg/200px-Ice_cream_with_whipped_cream%2C_nut_topping_and_chocolate_sauce.jpg",
-  "chocolate":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chocolate_%28blue_background%29.jpg/200px-Chocolate_%28blue_background%29.jpg",
-  "huevo":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Chicken_egg_2009-06-04.jpg/200px-Chicken_egg_2009-06-04.jpg",
-  "queso":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Queso.png/200px-Queso.png",
-  "pan":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Fresh_made_bread_05.jpg/200px-Fresh_made_bread_05.jpg",
-  "leche":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Milk_glass.jpg/200px-Milk_glass.jpg",
-  // Naturaleza
-  "árbol":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ash_Tree_-_geograph.org.uk_-_590710.jpg/200px-Ash_Tree_-_geograph.org.uk_-_590710.jpg",
-  "flor":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Sunflower_from_Silesia2.jpg/200px-Sunflower_from_Silesia2.jpg",
-  "montaña":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg/200px-Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg",
-  "luna":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/200px-FullMoon2010.jpg",
-  "mar":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Maldives_The_Sea.jpg/200px-Maldives_The_Sea.jpg",
-  "playa":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Bondi_Beach.jpg/200px-Bondi_Beach.jpg",
-  // Objetos / vehículos
-  "auto":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/2019_Toyota_Corolla_Hybrid_1.8.jpg/200px-2019_Toyota_Corolla_Hybrid_1.8.jpg",
-  "tren":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Paris_Metro_MP_89_Stock.jpg/200px-Paris_Metro_MP_89_Stock.jpg",
-  "bicicleta":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Tour_de_France_2005.jpg/200px-Tour_de_France_2005.jpg",
-  "reloj":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Alarm_Clocks_20101105a.jpg/200px-Alarm_Clocks_20101105a.jpg",
-  "libro":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Open_book_nridge_0.jpg/200px-Open_book_nridge_0.jpg",
-  "pelota":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Football_Pallo_valridge.jpg/200px-Football_Pallo_valridge.jpg",
-  "casa":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Wooden_house_in_Chakvi.jpg/200px-Wooden_house_in_Chakvi.jpg"
-};
-// Assign images to word objects
-function assignImages(){
-  PALABRAS.forEach(function(w){if(IMG_MAP[w.t])w.img=IMG_MAP[w.t]});
-}
+// IMG_MAP removed — app uses emoji only (faster, offline-friendly, no external dependencies)
 
 const PALABRAS = [
 // === NIVEL 1 — Muy simples y familiares (CV-CV, monosílabas) ===
@@ -388,7 +335,6 @@ const PALABRAS = [
 {t:"construir",s:["cons","truir"],n:8,e:"🏗️",v:1,ctx:"¡A construir!"},{t:"imaginar",s:["i","ma","gi","nar"],n:8,e:"💭",v:1,ctx:"¡Imaginá!"},
 {t:"inventar",s:["in","ven","tar"],n:8,e:"💡",v:1,ctx:"¡A inventar!"},{t:"transformar",s:["trans","for","mar"],n:8,e:"🔄",v:1,ctx:"¡A transformar!"}
 ];
-assignImages();
 
 // ═══════════ FRASES ═══════════
 // Frases personales y simples para practicar escritura de oraciones
