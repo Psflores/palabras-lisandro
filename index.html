@@ -61,7 +61,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
 <title>Palabras de Lisandro — Lectoescritura en español para niños</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Comic+Neue:wght@700&family=Courier+Prime:wght@700&family=Indie+Flower&family=Patrick+Hand:wght@400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Comic+Neue:wght@700&family=Courier+Prime:wght@700&family=Indie+Flower&family=Patrick+Hand:wght@400&family=Fredoka:wght@400;600;700&family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;700&family=Chewy&family=Bubblegum+Sans&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#120d2e;--s1:#1a1444;--s2:#2a2560;--card:#312e70;--tx:#eae8f5;--dim:#9b97c4;--acc:#facc15;--accg:rgba(250,204,21,.2);--grn:#4ade80;--grng:rgba(74,222,128,.15);--red:#f87171;--r:16px;--rs:10px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -91,7 +91,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 .map-card:active{transform:scale(.98)}
 .map-card.current{border-color:var(--acc)}
 .map-card.locked{opacity:.5;cursor:default}
-.mc-emoji{font-size:36px;flex-shrink:0}
+.mc-emoji{font-size:42px;flex-shrink:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border-radius:50%;text-shadow:0 2px 8px rgba(0,0,0,.3)}
 .mc-info{flex:1;min-width:0}
 .mc-title{font-size:15px;font-weight:900;margin-bottom:2px}
 .mc-sub{font-size:12px;color:var(--dim)}
@@ -435,7 +435,13 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 </nav>
 <div class="mn" id="mn">
 <!-- MAPA -->
-<div class="sc on" id="s-mapa"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🚀 Viaje espacial</h2><div class="rocket-wrap" id="rocketW"></div><div id="mapaC"></div></div>
+<div class="sc on" id="s-mapa">
+<div class="app-about" style="background:linear-gradient(135deg,#1a1444,#2a2560);border-radius:16px;padding:16px;margin-bottom:16px;text-align:center;border:1px solid rgba(250,204,21,.15)">
+<div style="font-size:36px;margin-bottom:6px">📚✨🚀</div>
+<div style="font-size:18px;font-weight:900;color:var(--acc);margin-bottom:6px">Palabras de Lisandro</div>
+<div style="font-size:12px;color:var(--dim);line-height:1.5">App de <strong style="color:var(--tx)">lectoescritura en español</strong> para niños de 5-7 años. Practicá escritura de palabras, dictado progresivo, comprensión lectora, puntuación y concordancia. Alineada con el programa ANEP Tramo 2. <span style="color:var(--acc)">¡Gratis y funciona sin internet!</span></div>
+</div>
+<h2 style="font-size:20px;font-weight:900;margin-bottom:14px;text-align:center">🚀 Viaje espacial</h2><div class="rocket-wrap" id="rocketW"></div><div id="mapaC"></div></div>
 <!-- TIMER -->
 <div class="sc" id="s-timer"><div class="tw"><div class="te" id="tE">🎮</div><div class="tl" id="tL">Tiempo de iPad</div><div class="td" id="tD">25:00</div><div class="tbw"><div class="tb" id="tB" style="width:100%"></div></div><div class="ta" id="tA"><button class="bt ba bb2" onclick="startIpad()">▶ Empezar iPad</button><button class="bt bg2" onclick="sw('sesion')">Practicar →</button></div></div></div>
 <!-- SESION -->
@@ -886,7 +892,7 @@ function buildSession(){
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}}
 
 // ═══════════ FONT ROTATION & LETTER MODE ═══════════
-var FUENTES=["'Nunito',sans-serif","'Comic Neue',cursive","'Courier Prime',monospace","'Indie Flower',cursive","'Patrick Hand',cursive"];
+var FUENTES=["'Nunito',sans-serif","'Comic Neue',cursive","'Courier Prime',monospace","'Indie Flower',cursive","'Patrick Hand',cursive","'Fredoka',sans-serif","'Baloo 2',cursive","'Quicksand',sans-serif","'Chewy',cursive","'Bubblegum Sans',cursive"];
 var currentFont=FUENTES[0];
 function pickFont(){
   if(!cfg.fontRotate)return"'Nunito',sans-serif";
