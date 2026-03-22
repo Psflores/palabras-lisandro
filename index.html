@@ -340,7 +340,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .dict-show-phase{text-align:center}
 .dict-show-emoji{margin:10px 0;display:flex;justify-content:center;align-items:center}
 .dict-show-word{font-size:56px;font-weight:900;letter-spacing:4px;color:var(--acc);margin:10px 0}
-.dict-show-hint{font-size:14px;color:var(--dim);margin-bottom:12px}
+.dict-show-hint{font-size:13px;color:var(--dim);margin-bottom:12px;font-weight:600;line-height:1.7}
 .dict-write-btn{transition:opacity .5s}
 .dict-progress{font-size:11px;color:var(--dim);margin-bottom:8px}
 .dict-peek-btn{border:0;background:var(--s2);color:var(--dim);font-family:inherit;font-size:11px;font-weight:700;padding:4px 10px;border-radius:7px;cursor:pointer;margin-left:8px}
@@ -1882,7 +1882,10 @@ window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window
 
 /* DICTADO FEATURE */
 /* DICTADO FEATURE — Progressive Levels */
-var DIC={word:null,correct:[],level:1,streak:0,phase:'show',sessionCorrect:0,sessionTotal:0};
+// Mapa de nombres de letras en español
+var LETRA_NOMBRES={a:'a',e:'e',i:'i',o:'o',u:'u',m:'eme',p:'pe',s:'ese',l:'ele',t:'te',n:'ene',d:'de',r:'erre',c:'ce',g:'ge'};
+
+var DIC={word:null,correct:[],level:1,streak:0,phase:'show',sessionCorrect:0,sessionTotal:0,usePhonetic:true};
 
 function startDictado(){
   DIC.level = cfg.dictadoLevel || 1;
@@ -1910,21 +1913,43 @@ function setDictadoLevel(lv){
   startDictado();
 }
 
+// Reproduce sonido fonético + nombre de letra en secuencia (alternando orden)
+function speakDictadoItem(item){
+  if(!item.sounds){ speakWord(item.word); return; }
+  // Alternar: a veces fonético primero, a veces nombre primero
+  var seq = DIC.usePhonetic ? item.sounds : [item.sounds[1], item.sounds[0]];
+  speakWord(seq[0]);
+  if(seq[1] && seq[1] !== seq[0]){
+    setTimeout(function(){ speakWord(seq[1]); }, 1600);
+  }
+  DIC.usePhonetic = !DIC.usePhonetic;  // alternar para la próxima
+}
+
 function getDictadoItem(){
   var lv = DIC.level;
   if(lv === 1){
     var vowels = ['a','e','i','o','u'];
     var v = vowels[Math.floor(Math.random()*vowels.length)];
-    return {word: v, display: v.toUpperCase(), emoji: '🔤', hint: 'Letra: '+v.toUpperCase()};
+    var nombre = LETRA_NOMBRES[v];
+    return {word: v, display: v.toUpperCase(), emoji: '🔤',
+      hint: '🔊 Sonido: <strong>'+v.toUpperCase()+'</strong> · Nombre: <strong>vocal '+nombre+'</strong>',
+      sounds: ['_letra_'+v, '_letra_'+v]};  // vocales: fonético = nombre
   }
   if(lv === 2){
     var cons = ['m','p','s','l','t','n','d','r','c','g'];
     var c = cons[Math.floor(Math.random()*cons.length)];
-    return {word: c, display: c.toUpperCase(), emoji: '🅱️', hint: 'Letra: '+c.toUpperCase()};
+    var nombre = LETRA_NOMBRES[c];
+    return {word: c, display: c.toUpperCase(), emoji: '🅱️',
+      hint: '🔊 Sonido: <strong>'+c.toUpperCase()+'</strong> · Nombre: <strong>'+nombre+'</strong>',
+      sounds: ['_letra_'+c, nombre]};  // consonante: fonético → nombre de letra
   }
   if(lv === 3){
     var syl = SILABAS_DICTADO[Math.floor(Math.random()*SILABAS_DICTADO.length)];
-    return {word: syl, display: syl, emoji: '🗣️', hint: 'Sílaba: '+syl};
+    // Desglosar la sílaba en letras con sus nombres
+    var letras = syl.split('').map(function(l){ return LETRA_NOMBRES[l]||l; });
+    return {word: syl, display: syl.toUpperCase(), emoji: '🗣️',
+      hint: '🔊 Sílaba: <strong>'+syl.toUpperCase()+'</strong> · Letras: <strong>'+letras.join(' + ')+'</strong>',
+      sounds: [syl, '_letra_'+syl[0]]};  // sílaba completa → primera letra
   }
   var minLen, maxLen;
   if(lv === 4){ minLen=2; maxLen=3; }
@@ -1958,11 +1983,12 @@ function renderDictadoWord(){
     '<div class="dict-show-emoji">' + item.emoji + '</div>' +
     '<div class="dict-show-word" style="font-family:'+pickFont()+'">' + esc(applyLetterMode(item.display)) + '</div>' +
     '<div class="dict-show-hint">' + item.hint + '</div>' +
-    '<button class="speak-btn" onclick="speakWord(DIC.word)">🔊</button>' +
+    '<button class="speak-btn" onclick="speakDictadoItem(DIC.currentItem||{word:DIC.word})">🔊</button>' +
     '<button class="bt ba bb2 dict-write-btn" id="dictWriteBtn" onclick="dictStartWrite()" style="opacity:0;pointer-events:none">✏️ ¡Escribilo!</button>' +
     '</div>';
 
-  setTimeout(function(){ speakWord(DIC.word); }, 400);
+  DIC.currentItem = item;
+  setTimeout(function(){ speakDictadoItem(item); }, 400);
   setTimeout(function(){
     var btn = $('dictWriteBtn');
     if(btn){ btn.style.opacity='1'; btn.style.pointerEvents='auto'; btn.classList.add('pulse'); }
