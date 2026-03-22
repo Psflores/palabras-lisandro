@@ -1556,7 +1556,10 @@ function renderVerboGame(){
   var h='<div class="mg-card">';
   h+='<div class="mg-title">🔤 ¿Qué verbo va?</div>';
   if(imgHtml){h+='<div class="mg-emoji">'+imgHtml+'</div>';}
+  h+='<div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:6px 0 2px">';
   h+='<div class="verbo-subject">'+esc(item.sujeto)+'</div>';
+  h+='<button class="speak-btn" style="width:34px;height:34px;font-size:16px" onclick="speakWord(VERBO_CURRENT.sujeto)">🔊</button>';
+  h+='</div>';
   h+='<div class="verbo-blank"><span>___</span></div>';
   h+='<div class="mg-options">';
   opts.forEach(function(o){
@@ -1564,10 +1567,11 @@ function renderVerboGame(){
   });
   h+='</div></div>';
   area.innerHTML=h;
-  if(imgHtml)setTimeout(function(){speakWord(item.img)},300);
+  setTimeout(function(){speakWord(item.sujeto)},300);
 }
 function checkVerbo(btn){
   var correct=VERBO_CURRENT.verbo;
+  speakWord(btn.textContent.trim());
   var btns=document.querySelectorAll('.mg-opt');
   btns.forEach(function(b){b.style.pointerEvents='none'});
   if(btn.textContent.trim()===correct){
@@ -1627,7 +1631,7 @@ function renderOrdenUI(){
   h+='<div class="orden-pool">';
   s.words.forEach(function(w,i){
     if(s.chosen.indexOf(i)===-1){
-      h+='<button class="orden-chip-avail" onclick="ordenAdd('+i+')">'+esc(w)+'</button>';
+      h+='<button class="orden-chip-avail" onclick="ordenAdd('+i+')" onmouseenter="speakWord(this.textContent.trim())" ontouchend="void(0)">'+esc(w)+'</button>';
     }
   });
   h+='</div>';
@@ -1658,7 +1662,8 @@ function checkOrden(){
   if(isOk){
     placed.forEach(function(b){b.classList.add('correct')});
     soundCorrectKey();
-    setTimeout(function(){startMiniGame()},1500);
+    setTimeout(function(){speakWord(s.sentence)},400);
+    setTimeout(function(){startMiniGame()},2200);
   } else {
     placed.forEach(function(b){b.classList.add('wrong')});
     soundWrongKey();
