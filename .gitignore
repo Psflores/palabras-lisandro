@@ -2,3 +2,5 @@
 .netlify/
 deploy-*.zip
 .vercel
+.DS_Store
+index.html.bak

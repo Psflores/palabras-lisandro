@@ -118,10 +118,11 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 .lbx{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:10px}
 .lbi{width:42px;height:52px;border:3px solid var(--s2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;position:relative;transition:all .12s;background:var(--s1)}
 .lbi.ac{border-color:var(--acc);box-shadow:0 0 0 3px var(--accg)}
-.lbi.fi{border-color:var(--grn);color:var(--grn);background:rgba(74,222,128,.06)}
+.lbi.fi{border-color:var(--grn);color:var(--grn);background:rgba(74,222,128,.12);animation:pop .35s ease-out;box-shadow:0 0 10px rgba(74,222,128,.25)}
 .lbi.wr{border-color:var(--red);animation:sh .3s}
 .lbi .gl{position:absolute;top:0;right:3px;font-size:8px;color:rgba(155,151,196,.25);font-weight:700}
 @keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(.92)}100%{transform:scale(1)}}
 .wcc{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:8px}
 /* MASTERY STARS */
 .mstars{display:flex;justify-content:center;gap:2px;margin-bottom:6px}
@@ -135,6 +136,8 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 .kk:active,.kk.pr{background:var(--acc);color:#1a1040;transform:scale(.9)}
 .kk.wi{min-width:48px;max-width:64px;font-size:18px}
 .kk.ek{min-width:48px;max-width:72px;font-size:12px;background:var(--acc);color:#1a1040;font-weight:800}
+.kk[data-k='a'],.kk[data-k='e'],.kk[data-k='i'],.kk[data-k='o'],.kk[data-k='u']{background:rgba(250,204,21,.18);color:var(--acc);border:1.5px solid rgba(250,204,21,.4);font-weight:900}
+.kk[data-k='a']:active,.kk[data-k='e']:active,.kk[data-k='i']:active,.kk[data-k='o']:active,.kk[data-k='u']:active{background:var(--acc);color:#1a1040}
 /* LOCK */
 .lo{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;flex-direction:column}
 .lo.on{display:flex}
@@ -718,15 +721,23 @@ function findBestSpanishVoice(){
   if(!voices.length)return null;
   // Log para debug (se puede quitar después)
   console.log('Voces disponibles:',voices.map(function(v){return v.name+' ['+v.lang+']'}).join(', '));
-  // Prioridad 1: voces específicas conocidas por buena calidad
-  var preferred=['Mónica','Monica','Paulina','Jorge','Diego','Grandma','Grandpa',
-    'Google español','Elena','Pablo','Microsoft Helena','Microsoft Laura'];
+  // Prioridad 1: voces neurales de alta calidad (argentinas primero)
+  var preferred=[
+    'Tomas','Elena',                          // Microsoft Neural Argentina
+    'Paulina','Sandy','Flo','Shelley',        // macOS es-MX, muy naturales
+    'Google español latinoamericano',         // Chrome Neural latinoamericana
+    'Google español de Estados Unidos',
+    'Microsoft Dalia','Microsoft Sabina',     // MS Neural México
+    'Microsoft Helena','Microsoft Laura',
+    'Mónica','Monica','Jorge','Diego','Pablo' // macOS España / genéricas
+  ];
   for(var i=0;i<preferred.length;i++){
-    var match=voices.find(function(v){return v.name.indexOf(preferred[i])!==-1&&v.lang.startsWith('es')});
+    var pref=preferred[i];
+    var match=voices.find(function(v){return v.name.indexOf(pref)!==-1&&v.lang.startsWith('es')});
     if(match){console.log('Voz seleccionada (premium):',match.name,match.lang);return match}
   }
   // Prioridad 2: voces regionales es-AR, es-MX, es-419, es-ES
-  var langPriority=['es-AR','es-MX','es-419','es-ES','es_AR','es_MX','es_ES'];
+  var langPriority=['es-AR','es-MX','es-419','es-US','es-ES','es_AR','es_MX','es_ES'];
   for(var j=0;j<langPriority.length;j++){
     var regional=voices.find(function(v){return v.lang===langPriority[j]});
     if(regional){console.log('Voz seleccionada (regional):',regional.name,regional.lang);return regional}
@@ -743,26 +754,54 @@ function loadVoices(){
   if(found){cachedSpanishVoice=found;voicesReady=true}
 }
 
-function speakWord(text){
-  if(!cfg.sound)return;
+function speakWordFallback(text){
+  // Fallback: Web Speech API del navegador
   if(!('speechSynthesis' in window))return;
   window.speechSynthesis.cancel();
-  // Si las voces no se cargaron aún, intentar de nuevo
   if(!voicesReady)loadVoices();
   var utterance=new SpeechSynthesisUtterance(text);
-  // IMPORTANTE: Asignar la voz ANTES de setear lang
-  // En muchos navegadores, si no se asigna voice explícitamente,
-  // usa la voz del sistema (que suele ser inglés)
   if(cachedSpanishVoice){
     utterance.voice=cachedSpanishVoice;
     utterance.lang=cachedSpanishVoice.lang;
   } else {
-    utterance.lang='es-ES'; // es-ES tiene más soporte que es-AR
+    utterance.lang='es-ES';
   }
-  utterance.rate=0.55;
+  // Velocidad: más lento con voz sintética clásica, normal con voz neural
+  utterance.rate=cachedSpanishVoice ? 0.80 : 0.65;
   utterance.pitch=1.0;
   utterance.volume=1.0;
   window.speechSynthesis.speak(utterance);
+}
+function normalizeAudioName(text){
+  // Normaliza la palabra para buscar el archivo MP3
+  // Replica lo que hace el script Python: minúsculas + quitar acentos + reemplazar no-alfanumérico con _
+  var s = text.toLowerCase();
+  // Reemplazar caracteres con acento
+  var map = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'};
+  s = s.replace(/[áéíóúüñ]/g, function(c){ return map[c]||c; });
+  // Reemplazar no-alfanumérico con _
+  s = s.replace(/[^a-z0-9]/g, '_').replace(/^_+|_+$/g, '');
+  return s + '.mp3';
+}
+function speakWord(text){
+  if(!cfg.sound)return;
+  // 1. Intentar reproducir el audio pre-generado (alta calidad)
+  var filename = normalizeAudioName(text);
+  var audio = new Audio('audio/' + filename);
+  audio.playbackRate = 1.0;
+  audio.onerror = function(){
+    // 2. Fallback al Web Speech API
+    speakWordFallback(text);
+  };
+  var played = false;
+  audio.oncanplaythrough = function(){
+    if(!played){ played=true; audio.play().catch(function(){ speakWordFallback(text); }); }
+  };
+  // Timeout: si en 800ms no carga, usar fallback
+  setTimeout(function(){
+    if(!played){ played=true; speakWordFallback(text); }
+  }, 800);
+  audio.load();
 }
 
 // Precargar voces — en Chrome las voces se cargan async
@@ -812,7 +851,7 @@ function rMap(){
     var unlocked=true;
     var isCur=isCurrentLevel(nv.id);
     var planet=nv.planet||nv.emoji;
-    h+='<div class="map-card'+(isCur?' current':'')+(unlocked?'':' locked')+'" onclick="'+(unlocked?'startLevel('+nv.id+')':'')+'">';
+    h+='<div class="map-card'+(isCur?' current':'')+(unlocked?'':' locked')+'" style="background:linear-gradient(135deg,var(--s1) 30%,'+nv.color+'22 100%);border-left:3px solid '+nv.color+'" onclick="'+(unlocked?'startLevel('+nv.id+')':'')+'">';
     h+='<div class="mc-emoji">'+planet+'</div>';
     h+='<div class="mc-info"><div class="mc-title">'+nv.nombre+'</div>';
     h+='<div class="mc-sub">'+total+' palabras'+(due>0?' · <span class="due-badge">'+due+' pendientes</span>':'')+'</div>';
