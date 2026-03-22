@@ -1,0 +1,1702 @@
+{
+  "casa": {
+    "file": "casa.jpg",
+    "source": "wikipedia_es",
+    "emoji": "🏠"
+  },
+  "papá": {
+    "file": "papa.jpg",
+    "source": "wikipedia_es",
+    "emoji": "👨"
+  },
+  "cama": {
+    "file": "cama.jpg",
+    "source": "wikipedia_es",
+    "emoji": "🛏️"
+  },
+  "mamá": {
+    "file": "mama.jpg",
+    "source": "wikipedia_es",
+    "emoji": "👩"
+  },
+  "mano": {
+    "file": "mano.svg",
+    "source": "twemoji_svg",
+    "emoji": "✋"
+  },
+  "dedo": {
+    "file": "dedo.svg",
+    "source": "twemoji_svg",
+    "emoji": "☝️"
+  },
+  "ojo": {
+    "file": "ojo.svg",
+    "source": "twemoji_svg",
+    "emoji": "👁️"
+  },
+  "pie": {
+    "file": "pie.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦶"
+  },
+  "mesa": {
+    "file": "mesa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪑"
+  },
+  "boca": {
+    "file": "boca.jpg",
+    "source": "wikipedia_es",
+    "emoji": "👄"
+  },
+  "pan": {
+    "file": "pan.jpg",
+    "source": "wikipedia_es",
+    "emoji": "🍞"
+  },
+  "agua": {
+    "file": "agua.svg",
+    "source": "twemoji_svg",
+    "emoji": "💧"
+  },
+  "mar": {
+    "file": "mar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌊"
+  },
+  "sol": {
+    "file": "sol.svg",
+    "source": "twemoji_svg",
+    "emoji": "☀️"
+  },
+  "luna": {
+    "file": "luna.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌙"
+  },
+  "oso": {
+    "file": "oso.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐻"
+  },
+  "pez": {
+    "file": "pez.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐟"
+  },
+  "gato": {
+    "file": "gato.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐱"
+  },
+  "perro": {
+    "file": "perro.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐕"
+  },
+  "pato": {
+    "file": "pato.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦆"
+  },
+  "leche": {
+    "file": "leche.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥛"
+  },
+  "jugo": {
+    "file": "jugo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧃"
+  },
+  "vaca": {
+    "file": "vaca.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐄"
+  },
+  "silla": {
+    "file": "silla.jpg",
+    "source": "wikipedia_en",
+    "emoji": "🪑"
+  },
+  "taza": {
+    "file": "taza.svg",
+    "source": "twemoji_svg",
+    "emoji": "☕"
+  },
+  "sopa": {
+    "file": "sopa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍜"
+  },
+  "mono": {
+    "file": "mono.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐒"
+  },
+  "sapo": {
+    "file": "sapo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐸"
+  },
+  "lobo": {
+    "file": "lobo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐺"
+  },
+  "nido": {
+    "file": "nido.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪺"
+  },
+  "ropa": {
+    "file": "ropa.svg",
+    "source": "twemoji_svg",
+    "emoji": "👕"
+  },
+  "lata": {
+    "file": "lata.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥫"
+  },
+  "polo": {
+    "file": "polo.svg",
+    "source": "twemoji_svg",
+    "emoji": "👕"
+  },
+  "dado": {
+    "file": "dado.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎲"
+  },
+  "cuna": {
+    "file": "cuna.svg",
+    "source": "twemoji_svg",
+    "emoji": "🛒"
+  },
+  "piso": {
+    "file": "piso.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏢"
+  },
+  "loro": {
+    "file": "loro.jpg",
+    "source": "wikipedia_es",
+    "emoji": "🦜"
+  },
+  "foca": {
+    "file": "foca.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦭"
+  },
+  "pala": {
+    "file": "pala.svg",
+    "source": "twemoji_svg",
+    "emoji": "⛏️"
+  },
+  "masa": {
+    "file": "masa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🫓"
+  },
+  "auto": {
+    "file": "auto.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚗"
+  },
+  "techo": {
+    "file": "techo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏠"
+  },
+  "barco": {
+    "file": "barco.svg",
+    "source": "twemoji_svg",
+    "emoji": "⛵"
+  },
+  "puerta": {
+    "file": "puerta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚪"
+  },
+  "tren": {
+    "file": "tren.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚂"
+  },
+  "bici": {
+    "file": "bici.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚲"
+  },
+  "árbol": {
+    "file": "arbol.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌳"
+  },
+  "hoja": {
+    "file": "hoja.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍃"
+  },
+  "parque": {
+    "file": "parque.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏞️"
+  },
+  "plaza": {
+    "file": "plaza.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏛️"
+  },
+  "flor": {
+    "file": "flor.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌸"
+  },
+  "lluvia": {
+    "file": "lluvia.jpg",
+    "source": "wikipedia_es",
+    "emoji": "🌧️"
+  },
+  "nube": {
+    "file": "nube.svg",
+    "source": "twemoji_svg",
+    "emoji": "☁️"
+  },
+  "nieve": {
+    "file": "nieve.svg",
+    "source": "twemoji_svg",
+    "emoji": "❄️"
+  },
+  "cielo": {
+    "file": "cielo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌤️"
+  },
+  "río": {
+    "file": "rio.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏞️"
+  },
+  "fuego": {
+    "file": "fuego.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔥"
+  },
+  "piedra": {
+    "file": "piedra.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪨"
+  },
+  "tierra": {
+    "file": "tierra.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌍"
+  },
+  "bolsa": {
+    "file": "bolsa.svg",
+    "source": "twemoji_svg",
+    "emoji": "👜"
+  },
+  "viento": {
+    "file": "viento.svg",
+    "source": "twemoji_svg",
+    "emoji": "💨"
+  },
+  "globo": {
+    "file": "globo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎈"
+  },
+  "caja": {
+    "file": "caja.svg",
+    "source": "twemoji_svg",
+    "emoji": "📦"
+  },
+  "vaso": {
+    "file": "vaso.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥤"
+  },
+  "plato": {
+    "file": "plato.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍽️"
+  },
+  "llave": {
+    "file": "llave.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔑"
+  },
+  "rampa": {
+    "file": "rampa.svg",
+    "source": "twemoji_svg",
+    "emoji": "📐"
+  },
+  "campo": {
+    "file": "campo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌾"
+  },
+  "banco": {
+    "file": "banco.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪑"
+  },
+  "sombra": {
+    "file": "sombra.svg",
+    "source": "twemoji_svg",
+    "emoji": "👤"
+  },
+  "lago": {
+    "file": "lago.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏞️"
+  },
+  "reloj": {
+    "file": "reloj.svg",
+    "source": "twemoji_svg",
+    "emoji": "⏰"
+  },
+  "mapa": {
+    "file": "mapa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🗺️"
+  },
+  "rueda": {
+    "file": "rueda.svg",
+    "source": "twemoji_svg",
+    "emoji": "🛞"
+  },
+  "cueva": {
+    "file": "cueva.svg",
+    "source": "twemoji_svg",
+    "emoji": "🕳️"
+  },
+  "cerca": {
+    "file": "cerca.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏗️"
+  },
+  "calle": {
+    "file": "calle.svg",
+    "source": "twemoji_svg",
+    "emoji": "🛣️"
+  },
+  "fuente": {
+    "file": "fuente.svg",
+    "source": "twemoji_svg",
+    "emoji": "⛲"
+  },
+  "libro": {
+    "file": "libro.svg",
+    "source": "twemoji_svg",
+    "emoji": "📖"
+  },
+  "vereda": {
+    "file": "vereda.svg",
+    "source": "twemoji_svg",
+    "emoji": "🛤️"
+  },
+  "lápiz": {
+    "file": "lapiz.svg",
+    "source": "twemoji_svg",
+    "emoji": "✏️"
+  },
+  "goma": {
+    "file": "goma.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧹"
+  },
+  "clase": {
+    "file": "clase.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏫"
+  },
+  "patio": {
+    "file": "patio.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏡"
+  },
+  "recreo": {
+    "file": "recreo.svg",
+    "source": "twemoji_svg",
+    "emoji": "⛹️"
+  },
+  "tarea": {
+    "file": "tarea.svg",
+    "source": "twemoji_svg",
+    "emoji": "📝"
+  },
+  "maestra": {
+    "file": "maestra.svg",
+    "source": "twemoji_svg",
+    "emoji": "👩‍🏫"
+  },
+  "escuela": {
+    "file": "escuela.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏫"
+  },
+  "mochila": {
+    "file": "mochila.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎒"
+  },
+  "cuaderno": {
+    "file": "cuaderno.svg",
+    "source": "twemoji_svg",
+    "emoji": "📓"
+  },
+  "regla": {
+    "file": "regla.svg",
+    "source": "twemoji_svg",
+    "emoji": "📏"
+  },
+  "colores": {
+    "file": "colores.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎨"
+  },
+  "dibujo": {
+    "file": "dibujo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🖍️"
+  },
+  "palabra": {
+    "file": "palabra.svg",
+    "source": "twemoji_svg",
+    "emoji": "💬"
+  },
+  "letra": {
+    "file": "letra.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔤"
+  },
+  "tijera": {
+    "file": "tijera.svg",
+    "source": "twemoji_svg",
+    "emoji": "✂️"
+  },
+  "número": {
+    "file": "numero.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔢"
+  },
+  "nombre": {
+    "file": "nombre.svg",
+    "source": "twemoji_svg",
+    "emoji": "📛"
+  },
+  "amigo": {
+    "file": "amigo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤝"
+  },
+  "cartel": {
+    "file": "cartel.svg",
+    "source": "twemoji_svg",
+    "emoji": "📋"
+  },
+  "amiga": {
+    "file": "amiga.svg",
+    "source": "twemoji_svg",
+    "emoji": "👭"
+  },
+  "pincel": {
+    "file": "pincel.svg",
+    "source": "twemoji_svg",
+    "emoji": "🖌️"
+  },
+  "fila": {
+    "file": "fila.svg",
+    "source": "twemoji_svg",
+    "emoji": "➡️"
+  },
+  "carpeta": {
+    "file": "carpeta.svg",
+    "source": "twemoji_svg",
+    "emoji": "📂"
+  },
+  "pizarra": {
+    "file": "pizarra.svg",
+    "source": "twemoji_svg",
+    "emoji": "📋"
+  },
+  "pupitre": {
+    "file": "pupitre.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪑"
+  },
+  "campana": {
+    "file": "campana.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔔"
+  },
+  "lectura": {
+    "file": "lectura.svg",
+    "source": "twemoji_svg",
+    "emoji": "📖"
+  },
+  "merienda": {
+    "file": "merienda.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧁"
+  },
+  "horario": {
+    "file": "horario.svg",
+    "source": "twemoji_svg",
+    "emoji": "🕐"
+  },
+  "permiso": {
+    "file": "permiso.svg",
+    "source": "twemoji_svg",
+    "emoji": "🙋"
+  },
+  "silencio": {
+    "file": "silencio.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤫"
+  },
+  "pregunta": {
+    "file": "pregunta.svg",
+    "source": "twemoji_svg",
+    "emoji": "❓"
+  },
+  "respuesta": {
+    "file": "respuesta.svg",
+    "source": "twemoji_svg",
+    "emoji": "💡"
+  },
+  "ejemplo": {
+    "file": "ejemplo.svg",
+    "source": "twemoji_svg",
+    "emoji": "📌"
+  },
+  "abuelo": {
+    "file": "abuelo.svg",
+    "source": "twemoji_svg",
+    "emoji": "👴"
+  },
+  "saludo": {
+    "file": "saludo.svg",
+    "source": "twemoji_svg",
+    "emoji": "👋"
+  },
+  "hijo": {
+    "file": "hijo.svg",
+    "source": "twemoji_svg",
+    "emoji": "👦"
+  },
+  "hija": {
+    "file": "hija.svg",
+    "source": "twemoji_svg",
+    "emoji": "👧"
+  },
+  "abuela": {
+    "file": "abuela.svg",
+    "source": "twemoji_svg",
+    "emoji": "👵"
+  },
+  "hermano": {
+    "file": "hermano.svg",
+    "source": "twemoji_svg",
+    "emoji": "👦"
+  },
+  "hermana": {
+    "file": "hermana.svg",
+    "source": "twemoji_svg",
+    "emoji": "👧"
+  },
+  "abrazo": {
+    "file": "abrazo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤗"
+  },
+  "beso": {
+    "file": "beso.svg",
+    "source": "twemoji_svg",
+    "emoji": "😘"
+  },
+  "familia": {
+    "file": "familia.jpg",
+    "source": "wikipedia_es",
+    "emoji": "👨‍👩‍👦"
+  },
+  "risa": {
+    "file": "risa.svg",
+    "source": "twemoji_svg",
+    "emoji": "😂"
+  },
+  "juego": {
+    "file": "juego.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎮"
+  },
+  "regalo": {
+    "file": "regalo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎁"
+  },
+  "fiesta": {
+    "file": "fiesta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎉"
+  },
+  "paseo": {
+    "file": "paseo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚶"
+  },
+  "visita": {
+    "file": "visita.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏠"
+  },
+  "música": {
+    "file": "musica.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎵"
+  },
+  "baile": {
+    "file": "baile.svg",
+    "source": "twemoji_svg",
+    "emoji": "💃"
+  },
+  "cuento": {
+    "file": "cuento.svg",
+    "source": "twemoji_svg",
+    "emoji": "📖"
+  },
+  "sonrisa": {
+    "file": "sonrisa.svg",
+    "source": "twemoji_svg",
+    "emoji": "😊"
+  },
+  "ayuda": {
+    "file": "ayuda.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤝"
+  },
+  "foto": {
+    "file": "foto.svg",
+    "source": "twemoji_svg",
+    "emoji": "📸"
+  },
+  "amor": {
+    "file": "amor.svg",
+    "source": "twemoji_svg",
+    "emoji": "❤️"
+  },
+  "Lisandro": {
+    "file": "lisandro.svg",
+    "source": "twemoji_svg",
+    "emoji": "⭐"
+  },
+  "primo": {
+    "file": "primo.svg",
+    "source": "twemoji_svg",
+    "emoji": "👦"
+  },
+  "prima": {
+    "file": "prima.svg",
+    "source": "twemoji_svg",
+    "emoji": "👧"
+  },
+  "amable": {
+    "file": "amable.svg",
+    "source": "twemoji_svg",
+    "emoji": "😊"
+  },
+  "vecino": {
+    "file": "vecino.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏘️"
+  },
+  "alegría": {
+    "file": "alegria.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥳"
+  },
+  "cariño": {
+    "file": "carino.svg",
+    "source": "twemoji_svg",
+    "emoji": "💕"
+  },
+  "ternura": {
+    "file": "ternura.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥰"
+  },
+  "mascota": {
+    "file": "mascota.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐾"
+  },
+  "columpio": {
+    "file": "columpio.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎠"
+  },
+  "hamaca": {
+    "file": "hamaca.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏖️"
+  },
+  "cumpleaños": {
+    "file": "cumpleanos.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎂"
+  },
+  "sobrino": {
+    "file": "sobrino.svg",
+    "source": "twemoji_svg",
+    "emoji": "👶"
+  },
+  "compañero": {
+    "file": "companero.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤝"
+  },
+  "padrino": {
+    "file": "padrino.svg",
+    "source": "twemoji_svg",
+    "emoji": "👨"
+  },
+  "helado": {
+    "file": "helado.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍦"
+  },
+  "chocolate": {
+    "file": "chocolate.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍫"
+  },
+  "manzana": {
+    "file": "manzana.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍎"
+  },
+  "banana": {
+    "file": "banana.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍌"
+  },
+  "pera": {
+    "file": "pera.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍐"
+  },
+  "naranja": {
+    "file": "naranja.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍊"
+  },
+  "uva": {
+    "file": "uva.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍇"
+  },
+  "queso": {
+    "file": "queso.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧀"
+  },
+  "galleta": {
+    "file": "galleta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍪"
+  },
+  "arroz": {
+    "file": "arroz.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍚"
+  },
+  "tomate": {
+    "file": "tomate.jpg",
+    "source": "wikipedia_es",
+    "emoji": "🍅"
+  },
+  "pollo": {
+    "file": "pollo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍗"
+  },
+  "carne": {
+    "file": "carne.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥩"
+  },
+  "fideo": {
+    "file": "fideo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍝"
+  },
+  "huevo": {
+    "file": "huevo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥚"
+  },
+  "almuerzo": {
+    "file": "almuerzo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍽️"
+  },
+  "cena": {
+    "file": "cena.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌙"
+  },
+  "cuchara": {
+    "file": "cuchara.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥄"
+  },
+  "cocina": {
+    "file": "cocina.svg",
+    "source": "twemoji_svg",
+    "emoji": "👩‍🍳"
+  },
+  "desayuno": {
+    "file": "desayuno.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥞"
+  },
+  "tenedor": {
+    "file": "tenedor.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍴"
+  },
+  "botella": {
+    "file": "botella.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍶"
+  },
+  "servilleta": {
+    "file": "servilleta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧻"
+  },
+  "frutilla": {
+    "file": "frutilla.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍓"
+  },
+  "cuchillo": {
+    "file": "cuchillo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔪"
+  },
+  "sandía": {
+    "file": "sandia.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍉"
+  },
+  "durazno": {
+    "file": "durazno.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍑"
+  },
+  "limón": {
+    "file": "limon.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍋"
+  },
+  "manteca": {
+    "file": "manteca.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧈"
+  },
+  "pizza": {
+    "file": "pizza.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍕"
+  },
+  "caramelo": {
+    "file": "caramelo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍬"
+  },
+  "yogur": {
+    "file": "yogur.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥛"
+  },
+  "torta": {
+    "file": "torta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎂"
+  },
+  "ensalada": {
+    "file": "ensalada.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥗"
+  },
+  "heladera": {
+    "file": "heladera.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧊"
+  },
+  "mantel": {
+    "file": "mantel.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍽️"
+  },
+  "azúcar": {
+    "file": "azucar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍬"
+  },
+  "milanesa": {
+    "file": "milanesa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥩"
+  },
+  "camisa": {
+    "file": "camisa.svg",
+    "source": "twemoji_svg",
+    "emoji": "👕"
+  },
+  "pantalón": {
+    "file": "pantalon.svg",
+    "source": "twemoji_svg",
+    "emoji": "👖"
+  },
+  "short": {
+    "file": "short.svg",
+    "source": "twemoji_svg",
+    "emoji": "🩳"
+  },
+  "zapato": {
+    "file": "zapato.svg",
+    "source": "twemoji_svg",
+    "emoji": "👟"
+  },
+  "horno": {
+    "file": "horno.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔥"
+  },
+  "remera": {
+    "file": "remera.svg",
+    "source": "twemoji_svg",
+    "emoji": "👕"
+  },
+  "media": {
+    "file": "media.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧦"
+  },
+  "gorro": {
+    "file": "gorro.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧢"
+  },
+  "bufanda": {
+    "file": "bufanda.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧣"
+  },
+  "pelo": {
+    "file": "pelo.svg",
+    "source": "twemoji_svg",
+    "emoji": "💇"
+  },
+  "nariz": {
+    "file": "nariz.svg",
+    "source": "twemoji_svg",
+    "emoji": "👃"
+  },
+  "campera": {
+    "file": "campera.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧥"
+  },
+  "bolsillo": {
+    "file": "bolsillo.svg",
+    "source": "twemoji_svg",
+    "emoji": "👖"
+  },
+  "brazo": {
+    "file": "brazo.svg",
+    "source": "twemoji_svg",
+    "emoji": "💪"
+  },
+  "pierna": {
+    "file": "pierna.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦵"
+  },
+  "rodilla": {
+    "file": "rodilla.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦵"
+  },
+  "barriga": {
+    "file": "barriga.svg",
+    "source": "twemoji_svg",
+    "emoji": "😊"
+  },
+  "oreja": {
+    "file": "oreja.svg",
+    "source": "twemoji_svg",
+    "emoji": "👂"
+  },
+  "espalda": {
+    "file": "espalda.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧍"
+  },
+  "cuello": {
+    "file": "cuello.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦒"
+  },
+  "lengua": {
+    "file": "lengua.svg",
+    "source": "twemoji_svg",
+    "emoji": "👅"
+  },
+  "dientes": {
+    "file": "dientes.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦷"
+  },
+  "uña": {
+    "file": "una.svg",
+    "source": "twemoji_svg",
+    "emoji": "💅"
+  },
+  "codo": {
+    "file": "codo.svg",
+    "source": "twemoji_svg",
+    "emoji": "💪"
+  },
+  "hombro": {
+    "file": "hombro.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧍"
+  },
+  "tobillo": {
+    "file": "tobillo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦶"
+  },
+  "cara": {
+    "file": "cara.jpg",
+    "source": "wikipedia_es",
+    "emoji": "😊"
+  },
+  "cinturón": {
+    "file": "cinturon.svg",
+    "source": "twemoji_svg",
+    "emoji": "👖"
+  },
+  "zapatilla": {
+    "file": "zapatilla.svg",
+    "source": "twemoji_svg",
+    "emoji": "👟"
+  },
+  "pijama": {
+    "file": "pijama.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌙"
+  },
+  "abrigo": {
+    "file": "abrigo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧥"
+  },
+  "guante": {
+    "file": "guante.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧤"
+  },
+  "paraguas": {
+    "file": "paraguas.svg",
+    "source": "twemoji_svg",
+    "emoji": "☂️"
+  },
+  "pestaña": {
+    "file": "pestana.svg",
+    "source": "twemoji_svg",
+    "emoji": "👁️"
+  },
+  "muñeca": {
+    "file": "muneca.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤚"
+  },
+  "pollera": {
+    "file": "pollera.svg",
+    "source": "twemoji_svg",
+    "emoji": "👗"
+  },
+  "corbata": {
+    "file": "corbata.svg",
+    "source": "twemoji_svg",
+    "emoji": "👔"
+  },
+  "bermuda": {
+    "file": "bermuda.jpg",
+    "source": "wikipedia_en",
+    "emoji": "🩳"
+  },
+  "estrella": {
+    "file": "estrella.svg",
+    "source": "twemoji_svg",
+    "emoji": "⭐"
+  },
+  "ombligo": {
+    "file": "ombligo.svg",
+    "source": "twemoji_svg",
+    "emoji": "😊"
+  },
+  "planeta": {
+    "file": "planeta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪐"
+  },
+  "montaña": {
+    "file": "montana.svg",
+    "source": "twemoji_svg",
+    "emoji": "⛰️"
+  },
+  "bosque": {
+    "file": "bosque.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌲"
+  },
+  "arena": {
+    "file": "arena.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏖️"
+  },
+  "ola": {
+    "file": "ola.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌊"
+  },
+  "fruta": {
+    "file": "fruta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍎"
+  },
+  "rama": {
+    "file": "rama.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌿"
+  },
+  "playa": {
+    "file": "playa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏖️"
+  },
+  "tronco": {
+    "file": "tronco.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪵"
+  },
+  "semilla": {
+    "file": "semilla.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌱"
+  },
+  "pasto": {
+    "file": "pasto.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌱"
+  },
+  "insecto": {
+    "file": "insecto.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐛"
+  },
+  "abeja": {
+    "file": "abeja.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐝"
+  },
+  "hormiga": {
+    "file": "hormiga.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐜"
+  },
+  "mariposa": {
+    "file": "mariposa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦋"
+  },
+  "pájaro": {
+    "file": "pajaro.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐦"
+  },
+  "caballo": {
+    "file": "caballo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐴"
+  },
+  "tortuga": {
+    "file": "tortuga.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐢"
+  },
+  "jardín": {
+    "file": "jardin.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌻"
+  },
+  "elefante": {
+    "file": "elefante.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐘"
+  },
+  "dinosaurio": {
+    "file": "dinosaurio.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦕"
+  },
+  "dragón": {
+    "file": "dragon.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐉"
+  },
+  "cohete": {
+    "file": "cohete.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚀"
+  },
+  "conejo": {
+    "file": "conejo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐰"
+  },
+  "volcán": {
+    "file": "volcan.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌋"
+  },
+  "delfín": {
+    "file": "delfin.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐬"
+  },
+  "ballena": {
+    "file": "ballena.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐳"
+  },
+  "pingüino": {
+    "file": "pinguino.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐧"
+  },
+  "leopardo": {
+    "file": "leopardo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐆"
+  },
+  "cocodrilo": {
+    "file": "cocodrilo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐊"
+  },
+  "serpiente": {
+    "file": "serpiente.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐍"
+  },
+  "cascada": {
+    "file": "cascada.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌊"
+  },
+  "caracol": {
+    "file": "caracol.svg",
+    "source": "twemoji_svg",
+    "emoji": "🐌"
+  },
+  "girasol": {
+    "file": "girasol.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌻"
+  },
+  "arcoíris": {
+    "file": "arcoiris.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌈"
+  },
+  "canguro": {
+    "file": "canguro.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦘"
+  },
+  "jirafa": {
+    "file": "jirafa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦒"
+  },
+  "ventana": {
+    "file": "ventana.svg",
+    "source": "twemoji_svg",
+    "emoji": "🪟"
+  },
+  "tiburón": {
+    "file": "tiburon.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦈"
+  },
+  "domingo": {
+    "file": "domingo.svg",
+    "source": "twemoji_svg",
+    "emoji": "📅"
+  },
+  "relámpago": {
+    "file": "relampago.svg",
+    "source": "twemoji_svg",
+    "emoji": "⚡"
+  },
+  "castillo": {
+    "file": "castillo.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏰"
+  },
+  "payaso": {
+    "file": "payaso.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤡"
+  },
+  "pelota": {
+    "file": "pelota.svg",
+    "source": "twemoji_svg",
+    "emoji": "⚽"
+  },
+  "robot": {
+    "file": "robot.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤖"
+  },
+  "tesoro": {
+    "file": "tesoro.svg",
+    "source": "twemoji_svg",
+    "emoji": "💰"
+  },
+  "pirata": {
+    "file": "pirata.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏴‍☠️"
+  },
+  "corazón": {
+    "file": "corazon.svg",
+    "source": "twemoji_svg",
+    "emoji": "❤️"
+  },
+  "bicicleta": {
+    "file": "bicicleta.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚲"
+  },
+  "biblioteca": {
+    "file": "biblioteca.svg",
+    "source": "twemoji_svg",
+    "emoji": "📚"
+  },
+  "astronauta": {
+    "file": "astronauta.svg",
+    "source": "twemoji_svg",
+    "emoji": "👨‍🚀"
+  },
+  "submarino": {
+    "file": "submarino.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚢"
+  },
+  "sorpresa": {
+    "file": "sorpresa.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎉"
+  },
+  "supermercado": {
+    "file": "supermercado.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏪"
+  },
+  "telescopio": {
+    "file": "telescopio.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔭"
+  },
+  "refrigerador": {
+    "file": "refrigerador.jpg",
+    "source": "wikipedia_en",
+    "emoji": "🧊"
+  },
+  "rinoceronte": {
+    "file": "rinoceronte.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦏"
+  },
+  "helicóptero": {
+    "file": "helicoptero.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚁"
+  },
+  "computadora": {
+    "file": "computadora.svg",
+    "source": "twemoji_svg",
+    "emoji": "💻"
+  },
+  "hipopótamo": {
+    "file": "hipopotamo.jpg",
+    "source": "wikipedia_es",
+    "emoji": "🦛"
+  },
+  "trabajador": {
+    "file": "trabajador.svg",
+    "source": "twemoji_svg",
+    "emoji": "👷"
+  },
+  "electricidad": {
+    "file": "electricidad.svg",
+    "source": "twemoji_svg",
+    "emoji": "⚡"
+  },
+  "maravilloso": {
+    "file": "maravilloso.svg",
+    "source": "twemoji_svg",
+    "emoji": "✨"
+  },
+  "laboratorio": {
+    "file": "laboratorio.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔬"
+  },
+  "explorador": {
+    "file": "explorador.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧭"
+  },
+  "instrumento": {
+    "file": "instrumento.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎸"
+  },
+  "ambulancia": {
+    "file": "ambulancia.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚑"
+  },
+  "correr": {
+    "file": "correr.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏃"
+  },
+  "saltar": {
+    "file": "saltar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤸"
+  },
+  "extraterrestre": {
+    "file": "extraterrestre.svg",
+    "source": "twemoji_svg",
+    "emoji": "👽"
+  },
+  "comer": {
+    "file": "comer.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍽️"
+  },
+  "jugar": {
+    "file": "jugar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎮"
+  },
+  "leer": {
+    "file": "leer.svg",
+    "source": "twemoji_svg",
+    "emoji": "📖"
+  },
+  "mirar": {
+    "file": "mirar.svg",
+    "source": "twemoji_svg",
+    "emoji": "👀"
+  },
+  "pintar": {
+    "file": "pintar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎨"
+  },
+  "dormir": {
+    "file": "dormir.svg",
+    "source": "twemoji_svg",
+    "emoji": "😴"
+  },
+  "contar": {
+    "file": "contar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔢"
+  },
+  "escribir": {
+    "file": "escribir.svg",
+    "source": "twemoji_svg",
+    "emoji": "✍️"
+  },
+  "pensar": {
+    "file": "pensar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤔"
+  },
+  "hablar": {
+    "file": "hablar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🗣️"
+  },
+  "aprender": {
+    "file": "aprender.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧠"
+  },
+  "abrazar": {
+    "file": "abrazar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🤗"
+  },
+  "bailar": {
+    "file": "bailar.svg",
+    "source": "twemoji_svg",
+    "emoji": "💃"
+  },
+  "soñar": {
+    "file": "sonar.svg",
+    "source": "twemoji_svg",
+    "emoji": "💭"
+  },
+  "reír": {
+    "file": "reir.svg",
+    "source": "twemoji_svg",
+    "emoji": "😂"
+  },
+  "querer": {
+    "file": "querer.svg",
+    "source": "twemoji_svg",
+    "emoji": "❤️"
+  },
+  "cantar": {
+    "file": "cantar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🎤"
+  },
+  "cocinar": {
+    "file": "cocinar.svg",
+    "source": "twemoji_svg",
+    "emoji": "👨‍🍳"
+  },
+  "probar": {
+    "file": "probar.svg",
+    "source": "twemoji_svg",
+    "emoji": "👅"
+  },
+  "servir": {
+    "file": "servir.svg",
+    "source": "twemoji_svg",
+    "emoji": "🍽️"
+  },
+  "llorar": {
+    "file": "llorar.svg",
+    "source": "twemoji_svg",
+    "emoji": "😢"
+  },
+  "lavar": {
+    "file": "lavar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧼"
+  },
+  "mezclar": {
+    "file": "mezclar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🥄"
+  },
+  "peinar": {
+    "file": "peinar.svg",
+    "source": "twemoji_svg",
+    "emoji": "💇"
+  },
+  "caminar": {
+    "file": "caminar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🚶"
+  },
+  "nadar": {
+    "file": "nadar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏊"
+  },
+  "volar": {
+    "file": "volar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🦅"
+  },
+  "vestir": {
+    "file": "vestir.svg",
+    "source": "twemoji_svg",
+    "emoji": "👔"
+  },
+  "crecer": {
+    "file": "crecer.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌱"
+  },
+  "sembrar": {
+    "file": "sembrar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🌻"
+  },
+  "brillar": {
+    "file": "brillar.svg",
+    "source": "twemoji_svg",
+    "emoji": "✨"
+  },
+  "trepar": {
+    "file": "trepar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧗"
+  },
+  "explorar": {
+    "file": "explorar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🧭"
+  },
+  "construir": {
+    "file": "construir.svg",
+    "source": "twemoji_svg",
+    "emoji": "🏗️"
+  },
+  "imaginar": {
+    "file": "imaginar.svg",
+    "source": "twemoji_svg",
+    "emoji": "💭"
+  },
+  "inventar": {
+    "file": "inventar.svg",
+    "source": "twemoji_svg",
+    "emoji": "💡"
+  },
+  "descubrir": {
+    "file": "descubrir.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔍"
+  },
+  "transformar": {
+    "file": "transformar.svg",
+    "source": "twemoji_svg",
+    "emoji": "🔄"
+  },
+  "veterinario": {
+    "file": "veterinario.svg",
+    "source": "twemoji_svg",
+    "emoji": "👩‍⚕️"
+  }
+}
