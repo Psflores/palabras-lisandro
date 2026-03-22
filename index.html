@@ -1884,8 +1884,12 @@ window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window
 /* DICTADO FEATURE — Progressive Levels */
 // Mapa de nombres de letras en español
 var LETRA_NOMBRES={a:'a',e:'e',i:'i',o:'o',u:'u',m:'eme',p:'pe',s:'ese',l:'ele',t:'te',n:'ene',d:'de',r:'erre',c:'ce',g:'ge'};
+// Palabra ejemplo para cada letra (usa audios existentes del banco)
+var LETRA_EJEMPLO={a:'agua',e:'estrella',i:'insecto',o:'oso',u:'uva',m:'mama',p:'papa',s:'sol',l:'luna',t:'tren',n:'nube',d:'dedo',r:'reloj',c:'casa',g:'gato'};
+// Display bonito de la palabra ejemplo
+var LETRA_EJEMPLO_DISPLAY={a:'agua',e:'estrella',i:'insecto',o:'oso',u:'uva',m:'mamá',p:'papá',s:'sol',l:'luna',t:'tren',n:'nube',d:'dedo',r:'reloj',c:'casa',g:'gato'};
 
-var DIC={word:null,correct:[],level:1,streak:0,phase:'show',sessionCorrect:0,sessionTotal:0,usePhonetic:true};
+var DIC={word:null,correct:[],level:1,streak:0,phase:'show',sessionCorrect:0,sessionTotal:0};
 
 function startDictado(){
   DIC.level = cfg.dictadoLevel || 1;
@@ -1913,16 +1917,13 @@ function setDictadoLevel(lv){
   startDictado();
 }
 
-// Reproduce sonido fonético + nombre de letra en secuencia (alternando orden)
+// Reproduce: nombre de letra → pausa → palabra ejemplo (o sílaba → letras)
 function speakDictadoItem(item){
   if(!item.sounds){ speakWord(item.word); return; }
-  // Alternar: a veces fonético primero, a veces nombre primero
-  var seq = DIC.usePhonetic ? item.sounds : [item.sounds[1], item.sounds[0]];
-  speakWord(seq[0]);
-  if(seq[1] && seq[1] !== seq[0]){
-    setTimeout(function(){ speakWord(seq[1]); }, 1600);
+  speakWord(item.sounds[0]);
+  if(item.sounds[1]){
+    setTimeout(function(){ speakWord(item.sounds[1]); }, 1800);
   }
-  DIC.usePhonetic = !DIC.usePhonetic;  // alternar para la próxima
 }
 
 function getDictadoItem(){
@@ -1931,25 +1932,28 @@ function getDictadoItem(){
     var vowels = ['a','e','i','o','u'];
     var v = vowels[Math.floor(Math.random()*vowels.length)];
     var nombre = LETRA_NOMBRES[v];
-    return {word: v, display: v.toUpperCase(), emoji: '🔤',
-      hint: '🔊 Sonido: <strong>'+v.toUpperCase()+'</strong> · Nombre: <strong>vocal '+nombre+'</strong>',
-      sounds: ['_letra_'+v, '_letra_'+v]};  // vocales: fonético = nombre
+    var ejemplo = LETRA_EJEMPLO[v];
+    var ejemploDisplay = LETRA_EJEMPLO_DISPLAY[v];
+    return {word: v, display: v.toUpperCase(), emoji: wordImg(ejemplo)||'🔤',
+      hint: 'Vocal <strong>'+nombre.toUpperCase()+'</strong> &nbsp;·&nbsp; como en: <strong>'+ejemploDisplay+'</strong>',
+      sounds: [nombre, ejemplo]};
   }
   if(lv === 2){
     var cons = ['m','p','s','l','t','n','d','r','c','g'];
     var c = cons[Math.floor(Math.random()*cons.length)];
     var nombre = LETRA_NOMBRES[c];
-    return {word: c, display: c.toUpperCase(), emoji: '🅱️',
-      hint: '🔊 Sonido: <strong>'+c.toUpperCase()+'</strong> · Nombre: <strong>'+nombre+'</strong>',
-      sounds: ['_letra_'+c, nombre]};  // consonante: fonético → nombre de letra
+    var ejemplo = LETRA_EJEMPLO[c];
+    var ejemploDisplay = LETRA_EJEMPLO_DISPLAY[c];
+    return {word: c, display: c.toUpperCase(), emoji: wordImg(ejemplo)||'🅱️',
+      hint: 'La <strong>'+nombre+'</strong> &nbsp;·&nbsp; como en: <strong>'+ejemploDisplay+'</strong>',
+      sounds: [nombre, ejemplo]};
   }
   if(lv === 3){
     var syl = SILABAS_DICTADO[Math.floor(Math.random()*SILABAS_DICTADO.length)];
-    // Desglosar la sílaba en letras con sus nombres
     var letras = syl.split('').map(function(l){ return LETRA_NOMBRES[l]||l; });
     return {word: syl, display: syl.toUpperCase(), emoji: '🗣️',
-      hint: '🔊 Sílaba: <strong>'+syl.toUpperCase()+'</strong> · Letras: <strong>'+letras.join(' + ')+'</strong>',
-      sounds: [syl, '_letra_'+syl[0]]};  // sílaba completa → primera letra
+      hint: 'Sílaba <strong>'+syl.toUpperCase()+'</strong> &nbsp;·&nbsp; '+letras.join(' + '),
+      sounds: [syl, syl]};
   }
   var minLen, maxLen;
   if(lv === 4){ minLen=2; maxLen=3; }
