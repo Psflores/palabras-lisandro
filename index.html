@@ -972,15 +972,22 @@ function wordImg(word){
   if(!word)return'';
   var key=word.toLowerCase();
   var entry=IMG_MAP[key];
-  // fallback: normalizar acentos
+  // fallback: normalizar acentos (árbol→arbol)
   if(!entry){
     var plain=key.replace(/[áàä]/g,'a').replace(/[éèë]/g,'e').replace(/[íìï]/g,'i').replace(/[óòö]/g,'o').replace(/[úùü]/g,'u').replace(/ñ/g,'n');
     entry=IMG_MAP[plain];
   }
-  // fallback: plural → singular (ej: gatos→gato, flores→flor, nubes→nube)
-  if(!entry&&key.length>3){
-    if(key.endsWith('es'))entry=IMG_MAP[key.slice(0,-2)]||IMG_MAP[key.slice(0,-1)];
-    else if(key.endsWith('s'))entry=IMG_MAP[key.slice(0,-1)];
+  // fallback z→ces: peces→pez, lápices→lápiz, narices→nariz, arroces→arroz
+  if(!entry&&key.endsWith('ces')&&key.length>3){
+    entry=IMG_MAP[key.slice(0,-3)+'z'];
+  }
+  // fallback plural -es → singular: flores→flor, nubes→nube, soles→sol
+  if(!entry&&key.endsWith('es')&&key.length>3){
+    entry=IMG_MAP[key.slice(0,-2)]||IMG_MAP[key.slice(0,-1)];
+  }
+  // fallback plural -s → singular: gatos→gato, casas→casa
+  if(!entry&&key.endsWith('s')&&key.length>2){
+    entry=IMG_MAP[key.slice(0,-1)];
   }
   if(entry)return'<img class="word-img" src="img/'+entry.file+'" alt="'+word+'" loading="lazy" onerror="this.style.display=\'none\'">';
   return'';
