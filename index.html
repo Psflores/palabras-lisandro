@@ -111,7 +111,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);h
 .w-syl{display:flex;justify-content:center;gap:4px;margin-bottom:6px;flex-wrap:wrap}
 .w-syl span{background:var(--s2);color:var(--dim);font-size:14px;font-weight:700;padding:3px 10px;border-radius:8px}
 .w-syl span.hi{background:rgba(250,204,21,.15);color:var(--acc)}
-.w-emoji{font-size:40px;margin-bottom:8px}
+.w-emoji{margin-bottom:8px;display:flex;justify-content:center;align-items:center;min-height:90px}
 .w-target{font-size:36px;font-weight:900;margin-bottom:4px;letter-spacing:2px}
 .w-rep{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 /* LETTER BOXES */
@@ -221,7 +221,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 /* MINI GAMES */
 .mg-card{background:var(--card);border-radius:20px;padding:24px 16px;text-align:center}
 .mg-title{font-size:14px;font-weight:800;color:var(--acc);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
-.mg-emoji{font-size:48px;margin-bottom:8px}
+.mg-emoji{margin-bottom:8px;display:flex;justify-content:center;align-items:center;min-height:72px}
 .mg-word{font-size:32px;font-weight:900;margin-bottom:16px}
 .mg-options{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .mg-opt{border:3px solid var(--s2);background:var(--s1);color:var(--tx);font-family:inherit;font-size:16px;font-weight:800;padding:12px 20px;border-radius:14px;cursor:pointer;transition:all .15s;min-width:80px}
@@ -279,7 +279,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .fr-list-item{background:var(--s1);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;border:2px solid transparent}
 .fr-list-item:active{transform:scale(.98)}
 .fr-list-item.completed{border-color:var(--grn);opacity:.8}
-.fr-list-item .fr-li-emoji{font-size:24px;flex-shrink:0}
+.fr-list-item .fr-li-emoji{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:32px;height:32px}
 .fr-list-item .fr-li-text{flex:1;font-size:14px;font-weight:700}
 .fr-list-item .fr-li-diff{font-size:10px;font-weight:700;color:var(--dim)}
 .fr-list-item .fr-li-check{font-size:16px}
@@ -338,7 +338,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .dict-lv-desc{font-size:9px;color:var(--dim)}
 .dict-streak{font-size:14px;font-weight:800;color:var(--acc);margin-bottom:6px}
 .dict-show-phase{text-align:center}
-.dict-show-emoji{font-size:64px;margin:10px 0}
+.dict-show-emoji{margin:10px 0;display:flex;justify-content:center;align-items:center}
 .dict-show-word{font-size:56px;font-weight:900;letter-spacing:4px;color:var(--acc);margin:10px 0}
 .dict-show-hint{font-size:14px;color:var(--dim);margin-bottom:12px}
 .dict-write-btn{transition:opacity .5s}
@@ -416,6 +416,16 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .prog-dot{width:8px;height:8px;border-radius:50%;background:var(--s2);transition:all .3s}
 .prog-dot.done{background:var(--grn)}
 .prog-dot.cur{background:var(--acc);transform:scale(1.2)}
+
+/* WORD IMAGES — reemplaza emojis con ilustraciones Twemoji/Wikipedia */
+.word-img{object-fit:contain;border-radius:10px;display:block}
+.w-emoji .word-img{width:80px;height:80px}
+.mg-emoji .word-img{width:64px;height:64px}
+.dict-show-emoji .word-img{width:80px;height:80px}
+.fr-li-emoji .word-img{width:28px;height:28px;border-radius:6px}
+.mg-opt .word-img{width:24px;height:24px;object-fit:contain;border-radius:5px;display:inline-block;vertical-align:middle}
+.family-word .word-img{width:18px;height:18px;object-fit:contain;border-radius:4px;display:inline-block;vertical-align:middle}
+.ce-word-img{width:36px;height:36px;object-fit:contain;border-radius:8px;display:inline-block;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -953,9 +963,27 @@ function applyLetterMode(text){
   if(m==='random'){return Math.random()>0.5?text.toUpperCase():text.toLowerCase()}
   return text;
 }
-// Get visual for word (emoji only)
+// IMG_MAP: cargado async desde img/_img_mapping.json
+var IMG_MAP={};
+fetch('img/_img_mapping.json').then(function(r){return r.json()}).then(function(d){IMG_MAP=d}).catch(function(){});
+
+// wordImg(word) → <img> tag de la ilustración, o '' si no hay
+function wordImg(word){
+  if(!word)return'';
+  var key=word.toLowerCase();
+  var entry=IMG_MAP[key];
+  // fallback: normalizar acentos
+  if(!entry){
+    var plain=key.replace(/[áàä]/g,'a').replace(/[éèë]/g,'e').replace(/[íìï]/g,'i').replace(/[óòö]/g,'o').replace(/[úùü]/g,'u').replace(/ñ/g,'n');
+    entry=IMG_MAP[plain];
+  }
+  if(entry)return'<img class="word-img" src="img/'+entry.file+'" alt="'+word+'" loading="lazy" onerror="this.style.display=\'none\'">';
+  return'';
+}
+
+// Get visual for word (imagen ilustrada)
 function getWordVisual(w){
-  return'<div class="w-emoji">'+w.e+'</div>';
+  return'<div class="w-emoji">'+wordImg(w.t)+'</div>';
 }
 
 // ═══════════ RENDER ═══════════
@@ -1098,7 +1126,7 @@ document.querySelectorAll('.kk').forEach(function(b){b.addEventListener('touchst
 
 // ═══════════ CELEBRATION ═══════════
 var cels=[{e:'🎉',t:'¡Genial!'},{e:'⭐',t:'¡Muy bien!'},{e:'🚀',t:'¡Increíble!'},{e:'🏅',t:'¡Campeón!'},{e:'💪',t:'¡Crack!'},{e:'🌟',t:'¡Espectacular!'},{e:'🔥',t:'¡Tremendo!'},{e:'👏',t:'¡Sos un capo!'},{e:'🎯',t:'¡De una!'},{e:'💫',t:'¡Buenísimo!'},{e:'🦸',t:'¡Superhéroe!'}];
-function showCel(w){var c=cels[Math.floor(Math.random()*cels.length)];$('ceE').textContent=c.e;$('ceT').textContent=c.t;$('ceS').textContent=w.e+' '+w.t+' \u2713';$('celeb').classList.add('on');soundWordComplete()}
+function showCel(w){var c=cels[Math.floor(Math.random()*cels.length)];$('ceE').textContent=c.e;$('ceT').textContent=c.t;$('ceS').innerHTML=wordImg(w.t)+' '+w.t+' \u2713';$('celeb').classList.add('on');soundWordComplete()}
 function disCel(){$('celeb').classList.remove('on')}
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&$('celeb').classList.contains('on'))disCel()});
 
@@ -1225,7 +1253,7 @@ function renderSyllableGame(){
   var correct=mgWord.s.length;
   var h='<div class="mg-card">';
   h+='<div class="mg-title">👏 ¿Cuántas sílabas tiene?</div>';
-  h+='<div class="mg-emoji">'+mgWord.e+'</div>';
+  h+='<div class="mg-emoji">'+wordImg(mgWord.t)+'</div>';
   h+='<div class="mg-word">'+esc(mgWord.t)+'</div>';
   h+='<button class="speak-btn" onclick="speakWord(\''+esc(mgWord.t).replace(/'/g,"\\'")+'\')">🔊</button>';
   h+='<div style="font-size:12px;color:var(--dim);margin:8px 0">'+mgWord.s.join(' · ')+'</div>';
@@ -1270,12 +1298,12 @@ function renderRhymeGame(){
   var correctWord=pair[1].t;
   var h='<div class="mg-card">';
   h+='<div class="mg-title">🎵 ¿Qué rima con...?</div>';
-  h+='<div class="mg-emoji">'+pair[0].e+'</div>';
+  h+='<div class="mg-emoji">'+wordImg(pair[0].t)+'</div>';
   h+='<div class="mg-word">'+esc(pair[0].t)+'</div>';
   h+='<button class="speak-btn" onclick="speakWord(\''+esc(pair[0].t).replace(/'/g,"\\'")+'\')">🔊</button>';
   h+='<div class="mg-options">';
   options.forEach(function(o){
-    h+='<button class="mg-opt" onclick="checkRhyme(\''+esc(o.t)+'\',\''+esc(correctWord)+'\',this)">'+o.e+' '+esc(o.t)+'</button>';
+    h+='<button class="mg-opt" onclick="checkRhyme(\''+esc(o.t)+'\',\''+esc(correctWord)+'\',this)">'+wordImg(o.t)+' '+esc(o.t)+'</button>';
   });
   h+='</div></div>';
   area.innerHTML=h;
@@ -1307,7 +1335,7 @@ function renderInitialGame(){
   shuffle(options);
   var h='<div class="mg-card">';
   h+='<div class="mg-title">🔤 ¿Con qué letra empieza?</div>';
-  h+='<div class="mg-emoji">'+word.e+'</div>';
+  h+='<div class="mg-emoji">'+wordImg(word.t)+'</div>';
   h+='<button class="speak-btn" onclick="speakWord(\''+esc(word.t).replace(/'/g,"\\'")+'\')">🔊</button>';
   h+='<div style="font-size:14px;color:var(--dim);margin:8px 0">Escucha la palabra</div>';
   h+='<div class="mg-options">';
@@ -1421,7 +1449,7 @@ function renderConcordanciaGame(){
   var h='<div class="mg-card">';
   if(askArt){
     h+='<div class="mg-title">📝 ¿Qué artículo va?</div>';
-    h+='<div class="mg-emoji">'+item.e+'</div>';
+    h+='<div class="mg-emoji">'+wordImg(item.sust)+'</div>';
     h+='<div class="mg-word" style="font-size:22px"><span style="color:var(--acc);font-weight:900">___</span> '+esc(item.sust)+' '+esc(item.adj)+'</div>';
     var arts=['El','La','Los','Las'];
     h+='<div class="mg-options">';
@@ -1432,7 +1460,7 @@ function renderConcordanciaGame(){
   } else {
     // Ask adjective - give 3 wrong + 1 correct
     h+='<div class="mg-title">📝 ¿Qué adjetivo va?</div>';
-    h+='<div class="mg-emoji">'+item.e+'</div>';
+    h+='<div class="mg-emoji">'+wordImg(item.sust)+'</div>';
     h+='<div class="mg-word" style="font-size:22px">'+esc(item.art)+' '+esc(item.sust)+' <span style="color:var(--acc);font-weight:900">___</span></div>';
     // Build wrong adjectives with mismatched gender/number
     var wrongs=[];
@@ -1490,7 +1518,7 @@ function renderFamilyPanel(){
     h+='<div style="font-size:12px;color:var(--dim);margin-bottom:6px">Palabras practicadas esta semana:</div>';
     h+='<div class="family-words">';
     recentWords.slice(0,12).forEach(function(rw){
-      h+='<span class="family-word">'+rw.word.e+' '+esc(rw.word.t)+'</span>';
+      h+='<span class="family-word">'+wordImg(rw.word.t)+' '+esc(rw.word.t)+'</span>';
     });
     h+='</div>';
   }
@@ -1498,7 +1526,7 @@ function renderFamilyPanel(){
     h+='<div style="font-size:12px;color:var(--dim);margin-top:10px;margin-bottom:6px">Palabras que necesitan práctica:</div>';
     h+='<div class="family-words">';
     errorWords.slice(0,6).forEach(function(ew){
-      h+='<span class="family-word" style="border:1px solid var(--red)">'+ew.e+' '+esc(ew.t)+'</span>';
+      h+='<span class="family-word" style="border:1px solid var(--red)">'+wordImg(ew.t)+' '+esc(ew.t)+'</span>';
     });
     h+='</div>';
   }
@@ -1894,7 +1922,7 @@ function getDictadoItem(){
   if(pool.length === 0) pool = PALABRAS.filter(function(w){ return w.t.length >= minLen; });
   if(pool.length === 0) pool = PALABRAS;
   var w = pool[Math.floor(Math.random()*pool.length)];
-  return {word: w.t, display: w.t, emoji: w.e, hint: w.e + ' ' + w.t.length + ' letras'};
+  return {word: w.t, display: w.t, emoji: wordImg(w.t), hint: w.t.length + ' letras'};
 }
 
 function renderDictadoWord(){
@@ -2018,7 +2046,7 @@ function completeDictadoWord(){
 
   var item = getDictadoItem();
   var w = PALABRAS.find(function(p){ return p.t === DIC.word; });
-  var emoji = w ? w.e : '✅';
+  var emoji = w ? wordImg(w.t) : '<span style="font-size:48px">✅</span>';
   var art = DIC.level >= 4 ? (getArt(DIC.word) || '') : '';
 
   var h = $('dictadoArea');
@@ -2027,7 +2055,7 @@ function completeDictadoWord(){
 
   h.innerHTML = levelsHtml +
     '<div class="dictado-card">' +
-    '<div style="font-size:48px;margin-bottom:10px">' + emoji + '</div>' +
+    '<div style="width:80px;height:80px;display:flex;justify-content:center;align-items:center;margin:0 auto 10px">' + emoji + '</div>' +
     '<div style="font-size:32px;font-weight:900;margin-bottom:4px">' + esc(DIC.word.toUpperCase()) + '</div>' +
     (art ? '<div style="font-size:13px;color:var(--dim);margin-bottom:8px">' + esc(art) + ' ' + esc(DIC.word) + '</div>' : '') +
     '<div style="font-size:16px;color:var(--grn);font-weight:800;margin-bottom:12px">¡Correcto! 🔥 ' + DIC.streak + '</div>' +
