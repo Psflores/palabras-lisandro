@@ -426,6 +426,23 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 .mg-opt .word-img{width:40px;height:40px;object-fit:contain;border-radius:8px;display:block;margin:0 auto 4px}
 .family-word .word-img{width:28px;height:28px;object-fit:contain;border-radius:6px;display:inline-block;vertical-align:middle}
 .ce-word-img{width:52px;height:52px;object-fit:contain;border-radius:10px;display:inline-block;vertical-align:middle}
+
+/* VERBO GAME */
+.verbo-subject{font-size:18px;font-weight:900;color:var(--tx);margin:10px 0 4px}
+.verbo-blank{font-size:22px;font-weight:900;margin-bottom:14px}
+.verbo-blank span{color:var(--acc);background:rgba(250,204,21,.12);padding:2px 12px;border-radius:8px;border-bottom:3px solid var(--acc)}
+/* ORDEN GAME */
+.orden-sentence{min-height:54px;background:var(--s2);border-radius:12px;padding:12px 14px;margin:10px 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center}
+.orden-placeholder{color:var(--dim);font-size:13px;font-weight:700;font-style:italic}
+.orden-chip-placed{background:var(--acc);color:#1a1040;font-family:inherit;font-size:15px;font-weight:900;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .12s;border:0;display:inline-block}
+.orden-chip-placed:active{transform:scale(.93)}
+.orden-chip-placed.correct{background:var(--grn);color:#064e3b}
+.orden-chip-placed.wrong{background:var(--red);color:#fff}
+.orden-pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 14px}
+.orden-chip-avail{background:var(--s1);border:2.5px solid var(--s2);color:var(--tx);font-family:inherit;font-size:15px;font-weight:800;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .12s}
+.orden-chip-avail:active{transform:scale(.93);border-color:var(--acc);background:var(--accg)}
+.orden-correct-show{font-size:15px;font-weight:800;color:var(--grn);margin-top:8px;padding:8px;background:rgba(74,222,128,.1);border-radius:8px}
+
 </style>
 </head>
 <body>
@@ -1249,7 +1266,7 @@ var mgType=0; // 0=syllables, 1=rhyme, 2=initial letter
 var mgWord=null,mgAnswer=null;
 
 function startMiniGame(){
-  mgType=Math.floor(Math.random()*5);
+  mgType=Math.floor(Math.random()*7);
   var pool=PALABRAS.filter(function(w){return w.n<=Math.max(currentLevel,3)&&w.s.length>=2});
   if(pool.length<4){pool=PALABRAS.filter(function(w){return w.s.length>=2})}
   shuffle(pool);
@@ -1258,7 +1275,8 @@ function startMiniGame(){
   else if(mgType===1)renderRhymeGame();
   else if(mgType===2)renderInitialGame();
   else if(mgType===3)renderPunctuationGame();
-  else renderConcordanciaGame();
+  else if(mgType===5)renderVerboGame();
+  else renderOrdenGame();
 }
 function renderSyllableGame(){
   var area=$('mgArea');
@@ -1503,6 +1521,153 @@ function checkConc(btn,correct){
     setTimeout(function(){startMiniGame()},2500);
   }
 }
+
+// ═══════════ VERBO GAME ═══════════
+var VERBO_CURRENT=null;
+var VERBO_ITEMS=[
+  {img:'gato',   sujeto:'El gato',       verbo:'come',    wrong:['comen','como']},
+  {img:'perro',  sujeto:'El perro',      verbo:'corre',   wrong:['corren','corrés']},
+  {img:'pato',   sujeto:'El pato',       verbo:'nada',    wrong:['nadan','nado']},
+  {img:'oso',    sujeto:'El oso',        verbo:'duerme',  wrong:['duermen','dormís']},
+  {img:'vaca',   sujeto:'La vaca',       verbo:'come',    wrong:['comen','como']},
+  {img:'loro',   sujeto:'El loro',       verbo:'vuela',   wrong:['vuelan','vuelo']},
+  {img:'pájaro', sujeto:'El pájaro',     verbo:'vuela',   wrong:['vuelan','vuelo']},
+  {img:'pez',    sujeto:'El pez',        verbo:'nada',    wrong:['nadan','nado']},
+  {img:'luna',   sujeto:'La luna',       verbo:'brilla',  wrong:['brillan','brillo']},
+  {img:'sol',    sujeto:'El sol',        verbo:'calienta',wrong:['calientan','caliento']},
+  {img:'flor',   sujeto:'La flor',       verbo:'crece',   wrong:['crecen','crezco']},
+  {img:'nube',   sujeto:'La nube',       verbo:'llueve',  wrong:['llueven','lluevo']},
+  {img:'mariposa',sujeto:'La mariposa',  verbo:'vuela',   wrong:['vuelan','vuelo']},
+  {img:'elefante',sujeto:'El elefante',  verbo:'camina',  wrong:['caminan','camino']},
+  {img:'caballo', sujeto:'El caballo',   verbo:'corre',   wrong:['corren','corrés']},
+  {img:'gato',   sujeto:'Los gatos',     verbo:'comen',   wrong:['come','como']},
+  {img:'perro',  sujeto:'Los perros',    verbo:'corren',  wrong:['corre','corrés']},
+  {img:'pez',    sujeto:'Los peces',     verbo:'nadan',   wrong:['nada','nado']},
+  {img:'flor',   sujeto:'Las flores',    verbo:'crecen',  wrong:['crece','crezco']},
+  {img:'pájaro', sujeto:'Los pájaros',   verbo:'vuelan',  wrong:['vuela','vuelo']}
+];
+function renderVerboGame(){
+  var area=$('mgArea');
+  var item=VERBO_ITEMS[Math.floor(Math.random()*VERBO_ITEMS.length)];
+  VERBO_CURRENT=item;
+  var opts=[item.verbo,item.wrong[0],item.wrong[1]];
+  shuffle(opts);
+  var imgHtml=wordImg(item.img);
+  var h='<div class="mg-card">';
+  h+='<div class="mg-title">🔤 ¿Qué verbo va?</div>';
+  if(imgHtml){h+='<div class="mg-emoji">'+imgHtml+'</div>';}
+  h+='<div class="verbo-subject">'+esc(item.sujeto)+'</div>';
+  h+='<div class="verbo-blank"><span>___</span></div>';
+  h+='<div class="mg-options">';
+  opts.forEach(function(o){
+    h+='<button class="mg-opt" style="font-size:18px;min-width:100px" onclick="checkVerbo(this)">'+esc(o)+'</button>';
+  });
+  h+='</div></div>';
+  area.innerHTML=h;
+  if(imgHtml)setTimeout(function(){speakWord(item.img)},300);
+}
+function checkVerbo(btn){
+  var correct=VERBO_CURRENT.verbo;
+  var btns=document.querySelectorAll('.mg-opt');
+  btns.forEach(function(b){b.style.pointerEvents='none'});
+  if(btn.textContent.trim()===correct){
+    btn.classList.add('correct');soundCorrectKey();
+    setTimeout(function(){startMiniGame()},1200);
+  } else {
+    btn.classList.add('wrong');soundWrongKey();
+    btns.forEach(function(b){if(b.textContent.trim()===correct)b.classList.add('correct')});
+    setTimeout(function(){startMiniGame()},2200);
+  }
+}
+
+// ═══════════ ORDEN GAME (S-V-O) ═══════════
+var ORDEN_ITEMS=[
+  {words:['El','perro','corre'],    sentence:'El perro corre.'},
+  {words:['La','luna','brilla'],    sentence:'La luna brilla.'},
+  {words:['El','gato','duerme'],    sentence:'El gato duerme.'},
+  {words:['El','pato','nada'],      sentence:'El pato nada.'},
+  {words:['La','vaca','come'],      sentence:'La vaca come.'},
+  {words:['El','pájaro','vuela'],   sentence:'El pájaro vuela.'},
+  {words:['El','oso','camina'],     sentence:'El oso camina.'},
+  {words:['La','nena','canta'],     sentence:'La nena canta.'},
+  {words:['El','nene','juega'],     sentence:'El nene juega.'},
+  {words:['El','perro','come','sopa'],  sentence:'El perro come sopa.'},
+  {words:['La','gata','toma','leche'], sentence:'La gata toma leche.'},
+  {words:['El','nene','lee','un','libro'], sentence:'El nene lee un libro.'},
+  {words:['Mamá','cocina','la','sopa'], sentence:'Mamá cocina la sopa.'},
+  {words:['Los','peces','nadan'],   sentence:'Los peces nadan.'},
+  {words:['Las','flores','crecen'], sentence:'Las flores crecen.'},
+  {words:['El','sol','calienta'],   sentence:'El sol calienta.'},
+  {words:['La','mariposa','vuela'], sentence:'La mariposa vuela.'}
+];
+var ORDEN_STATE={words:[],chosen:[],correct:[],sentence:''};
+function renderOrdenGame(){
+  var item=ORDEN_ITEMS[Math.floor(Math.random()*ORDEN_ITEMS.length)];
+  var shuffled=item.words.slice();shuffle(shuffled);
+  ORDEN_STATE={words:shuffled,chosen:[],correct:item.words,sentence:item.sentence};
+  renderOrdenUI();
+}
+function renderOrdenUI(){
+  var area=$('mgArea');
+  var s=ORDEN_STATE;
+  var h='<div class="mg-card">';
+  h+='<div class="mg-title">📐 Armá la oración</div>';
+  h+='<div style="font-size:12px;color:var(--dim);margin-bottom:6px">Tocá las palabras en orden</div>';
+  // Sentence area
+  h+='<div class="orden-sentence">';
+  if(s.chosen.length===0){
+    h+='<span class="orden-placeholder">Las palabras aparecen acá...</span>';
+  } else {
+    s.chosen.forEach(function(idx){
+      h+='<button class="orden-chip-placed" onclick="ordenRemove('+idx+')">'+esc(s.words[idx])+'</button>';
+    });
+  }
+  h+='</div>';
+  // Available pool
+  h+='<div class="orden-pool">';
+  s.words.forEach(function(w,i){
+    if(s.chosen.indexOf(i)===-1){
+      h+='<button class="orden-chip-avail" onclick="ordenAdd('+i+')">'+esc(w)+'</button>';
+    }
+  });
+  h+='</div>';
+  // Check button only when all placed
+  if(s.chosen.length===s.words.length){
+    h+='<button class="bt ba" style="margin-top:4px" onclick="checkOrden()">Comprobar</button>';
+  }
+  h+='</div>';
+  area.innerHTML=h;
+}
+function ordenAdd(idx){
+  ORDEN_STATE.chosen.push(idx);
+  renderOrdenUI();
+}
+function ordenRemove(idx){
+  var i=ORDEN_STATE.chosen.indexOf(idx);
+  if(i!==-1)ORDEN_STATE.chosen.splice(i,1);
+  renderOrdenUI();
+}
+function checkOrden(){
+  var s=ORDEN_STATE;
+  var built=s.chosen.map(function(i){return s.words[i]});
+  var isOk=built.join(' ')===s.correct.join(' ');
+  var placed=document.querySelectorAll('.orden-chip-placed');
+  var pool=document.querySelectorAll('.orden-chip-avail');
+  pool.forEach(function(b){b.style.pointerEvents='none'});
+  placed.forEach(function(b){b.style.pointerEvents='none'});
+  if(isOk){
+    placed.forEach(function(b){b.classList.add('correct')});
+    soundCorrectKey();
+    setTimeout(function(){startMiniGame()},1500);
+  } else {
+    placed.forEach(function(b){b.classList.add('wrong')});
+    soundWrongKey();
+    var card=document.querySelector('.mg-card');
+    if(card)card.insertAdjacentHTML('beforeend','<div class="orden-correct-show">'+esc(s.sentence)+'</div>');
+    setTimeout(function(){startMiniGame()},2500);
+  }
+}
+
 // ═══════════ FAMILY PANEL ═══════════
 function renderFamilyPanel(){
   var container=document.getElementById('familyP');
@@ -1878,7 +2043,7 @@ function updateLastBackupInfo(){
 function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
 
 // ═══════════ GLOBALS ═══════════
-window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.checkPunctuation=checkPunctuation;window.checkConc=checkConc;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;window.dictStartWrite=dictStartWrite;window.dictPeek=dictPeek;window.showLevelUpCelebration=showLevelUpCelebration;
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.checkPunctuation=checkPunctuation;window.checkConc=checkConc;window.renderVerboGame=renderVerboGame;window.checkVerbo=checkVerbo;window.renderOrdenGame=renderOrdenGame;window.ordenAdd=ordenAdd;window.ordenRemove=ordenRemove;window.checkOrden=checkOrden;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;window.dictStartWrite=dictStartWrite;window.dictPeek=dictPeek;window.showLevelUpCelebration=showLevelUpCelebration;
 
 /* DICTADO FEATURE */
 /* DICTADO FEATURE — Progressive Levels */
