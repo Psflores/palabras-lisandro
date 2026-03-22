@@ -493,7 +493,7 @@ button,.kk,.lbi,.mg-opt,.mg-clap,.fr-list-item,.fr-cat-btn,.map-card{touch-actio
 <!-- ALBUM -->
 <div class="sc" id="s-album"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px">🏆 Álbum de Stickers</h2><div style="text-align:center;margin-bottom:14px;font-size:18px;font-weight:900"><span id="stickerCount">0/40</span></div><div id="albumTabs" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px"></div><div id="albumGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"></div></div>
 <!-- STATS -->
-<div class="sc" id="s-stats"><h2 style="font-size:18px;font-weight:900;margin-bottom:14px">📊 Progreso</h2><div class="sgg" id="sG"></div><div class="whh" id="wH"></div><div style="margin-top:12px;text-align:center"><button class="bt bd2" onclick="if(confirm('¿Borrar todo el progreso?')){localStorage.removeItem('lis_progress');localStorage.removeItem('lis_stats');ldProg();ldSt();rSt()}">Reiniciar</button></div></div>
+<div class="sc" id="s-stats"><h2 style="font-size:18px;font-weight:900;margin-bottom:14px">📊 Progreso</h2><div class="sgg" id="sG"></div><div class="whh" id="wH"></div><div style="margin-top:12px;text-align:center"><button class="bt bd2" onclick="if(confirm('¿Borrar todo el progreso?')){localStorage.removeItem('lis_progress');localStorage.removeItem('lis_stats');ldProg();ldSt();mgMemLoad();rSt()}">Reiniciar</button></div></div>
 <!-- CONFIG -->
 <div class="sc" id="s-config"><h2 style="font-size:18px;font-weight:900;margin-bottom:14px">⚙️ Configuración</h2>
 <div class="cfs"><h3>✏️ Sesiones</h3><p>Cada sesión mezcla palabras conocidas + nuevas. 2 conocidas + 1 nueva es lo recomendado. La investigación indica que 5-7 min por sesión es óptimo para niños.</p>
@@ -1261,6 +1261,55 @@ function showTimeUp(){
   var k=$('kb');if(k)k.classList.add('hid');
 }
 
+
+// ═══════════ ADAPTIVE MINI-GAME MEMORY ═══════════
+// Evita repetición y prioriza items con errores
+var MG_MEM = {};   // {type: {hist:[keys], sc:{key:{c,w}}}}
+var MG_HIST_MAX = 6; // no repetir los últimos 6 del mismo tipo
+
+function mgMemLoad(){
+  try{ MG_MEM=JSON.parse(localStorage.getItem('lis_mgmem')||'{}'); }catch(e){ MG_MEM={}; }
+}
+function mgMemSave(){
+  try{ localStorage.setItem('lis_mgmem',JSON.stringify(MG_MEM)); }catch(e){}
+}
+// Elige un item evitando recientes y priorizando errores
+function mgPick(type, items, keyFn){
+  if(!MG_MEM[type]) MG_MEM[type]={hist:[],sc:{}};
+  var m=MG_MEM[type];
+  // Excluir recientes
+  var pool=items.filter(function(it){ return m.hist.indexOf(keyFn(it))===-1; });
+  if(pool.length<Math.min(3,items.length)) pool=items; // fallback si quedan pocos
+  // Ponderar por tasa de error
+  var weighted=[];
+  pool.forEach(function(it){
+    var k=keyFn(it), sc=m.sc[k]||{c:0,w:0};
+    var w=1;
+    if(sc.w>0){
+      var err=sc.w/(sc.c+sc.w+1);
+      if(err>0.55) w=4;
+      else if(err>0.25) w=2;
+    }
+    for(var i=0;i<w;i++) weighted.push(it);
+  });
+  var picked=weighted[Math.floor(Math.random()*weighted.length)];
+  // Registrar en historial
+  var pk=keyFn(picked);
+  m.hist=m.hist.filter(function(k){return k!==pk;});
+  m.hist.push(pk);
+  if(m.hist.length>MG_HIST_MAX) m.hist.shift();
+  mgMemSave();
+  return picked;
+}
+// Registra resultado de un item
+function mgRecord(type, key, ok){
+  if(!MG_MEM[type]) MG_MEM[type]={hist:[],sc:{}};
+  var sc=MG_MEM[type].sc;
+  if(!sc[key]) sc[key]={c:0,w:0};
+  if(ok) sc[key].c++; else sc[key].w++;
+  mgMemSave();
+}
+
 // ═══════════ MINI-GAMES (Phonological Awareness) ═══════════
 var mgType=0; // 0=syllables, 1=rhyme, 2=initial letter
 var mgWord=null,mgAnswer=null;
@@ -1269,8 +1318,7 @@ function startMiniGame(){
   mgType=Math.floor(Math.random()*7);
   var pool=PALABRAS.filter(function(w){return w.n<=Math.max(currentLevel,3)&&w.s.length>=2});
   if(pool.length<4){pool=PALABRAS.filter(function(w){return w.s.length>=2})}
-  shuffle(pool);
-  mgWord=pool[0];
+  mgWord=mgPick('w', pool, function(w){return w.t;});
   if(mgType===0)renderSyllableGame();
   else if(mgType===1)renderRhymeGame();
   else if(mgType===2)renderInitialGame();
@@ -1298,14 +1346,15 @@ function renderSyllableGame(){
 function checkSyllables(picked,correct,btn){
   var btns=document.querySelectorAll('.mg-clap');
   btns.forEach(function(b){b.style.pointerEvents='none'});
-  if(picked===correct){
+  var ok=picked===correct;
+  mgRecord('w',mgWord.t,ok);
+  if(ok){
     btn.classList.add('correct');
     soundCorrectKey();
     setTimeout(function(){startMiniGame()},1200);
   } else {
     btn.classList.add('wrong');
     soundWrongKey();
-    // Highlight correct
     btns[correct-1].classList.add('correct');
     setTimeout(function(){startMiniGame()},2000);
   }
@@ -1342,7 +1391,9 @@ function renderRhymeGame(){
 function checkRhyme(picked,correct,btn){
   var btns=document.querySelectorAll('.mg-opt');
   btns.forEach(function(b){b.style.pointerEvents='none'});
-  if(picked===correct){
+  var ok=picked===correct;
+  mgRecord('w',mgWord.t,ok);
+  if(ok){
     btn.classList.add('correct');
     soundCorrectKey();
     setTimeout(function(){startMiniGame()},1200);
@@ -1379,7 +1430,9 @@ function renderInitialGame(){
 function checkInitial(picked,correct,btn){
   var btns=document.querySelectorAll('.mg-opt');
   btns.forEach(function(b){b.style.pointerEvents='none'});
-  if(picked===correct){
+  var ok=picked===correct;
+  mgRecord('w',mgWord.t,ok);
+  if(ok){
     btn.classList.add('correct');
     soundCorrectKey();
     setTimeout(function(){startMiniGame()},1200);
@@ -1412,9 +1465,11 @@ var PUNCT_ITEMS=[
   {text:"el perro corre rápido",correct:"El perro corre rápido.",type:"may",hint:"Mayúscula al inicio, punto al final"},
   {text:"la casa es grande",correct:"La casa es grande.",type:"may",hint:"Mayúscula al inicio, punto al final"}
 ];
+var PUNCT_CURRENT=null;
 function renderPunctuationGame(){
   var area=$('mgArea');
-  var item=PUNCT_ITEMS[Math.floor(Math.random()*PUNCT_ITEMS.length)];
+  var item=mgPick('p',PUNCT_ITEMS,function(i){return i.text;});
+  PUNCT_CURRENT=item;
   var options=[];
   if(item.type==='excl'){
     options=['¡'+item.text+'!','¿'+item.text+'?',item.text+'.'];
@@ -1440,7 +1495,9 @@ function renderPunctuationGame(){
 function checkPunctuation(btn,correct){
   var btns=document.querySelectorAll('.mg-opt');
   btns.forEach(function(b){b.style.pointerEvents='none'});
-  if(btn.textContent.trim()===correct){
+  var ok=btn.textContent.trim()===correct;
+  if(PUNCT_CURRENT) mgRecord('p',PUNCT_CURRENT.text,ok);
+  if(ok){
     btn.classList.add('correct');soundCorrectKey();
     setTimeout(function(){startMiniGame()},1200);
   } else {
@@ -1471,9 +1528,11 @@ var CONC_ITEMS=[
   {sust:"zapatos",art:"Los",adj:"negros",e:"👟",gen:"m",num:"p"},
   {sust:"manzanas",art:"Las",adj:"rojas",e:"🍎",gen:"f",num:"p"}
 ];
+var CONC_CURRENT_MEM=null;
 function renderConcordanciaGame(){
   var area=$('mgArea');
-  var item=CONC_ITEMS[Math.floor(Math.random()*CONC_ITEMS.length)];
+  var item=mgPick('c',CONC_ITEMS,function(i){return i.sust+i.num;});
+  CONC_CURRENT_MEM=item;
   // Randomly choose what to ask: article or adjective
   var askArt=Math.random()<0.5;
   var h='<div class="mg-card">';
@@ -1512,7 +1571,9 @@ function renderConcordanciaGame(){
 function checkConc(btn,correct){
   var btns=document.querySelectorAll('.mg-opt');
   btns.forEach(function(b){b.style.pointerEvents='none'});
-  if(btn.textContent.trim()===correct){
+  var ok=btn.textContent.trim()===correct;
+  if(CONC_CURRENT_MEM) mgRecord('c',CONC_CURRENT_MEM.sust+CONC_CURRENT_MEM.num,ok);
+  if(ok){
     btn.classList.add('correct');soundCorrectKey();
     setTimeout(function(){startMiniGame()},1200);
   } else {
@@ -1548,7 +1609,7 @@ var VERBO_ITEMS=[
 ];
 function renderVerboGame(){
   var area=$('mgArea');
-  var item=VERBO_ITEMS[Math.floor(Math.random()*VERBO_ITEMS.length)];
+  var item=mgPick('v',VERBO_ITEMS,function(i){return i.img+'_'+i.verbo;});
   VERBO_CURRENT=item;
   var opts=[item.verbo,item.wrong[0],item.wrong[1]];
   shuffle(opts);
@@ -1572,9 +1633,11 @@ function renderVerboGame(){
 function checkVerbo(btn){
   var correct=VERBO_CURRENT.verbo;
   speakWord(btn.textContent.trim());
+  var ok=btn.textContent.trim()===correct;
+  mgRecord('v',VERBO_CURRENT.img+'_'+VERBO_CURRENT.verbo,ok);
   var btns=document.querySelectorAll('.mg-opt');
   btns.forEach(function(b){b.style.pointerEvents='none'});
-  if(btn.textContent.trim()===correct){
+  if(ok){
     btn.classList.add('correct');soundCorrectKey();
     setTimeout(function(){startMiniGame()},1200);
   } else {
@@ -1606,7 +1669,7 @@ var ORDEN_ITEMS=[
 ];
 var ORDEN_STATE={words:[],chosen:[],correct:[],sentence:''};
 function renderOrdenGame(){
-  var item=ORDEN_ITEMS[Math.floor(Math.random()*ORDEN_ITEMS.length)];
+  var item=mgPick('o',ORDEN_ITEMS,function(i){return i.sentence;});
   var shuffled=item.words.slice();shuffle(shuffled);
   ORDEN_STATE={words:shuffled,chosen:[],correct:item.words,sentence:item.sentence};
   renderOrdenUI();
@@ -1659,6 +1722,7 @@ function checkOrden(){
   var pool=document.querySelectorAll('.orden-chip-avail');
   pool.forEach(function(b){b.style.pointerEvents='none'});
   placed.forEach(function(b){b.style.pointerEvents='none'});
+  mgRecord('o',s.sentence,isOk);
   if(isOk){
     placed.forEach(function(b){b.classList.add('correct')});
     soundCorrectKey();
@@ -2048,7 +2112,7 @@ function updateLastBackupInfo(){
 function toast(m){var t=$('tst');if(!t){t=document.createElement('div');t.id='tst';t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--grn);color:#064e3b;padding:8px 18px;border-radius:10px;font-weight:800;font-size:13px;z-index:700;opacity:0;transition:opacity .3s;font-family:inherit';document.body.appendChild(t)}t.textContent=m;t.style.opacity='1';setTimeout(function(){t.style.opacity='0'},2000)}
 
 // ═══════════ GLOBALS ═══════════
-window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.checkPunctuation=checkPunctuation;window.checkConc=checkConc;window.renderVerboGame=renderVerboGame;window.checkVerbo=checkVerbo;window.renderOrdenGame=renderOrdenGame;window.ordenAdd=ordenAdd;window.ordenRemove=ordenRemove;window.checkOrden=checkOrden;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;window.dictStartWrite=dictStartWrite;window.dictPeek=dictPeek;window.showLevelUpCelebration=showLevelUpCelebration;
+window.startIpad=startIpad;window.stopT=stopT;window.goP=goP;window.sw=sw;window.buildSession=buildSession;window.sNxt=sNxt;window.sPrev=sPrev;window.sClr=sClr;window.disCel=disCel;window.showPin=showPin;window.hidePin=hidePin;window.pIn=pIn;window.pCl=pCl;window.svCfg=svCfg;window.rSt=rSt;window.unlDone=unlDone;window.ldProg=ldProg;window.ldSt=ldSt;window.rPD=rPD;window.startLevel=startLevel;window.rTU=rTU;window.speakWord=speakWord;window.startMiniGame=startMiniGame;window.checkSyllables=checkSyllables;window.checkRhyme=checkRhyme;window.checkInitial=checkInitial;window.checkPunctuation=checkPunctuation;window.checkConc=checkConc;window.mgRecord=mgRecord;window.mgPick=mgPick;window.renderVerboGame=renderVerboGame;window.checkVerbo=checkVerbo;window.renderOrdenGame=renderOrdenGame;window.ordenAdd=ordenAdd;window.ordenRemove=ordenRemove;window.checkOrden=checkOrden;window.startSessionTimer=startSessionTimer;window.exportProgress=exportProgress;window.importProgress=importProgress;window.updateCombo=updateCombo;window.showPerfect=showPerfect;window.renderFrasesList=renderFrasesList;window.startFrase=startFrase;window.hLFrase=hLFrase;window.setDictadoLevel=setDictadoLevel;window.renderDictadoWord=renderDictadoWord;window.typeDictadoLetter=typeDictadoLetter;window.completeDictadoWord=completeDictadoWord;window.playDictadoAgain=playDictadoAgain;window.startDictado=startDictado;window.dictStartWrite=dictStartWrite;window.dictPeek=dictPeek;window.showLevelUpCelebration=showLevelUpCelebration;
 
 /* DICTADO FEATURE */
 /* DICTADO FEATURE — Progressive Levels */
